@@ -9,6 +9,7 @@ appendix.1.naming
 1.1.3.a = the representation of the array type.
 1.1.4.n = the representation of the numeric type.
 1.1.5.x = the representation of the unknown type.
+1.1.6.f = the representation of the function type.
 1.2.nomenclature
 type::=[lmanx]+;
 variants ::= type+_\w+|\w+_type;

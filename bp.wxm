@@ -1,0 +1,170 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 0.8.5 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*compute partial derivative
+ *@param f the function
+ *@param l a list contains variants
+ *@return a list contains partial derivative of function 'f'
+**/
+ldiff(f,l):= 
+    maplist(
+        lambda([x],
+            diff(f,x)),v);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*compute partial derivative
+*@param f the functions
+*@param v a metrix contains variants
+*@return a list contains partial derivative of function 'f'
+*/
+mdiff(f,v):=
+    matrixmap(
+        lambda([x],
+            diff(f,x)),m);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+l2list(l):=block([c],
+    c:[],
+    appendatom(l):=
+        block(if listp(l) then maplist(appendatom,l) else c:append(c,[l])),
+    appendatom(l),
+    c
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*copy elements from a metrix to a list
+*@param m the metrix constains elements
+*@return a list contains elements in the source metrix
+*/
+m2list(m):=block([c],c:[], matrixmap(lambda([x],c:append(c,[x])),m),c)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*convert a list of vectors(of list type) to a list of metrixes(row vector)
+*@param l a list of vectors(of list type)
+*@return a list contains metrixes
+*/
+l2mlist(l):=block(maplist(lambda([ll],matrix(ll)),l))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*get a rand number between interval[1] and interval[2]
+*@param interval a list,its first element is the interval's lower side,
+* and its second element is the interval's higher side.
+*@return a rand number in the interval.
+*/
+rand(interval):=block(
+    [mn,mx,d],
+    mn:first(interval),
+    mx:second(interval),
+    d:mx-mn,
+    mn + random(d)
+);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*create a randomized matrix
+*@param m rows of the rand matrix
+*@param n columns of the rand matrix
+*@param interval the interval which numbers in the matrix lie in
+*@return a randomized matrix
+*/
+mrand(m,n,interval):=block([CI],
+    CI:array(CI,flonum,m,n),
+    CI:genmatrix(CI,m,n),
+    matrixmap(lambda([x],x:random(interval)),CI))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+T(x):=1/(1+exp(-x))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bpnn_generate_numeric_matrixes(dims,interval):=block(
+    [i,len,r],
+    len:length(dims),
+    r:[],
+    for i:1 step 1 while i < len do block(
+        r:endcons(mrand(dims[i]+1,dims[i+1],interval),r)),
+    r);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bpnn_generate_symbols_matrixes(dims,symbols):=block(
+    [i,len,r,tmp],
+    len:length(dims),
+    r:[],
+    for i:1 step 1 while i < len do block(
+        tmp:genmatrix(symbols[i],dims[i]+1,dims[i+1]),
+        r:endcons(tmp,r)),
+    r);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bpnn_compute_levels_output(input,matrixes,transfer_functions):=block(
+    maplist(lambda([m,f],
+        if listp(input) then input:matrix(input),
+        input:addcol(input,[-1]),
+        input:input . m,
+        input:f(input)),matrixes,transfer_functions));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: comment start ]
+bp-nn data structure:
+[
+1.symbol_expression(s),  /*the symbol expression(s) of this model*/
+3.symbols,/*the list of each level's symbol matrix's name*/
+5.transfer_functions,/*the list of transfer functions*/
+6.symbol_structures,/*the list of each level's symbol matrix,include threshholds*/
+9.inputs,/*the list of input vectors*/
+10.outputs,/*the list of output vectors*/
+11.max_times,/*the max iteration time*/
+12.dims,/*the list of each level's dim,include threshholds*/
+13.error_function
+.../*adds-on*/
+]
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+[a b -1] .  [h1a h2a h3a]
+            [h1b h2b h3b]
+            [h1s h2s h3s]
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/*initiallize the nn data structure 
+*@param dims a list of level's dim,
+*/
+create_bpnn(dims,transfer_functions,levels_symbols,inputs,outputs,error_function):=block(
+    [i,bpnn,symbols,transfer_values,
+    symbol_expression,t,
+    symbol_structures,out_list,error_list],
+    symbols:levels_symbols,
+    symbol_structures:bpnn_generate_symbols_matrixes(dims,levels_symbols),
+    out_list:maplist(lambda([in],
+        t:bpnn_compute_levels_output(in,symbol_structures,transfer_functions),
+        last(t)
+        ),inputs),
+    error_list:error_function(outputs,out_list),
+    symbol_expression:sum(error_list[i],i,1,length(error_list)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ef(x):x.x;
+test_inputs:[[0,0],[1,1]];
+test_outputs:[[1,1],[2,2]];
+create_bpnn([2,3,2],[T,T],[IH,HO],test_inputs,test_outputs,ef);
+/* [wxMaxima: input   end   ] */
+
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
