@@ -80,7 +80,7 @@ rand(interval):=block(
 mrand(m,n,interval):=block([CI],
     CI:array(CI,flonum,m,n),
     CI:genmatrix(CI,m,n),
-    matrixmap(lambda([x],x:random(interval)),CI))$
+    matrixmap(lambda([x],x:rand(interval)),CI))$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -117,19 +117,19 @@ bpnn_compute_levels_output(input,matrixes,transfer_functions):=block(
         input:f(input)),matrixes,transfer_functions));
 /* [wxMaxima: input   end   ] */
 
-
 /* [wxMaxima: comment start ]
 bp-nn data structure:
 [
 1.symbol_expression(s),  /*the symbol expression(s) of this model*/
-3.symbols,/*the list of each level's symbol matrix's name*/
-5.transfer_functions,/*the list of transfer functions*/
-6.symbol_structures,/*the list of each level's symbol matrix,include threshholds*/
-9.inputs,/*the list of input vectors*/
-10.outputs,/*the list of output vectors*/
+2.symbols,/*the list of each level's symbol matrix's name*/
+3.transfer_functions,/*the list of transfer functions*/
+4.symbol_structures,/*the list of each level's symbol matrix,include threshholds*/
+5.error_function
+6.inputs,/*the list of input vectors*/
+7.outputs,/*the list of output vectors*/
+8.dims,/*the list of each level's dim,include threshholds*/
+9.numeric_structures,
 11.max_times,/*the max iteration time*/
-12.dims,/*the list of each level's dim,include threshholds*/
-13.error_function
 .../*adds-on*/
 ]
    [wxMaxima: comment end   ] */
@@ -147,24 +147,42 @@ bp-nn data structure:
 create_bpnn(dims,transfer_functions,levels_symbols,inputs,outputs,error_function):=block(
     [i,bpnn,symbols,transfer_values,
     symbol_expression,t,
-    symbol_structures,out_list,error_list],
+    symbol_structures,out_list,total_error],
     symbols:levels_symbols,
     symbol_structures:bpnn_generate_symbols_matrixes(dims,levels_symbols),
     out_list:maplist(lambda([in],
         t:bpnn_compute_levels_output(in,symbol_structures,transfer_functions),
         last(t)
         ),inputs),
-    error_list:error_function(outputs,out_list),
-    symbol_expression:sum(error_list[i],i,1,length(error_list)));
+    total_error:error_function(outputs,out_list),
+    symbol_expression:total_error,
+    [symbol_expression,symbols,transfer_functions,symbol_structures,
+        error_function,inputs,outputs,dims]
+);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-ef(x):x.x;
-test_inputs:[[0,0],[1,1]];
-test_outputs:[[1,1],[2,2]];
-create_bpnn([2,3,2],[T,T],[IH,HO],test_inputs,test_outputs,ef);
+bpnn_solve_lms(bpnn,interval,max_times):=block(
+    [numeric_structures,dims,expr,symbols,eqs],
+    dims:bpnn[8],
+    expr:bpnn[1],
+    symbols:bpnn[2],
+    numeric_structures:bpnn_generate_numeric_matrixes(dims,interval),
+    eqs:map("=",symbols,numeric_structures),
+    ev(expr,eqs)
+);
 /* [wxMaxima: input   end   ] */
 
+/* [wxMaxima: input   start ] */
+tef(o1s,o2s):=block([t,te],
+    t:maplist(lambda([x,y],x:matrix(x),(x-y).(x-y)),o1s,o2s),
+    te:sum(t[i],i,1,length(t)),
+    te);
+test_inputs:[[0,0],[1,1]];
+test_outputs:[[1,1],[2,2]];
+bp:create_bpnn([2,2,2],[T,T],[IH,HO],test_inputs,test_outputs,tef);
+bpnn_solve_lms(bp,[0.0,1.0],100);
+/* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
 "Created with wxMaxima"$
