@@ -84,7 +84,7 @@ mrand(m,n,interval):=block([CI],
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-T(x):=1/(1+exp(-x))$
+T(x):=(1-exp(-x))/(1+exp(-x))$
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
@@ -129,7 +129,11 @@ bp-nn data structure:
 7.outputs,/*the list of output vectors*/
 8.dims,/*the list of each level's dim,include threshholds*/
 9.numeric_structures,
+10.currrent error(cerror),
 11.max_times,/*the max iteration time*/
+12.eta,
+13.min_error(recommanded),
+13.differentiate of symbols.
 .../*adds-on*/
 ]
    [wxMaxima: comment end   ] */
@@ -162,14 +166,25 @@ create_bpnn(dims,transfer_functions,levels_symbols,inputs,outputs,error_function
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-bpnn_solve_lms(bpnn,interval,max_times):=block(
-    [numeric_structures,dims,expr,symbols,eqs],
+bpnn_solve_lms(bpnn,interval,max_times,min_error,eta):=block(
+    [i,cerror,temp,numeric_structures,symbol_structures,dims,expr,symbols,eqs,dsymbols],
     dims:bpnn[8],
     expr:bpnn[1],
     symbols:bpnn[2],
+    symbol_structures:bpnn[4],
     numeric_structures:bpnn_generate_numeric_matrixes(dims,interval),
+    dsymbols:maplist(lambda([m],mdiff(expr,m)),symbol_structures),
     eqs:map("=",symbols,numeric_structures),
-    ev(expr,eqs)
+    cerror:ev(expr,eqs),
+    print(cerror),
+    for i:1 step 1 thru max_times while cerror>min_error do block(
+        temp:numeric_structures - eta * ev(dsymbols,eqs),
+        numeric_structures:temp,
+        eqs:map("=",symbols,numeric_structures),
+        cerror:ev(expr,eqs),
+        print(cerror)
+    ),
+    bpnn:append(bpnn,[numeric_structures,cerror,max_time,eta,min_error,dsymbols])
 );
 /* [wxMaxima: input   end   ] */
 
@@ -177,11 +192,12 @@ bpnn_solve_lms(bpnn,interval,max_times):=block(
 tef(o1s,o2s):=block([t,te],
     t:maplist(lambda([x,y],x:matrix(x),(x-y).(x-y)),o1s,o2s),
     te:sum(t[i],i,1,length(t)),
-    te);
-test_inputs:[[0,0],[1,1]];
+    sqrt(te));
+test_inputs:[[1,1],[2,2]];
 test_outputs:[[1,1],[2,2]];
-bp:create_bpnn([2,2,2],[T,T],[IH,HO],test_inputs,test_outputs,tef);
-bpnn_solve_lms(bp,[0.0,1.0],100);
+bp:create_bpnn([2,3,2],[T,T],[IH,HO],test_inputs,test_outputs,tef);
+r:bpnn_solve_lms(bp,[0.0,1.0],30,0.5,0.3);
+r[10];
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */
