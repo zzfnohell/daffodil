@@ -189,14 +189,41 @@ bpnn_solve_lms(bpnn,interval,max_times,min_error,eta):=block(
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
+bpnn_normalize(outputs,interval):=block(
+    [xmin,xmax,itmax,itmin],
+    itmin:interval[1],
+    itmax:interval[2],
+    mmin(v):= block([m],
+        m:v[1],
+        if matrixp(v) then mapmatrix(lambda([x],if x < m then m:x),v) else m:lmin(v),
+        m),
+    mmax(v):=-mmin(-v),
+    xmin:lmin(maplist(mmin,outputs)),
+    xmax:lmax(maplist(mmax,outputs)),
+    nnormalize(n):=(itmax - itmin) * (n-xmin)/(xmax-xmin) + itmin,
+    vnormalize(v):=if matrixp(v) then matrixmap(nnormalize,v) else maplist(nnormalize,v),
+    [maplist(vnormalize,outputs),diff(nnormalize(n),n,1),nnormalize(0)]
+    );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bpnn_gen_outfunction(a,b):=a*x+b;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+
 tef(o1s,o2s):=block([t,te],
     t:maplist(lambda([x,y],x:matrix(x),(x-y).(x-y)),o1s,o2s),
     te:sum(t[i],i,1,length(t)),
     sqrt(te));
 test_inputs:[[1,1],[2,2]];
 test_outputs:[[1,1],[2,2]];
-bp:create_bpnn([2,3,2],[T,T],[IH,HO],test_inputs,test_outputs,tef);
-r:bpnn_solve_lms(bp,[0.0,1.0],30,0.5,0.3);
+
+t:bpnn_normalize(test_outputs,[0,1]);
+outfun(x):=bpnn_gen_outfunction(t[2],t[3]);
+outfun([112,111]);
+bp:create_bpnn([2,3,2],[T,outfun],[IH,HO],test_inputs,test_outputs,tef);
+r:bpnn_solve_lms(bp,[0.0,1.0],30,0.5,0.3);
 r[10];
 /* [wxMaxima: input   end   ] */
 
