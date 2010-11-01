@@ -207,11 +207,10 @@ bpnn_normalize(outputs,interval):=block(
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-bpnn_gen_outfunction(a,b):=a*x+b;
+bpnn_gen_outfunction(a,b,n):=block(print(x),a*x+makelist(b,i,1,n));
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-
 tef(o1s,o2s):=block([t,te],
     t:maplist(lambda([x,y],x:matrix(x),(x-y).(x-y)),o1s,o2s),
     te:sum(t[i],i,1,length(t)),
@@ -219,11 +218,15 @@ tef(o1s,o2s):=block([t,te],
 test_inputs:[[1,1],[2,2]];
 test_outputs:[[1,1],[2,2]];
 
-t:bpnn_normalize(test_outputs,[0,1]);
-outfun(x):=bpnn_gen_outfunction(t[2],t[3]);
+tx:bpnn_normalize(test_outputs,[0,1]);
+outfun(x):=bpnn_gen_outfunction(tx[2],tx[3],3);
 outfun([112,111]);
-bp:create_bpnn([2,3,2],[T,outfun],[IH,HO],test_inputs,test_outputs,tef);
-r:bpnn_solve_lms(bp,[0.0,1.0],30,0.5,0.3);
+bp:create_bpnn([2,3,2],[T,outfun],[IH,HO],test_inputs,test_outputs,tef);
+
+
+r:bpnn_solve_lms(bp,[0.0,1.0],30,0.5,0.3);
+
+
 r[10];
 /* [wxMaxima: input   end   ] */
 
