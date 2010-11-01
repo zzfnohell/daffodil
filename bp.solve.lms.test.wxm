@@ -1,0 +1,38 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 0.8.5 ] */
+
+/* [wxMaxima: input   start ] */
+bpnn_generate_numeric_matrixes(dims,interval):=block(
+    [i,len,r],
+    len:length(dims),
+    r:[],
+    for i:1 step 1 while i < len do block(
+        r:endcons(mrand(dims[i]+1,dims[i+1],interval),r)),
+    r);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bpnn_solve_lms(bpnn,interval,max_times,min_error,eta):=block(
+    [i,cerror,temp,numeric_structures,symbol_structures,dims,expr,symbols,eqs,dsymbols],
+    dims:bpnn[8],
+    expr:bpnn[1],
+    symbols:bpnn[2],
+    symbol_structures:bpnn[4],
+    numeric_structures:bpnn_generate_numeric_matrixes(dims,interval),
+    dsymbols:maplist(lambda([m],mdiff(expr,m)),symbol_structures),
+    eqs:map("=",symbols,numeric_structures),
+    cerror:ev(expr,eqs),
+    print(cerror),
+    for i:1 step 1 thru max_times while cerror>min_error do block(
+        temp:numeric_structures - eta * ev(dsymbols,eqs),
+        numeric_structures:temp,
+        eqs:map("=",symbols,numeric_structures),
+        cerror:ev(expr,eqs),
+        print(cerror)
+    ),
+    bpnn:append(bpnn,[numeric_structures,cerror,max_time,eta,min_error,dsymbols])
+);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

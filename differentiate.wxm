@@ -1,0 +1,29 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 0.8.5 ] */
+
+/* [wxMaxima: input   start ] */
+/*compute partial derivative
+ *@param f the function
+ *@param l a list contains variants
+ *@return a list contains partial derivative of function 'f'
+**/
+ldiff(f,l):= 
+    maplist(
+        lambda([x],
+            diff(f,x)),v);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/*compute partial derivative
+*@param f the functions
+*@param v a metrix contains variants
+*@return a list contains partial derivative of function 'f'
+*/
+mdiff(f,v):=
+    matrixmap(
+        lambda([x],
+            diff(f,x)),m);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
