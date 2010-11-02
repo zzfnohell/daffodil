@@ -1,11 +1,47 @@
-/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 0.8.5 ] */
 
-/* [wxMaxima: input   start ] */
-T(x):=(1-exp(-x))/(1+exp(-x))$
-/* [wxMaxima: input   end   ] */
+bpnn_generate_symbols_matrixes(dims,symbols):=block(
+    [i,len,r,tmp],
+    len:length(dims),
+    r:[],
+    for i:1 step 1 while i < len do block(
+        tmp:genmatrix(symbols[i],dims[i]+1,dims[i+1]),
+        r:endcons(tmp,r)),
+    r);
 
-/* [wxMaxima: input   start ] */
+bpnn_compute_levels_output(input,matrixes,transfer_functions):=block(
+    maplist(lambda([m,f],
+        if listp(input) then input:matrix(input),
+        input:addcol(input,[-1]),
+        input:input . m,
+        input:f(input)),matrixes,transfer_functions));
+
+/*
+bp-nn data structure:
+[
+1.symbol_expression(s),  /*the symbol expression(s) of this model*/
+2.symbols,/*the list of each level's symbol matrix's name*/
+3.transfer_functions,/*the list of transfer functions*/
+4.symbol_structures,/*the list of each level's symbol matrix,include threshholds*/
+5.error_function
+6.inputs,/*the list of input vectors*/
+7.outputs,/*the list of output vectors*/
+8.dims,/*the list of each level's dim,include threshholds*/
+9.numeric_structures,
+10.currrent error(cerror),
+11.max_times,/*the max iteration time*/
+12.eta,
+13.min_error(recommanded),
+13.differentiate of symbols.
+.../*adds-on*/
+]
+*/
+
+/*
+[a b -1] .  [h1a h2a h3a]
+            [h1b h2b h3b]
+            [h1s h2s h3s]
+*/
+
 /*initiallize the nn data structure 
 *@param dims a list of level's dim,
 */
@@ -24,9 +60,7 @@ create_bpnn(dims,transfer_functions,levels_symbols,inputs,outputs,error_function
     [symbol_expression,symbols,transfer_functions,symbol_structures,
         error_function,inputs,outputs,dims]
 );
-/* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: input   start ] */
 bpnn_normalize(outputs,interval):=block(
     [xmin,xmax,itmax,itmin],
     itmin:interval[1],
@@ -42,11 +76,6 @@ bpnn_normalize(outputs,interval):=block(
     vnormalize(v):=if matrixp(v) then matrixmap(nnormalize,v) else maplist(nnormalize,v),
     [maplist(vnormalize,outputs),diff(nnormalize(n),n,1),nnormalize(0)]
     );
-/* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: input   start ] */
 bpnn_gen_outfunction(a,b,n):=block(print(x),a*x+makelist(b,i,1,n));
-/* [wxMaxima: input   end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$

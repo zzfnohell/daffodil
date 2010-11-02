@@ -1,0 +1,40 @@
+
+T(x):=(1-exp(-x))/(1+exp(-x))$
+
+/*initiallize the nn data structure 
+*@param dims a list of level's dim,
+*/
+create_bpnn(dims,transfer_functions,levels_symbols,inputs,outputs,error_function):=block(
+    [i,bpnn,symbols,transfer_values,
+    symbol_expression,t,
+    symbol_structures,out_list,total_error],
+    symbols:levels_symbols,
+    symbol_structures:bpnn_generate_symbols_matrixes(dims,levels_symbols),
+    out_list:maplist(lambda([in],
+        t:bpnn_compute_levels_output(in,symbol_structures,transfer_functions),
+        last(t)
+        ),inputs),
+    total_error:error_function(outputs,out_list),
+    symbol_expression:total_error,
+    [symbol_expression,symbols,transfer_functions,symbol_structures,
+        error_function,inputs,outputs,dims]
+);
+
+bpnn_normalize(outputs,interval):=block(
+    [xmin,xmax,itmax,itmin],
+    itmin:interval[1],
+    itmax:interval[2],
+    mmin(v):= block([m],
+        m:v[1],
+        if matrixp(v) then mapmatrix(lambda([x],if x < m then m:x),v) else m:lmin(v),
+        m),
+    mmax(v):=-mmin(-v),
+    xmin:lmin(maplist(mmin,outputs)),
+    xmax:lmax(maplist(mmax,outputs)),
+    nnormalize(n):=(itmax - itmin) * (n-xmin)/(xmax-xmin) + itmin,
+    vnormalize(v):=if matrixp(v) then matrixmap(nnormalize,v) else maplist(nnormalize,v),
+    [maplist(vnormalize,outputs),diff(nnormalize(n),n,1),nnormalize(0)]
+    );
+
+bpnn_gen_outfunction(a,b,n):=block(print(x),a*x+makelist(b,i,1,n));
+

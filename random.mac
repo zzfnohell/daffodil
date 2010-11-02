@@ -1,7 +1,4 @@
-/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 0.8.5 ] */
 
-/* [wxMaxima: input   start ] */
 /*get a rand number between interval[1] and interval[2]
 *@param interval a list,its first element is the interval's lower side,
 * and its second element is the interval's higher side.
@@ -14,9 +11,7 @@ rand(interval):=block(
     d:mx-mn,
     mn + random(d)
 );
-/* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: input   start ] */
 /*create a randomized matrix
 *@param m rows of the rand matrix
 *@param n columns of the rand matrix
@@ -27,7 +22,4 @@ mrand(m,n,interval):=block([CI],
     CI:array(CI,flonum,m,n),
     CI:genmatrix(CI,m,n),
     matrixmap(lambda([x],x:rand(interval)),CI))$
-/* [wxMaxima: input   end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$

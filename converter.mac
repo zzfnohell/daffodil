@@ -1,7 +1,4 @@
-/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 0.8.5 ] */
 
-/* [wxMaxima: input   start ] */
 l2list(l):=block([c],
     c:[],
     appendatom(l):=
@@ -9,23 +6,16 @@ l2list(l):=block([c],
     appendatom(l),
     c
 )$
-/* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: input   start ] */
 /*copy elements from a metrix to a list
 *@param m the metrix constains elements
 *@return a list contains elements in the source metrix
 */
 m2list(m):=block([c],c:[], matrixmap(lambda([x],c:append(c,[x])),m),c)$
-/* [wxMaxima: input   end   ] */
 
-/* [wxMaxima: input   start ] */
 /*convert a list of vectors(of list type) to a list of metrixes(row vector)
 *@param l a list of vectors(of list type)
 *@return a list contains metrixes
 */
 l2mlist(l):=block(maplist(lambda([ll],matrix(ll)),l))$
-/* [wxMaxima: input   end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$
