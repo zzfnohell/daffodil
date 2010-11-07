@@ -16,12 +16,10 @@ bpnn_solve_lms(bpnn,interval,max_times,min_error,eta):=block(
   dsymbols:maplist(lambda([m],mdiff(expr,m)),symbol_structures),
   eqs:map("=",symbols,numeric_structures),
   cerror:ev(expr,eqs),
-  print(cerror),
   for i:1 step 1 thru max_times while cerror>min_error do block(
     temp:numeric_structures - eta * ev(dsymbols,eqs),
     numeric_structures:temp,
     eqs:map("=",symbols,numeric_structures),
     cerror:ev(expr,eqs),
-    print(cerror)),
+    print(float(cerror))),
   bpnn:append(bpnn,[numeric_structures,cerror,max_time,eta,min_error,dsymbols]));
-

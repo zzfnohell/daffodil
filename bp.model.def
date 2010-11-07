@@ -1,16 +1,16 @@
 bp-nn data structure:
 [
-1.symbol_expression(s),  /*the symbol expression(s) of this model*/
-2.symbols,/*the list of each level's symbol matrix's name*/
-3.transfer_functions,/*the list of transfer functions*/
-4.symbol_structures,/*the list of each level's symbol matrix,include threshholds*/
+1.symbol_expression(s),				 /*the symbol expression(s) of this model*/
+2.symbols,					 /*the list of each level's symbol matrix's name*/
+3.transfer_functions,				 /*the list of transfer functions*/
+4.symbol_structures,				 /*the list of each level's symbol matrix,include threshholds*/
 5.error_function
-6.inputs,/*the list of input vectors*/
-7.outputs,/*the list of output vectors*/
-8.dims,/*the list of each level's dim,include threshholds*/
+6.inputs,					/*the list of input vectors*/
+7.outputs,					/*the list of output vectors*/
+8.dims,						/*the list of each level's dim,include threshholds*/
 9.numeric_structures,
 10.currrent error(cerror),
-11.max_times,/*the max iteration time*/
+11.max_times,					/*the max iteration time*/
 12.eta,
 13.min_error(recommanded),
 13.differentiate of symbols.

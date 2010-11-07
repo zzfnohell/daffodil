@@ -26,14 +26,11 @@ bpnn_create(dims,transfer_functions,levels_symbols,inputs,outputs,error_function
   [i,bpnn,symbols,transfer_values,
   symbol_expression,t,
   symbol_structures,out_list,total_error],
-  
   symbols:levels_symbols,
   symbol_structures:bpnn_generate_symbols_matrixes(dims,levels_symbols),
-  print(transfer_functions[1](1),"before out list,bpnn_create"),
   out_list:maplist(lambda([x],
       t:bpnn_compute_levels_output(x,symbol_structures,transfer_functions),
       last(t)),inputs),
-  print("out list,bpnn_create"),
   total_error:error_function(outputs,out_list),
   symbol_expression:total_error,
   [symbol_expression,symbols,transfer_functions,symbol_structures,
@@ -54,6 +51,9 @@ bpnn_normalize(outputs,interval):=block(
     vnormalize(v):=if matrixp(v) then matrixmap(nnormalize,v) else maplist(nnormalize,v),
     [maplist(vnormalize,outputs),diff(nnormalize(n),n,1),nnormalize(0)]);
 
-
-
-
+bpnn_gen_output(new_input,bpnn):=block(
+  [tmp,eqs],
+  tmp:bpnn_compute_levels_output(new_input,bpnn[4],bpnn[3]),
+  eqs:map("=",bpnn[2],bpnn[9]),
+  tmp:ev(tmp,eqs),
+  last(tmp));
