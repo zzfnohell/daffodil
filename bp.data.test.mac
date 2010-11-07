@@ -1,0 +1,27 @@
+inputs:[
+[0.1,0.1],
+[0.2,0.2],
+[0.3,0.3]];
+
+outputs:[
+[0.2,0.2],
+[0.3,0.3],
+[0.4,0.4]];
+
+hides:[h1,h2];
+
+hides_num:[4];
+
+dims:[2,3,2];
+
+transfun(x):=(1-exp(-x))/(1+exp(-x));
+
+tef(o1s,o2s):=block(
+  [t,te],
+  t:maplist(lambda([x,y],
+      if listp(x) then x:matrix(x),
+      if listp(y) then y:matrix(y),
+      (x-y) . (x-y)),o1s,o2s),
+  te:sum(t[i],i,1,length(t)),
+  sqrt(te));
+

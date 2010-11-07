@@ -1,5 +1,7 @@
 file_search_maxima:cons(sconcat("C:/Users/ace/code/workspace/maxima/daffodil/###.{lisp,mac,wxm,mc}"), file_search_maxima)$
 
+load("bp.data.test.mac");
+
 load("differentiate.mac")$
 
 load("random.mac")$
@@ -9,3 +11,4 @@ load("converter.mac")$
 load("bp.model.mac")$
 
 load("bp.solve.lms.mac")$
+

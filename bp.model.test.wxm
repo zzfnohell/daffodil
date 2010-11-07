@@ -1,0 +1,31 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 0.8.5 ] */
+
+/* [wxMaxima: input   start ] */
+kill(all);
+load("C:/Users/ace/code/workspace/maxima/daffodil/bp.pkg.mac");
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+outputs;
+norm:bpnn_normalize(outputs,[2.3,2.8]);
+a:norm[2];
+b:norm[3];
+f(x):=bpnn_gen_outfunction(a,b,2);
+f([1,1]);
+outputs[1];
+f(outputs[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+[1,1] - [1,1];
+tef([[1,1],[1,2]],[[1,1],[1,3]]);
+transfun(matrix([1,2]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bpnn_create(dims,[transfun,transfun],hides,inputs,outputs,tef);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
