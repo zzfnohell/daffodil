@@ -1,10 +1,27 @@
+bpnn_generate_symbols_matrixes(dims,symbols):=block(
+    [i,len,r,tmp],
+    len:length(dims),
+    r:[],
+    for i:1 step 1 while i < len do block(
+        tmp:genmatrix(symbols[i],dims[i]+1,dims[i+1]),
+        r:endcons(tmp,r)),r);
 
+bpnn_compute_levels_output(input,matrixes,transfer_functions):=block(
+    maplist(lambda([m,f],
+        if listp(input) then input:matrix(input),
+        input:addcol(input,[-1]),
+        input:input . m,
+        input:f(input)),matrixes,transfer_functions));
+
+
+/* tranfer funciton's expression.sigmod.
+*/
 T(x):=(1-exp(-x))/(1+exp(-x))$
 
 /*initiallize the nn data structure 
 *@param dims a list of level's dim,
 */
-create_bpnn(dims,transfer_functions,levels_symbols,inputs,outputs,error_function):=block(
+bpnn_create(dims,transfer_functions,levels_symbols,inputs,outputs,error_function):=block(
     [i,bpnn,symbols,transfer_values,
     symbol_expression,t,
     symbol_structures,out_list,total_error],
@@ -17,8 +34,7 @@ create_bpnn(dims,transfer_functions,levels_symbols,inputs,outputs,error_function
     total_error:error_function(outputs,out_list),
     symbol_expression:total_error,
     [symbol_expression,symbols,transfer_functions,symbol_structures,
-        error_function,inputs,outputs,dims]
-);
+        error_function,inputs,outputs,dims]);
 
 bpnn_normalize(outputs,interval):=block(
     [xmin,xmax,itmax,itmin],
@@ -33,8 +49,6 @@ bpnn_normalize(outputs,interval):=block(
     xmax:lmax(maplist(mmax,outputs)),
     nnormalize(n):=(itmax - itmin) * (n-xmin)/(xmax-xmin) + itmin,
     vnormalize(v):=if matrixp(v) then matrixmap(nnormalize,v) else maplist(nnormalize,v),
-    [maplist(vnormalize,outputs),diff(nnormalize(n),n,1),nnormalize(0)]
-    );
+    [maplist(vnormalize,outputs),diff(nnormalize(n),n,1),nnormalize(0)]);
 
 bpnn_gen_outfunction(a,b,n):=block(print(x),a*x+makelist(b,i,1,n));
-

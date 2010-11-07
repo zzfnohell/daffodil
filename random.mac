@@ -1,4 +1,3 @@
-
 /*get a rand number between interval[1] and interval[2]
 *@param interval a list,its first element is the interval's lower side,
 * and its second element is the interval's higher side.
@@ -9,8 +8,7 @@ rand(interval):=block(
     mn:first(interval),
     mx:second(interval),
     d:mx-mn,
-    mn + random(d)
-);
+    mn + random(d));
 
 /*create a randomized matrix
 *@param m rows of the rand matrix
@@ -21,5 +19,4 @@ rand(interval):=block(
 mrand(m,n,interval):=block([CI],
     CI:array(CI,flonum,m,n),
     CI:genmatrix(CI,m,n),
-    matrixmap(lambda([x],x:rand(interval)),CI))$
-
+    matrixmap(lambda([x],x:rand(interval)),CI));
