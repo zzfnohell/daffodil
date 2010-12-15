@@ -1,3 +1,61 @@
+/*
+bp-nn data structure:
+[
+1.symbol_expression(s),
+the symbol expression(s) of this model.
+
+2.symbols,
+the list of each level's symbol matrix's name.
+
+3.transfer_functions,
+the list of transfer functions.
+
+4.symbols_structures,
+the list of each level's symbol matrix,for bp include threshholds.
+
+5.error_function,
+normally,it is the target function.
+
+6.inputs,
+the list of input vectors
+
+7.outputs,
+the list of output vectors
+
+
+8.dims,
+the list of each level's dim,include threshholds
+
+9.numeric_structures,
+
+10.currrent error(cerror),
+11.max_times,
+the max iteration time.
+12.eta,
+learn rate used by lms method.
+
+13.min_error(recommanded),
+14.differentiate of symbols.
+
+[a b -1] .  [h1a h2a h3a]
+            [h1b h2b h3b]
+            [h1s h2s h3s]
+*/
+bpnn_index_symbol_express::1;
+bpnn_index_symbols::2;
+bpnn_index_transfer_function::3;
+bpnn_index_symbols_structures::4;
+bpnn_index_error_function::5;
+bpnn_index_inputs::6;
+bpnn_index_outputs::7;
+bpnn_index_dims::8;
+bpnn_index_cerror::9;
+bpnn_index_numeric_structures::10;
+bpnn_index_max_times::11;
+bpnn_index_eta::12;
+bpnn_index_min_error::13;
+bpnn_index_differentiate::14;
+
 bpnn_generate_symbols_matrixes(dims,symbols):=block(
   [i,len,r,tmp],
   len:length(dims),

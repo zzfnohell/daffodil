@@ -3,16 +3,40 @@
 
 /* [wxMaxima: input   start ] */
 kill(all);
+load('optmiz);
 load("C:/Users/ace/code/workspace/maxima/daffodil/bp.pkg.mac");
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-bpnn:bpnn_create(dims,[transfun,transfun],hides,inputs,outputs,tef)$
-bpnn:bpnn_solve_lms(bpnn,[-1.0,1.0],100,0.01,0.2)$
+stapoints(((0.3-0.7/(1+%e^(-x-y-1)))^2+(0.4-0.7/(1+%e^(-x-2*y-2)))^2),[],[],[x]);
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
-bpnn_gen_output([0.4,0.4],bpnn);
+bpnn:bpnn_create(dims,[transfun,transfun],hides,inputs,outputs,tef)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+s:bpnn[4];
+sy(l):=block([tmp],tmp:[],maplist(lambda([m],tmp:append(tmp,m2list(m))),l),tmp);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+y:sy(s);
+bpnn[1];
+stapoints(bpnn[1],[],[],y)$
+stapts;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(transfun,1,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve([-y-x-1=0,-2*y-x-2=0],[x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+stapoints(%e^(x-y),[],[],[x]);
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */

@@ -1,0 +1,20 @@
+/*required:
+optimiz
+*/
+bpnn_index_sta_0::-1;
+/*
+* @brief solve bp problem using sta. 
+* @param bpnn base bpnn list.
+* @param interval
+* @return sta-bpnn
+*/
+bp_solve_sta(bpnn,interval):=block(
+  [i,temp,numeric_structures,symbol_structures,
+  dims,expr,symbols,eqs,dsymbols],
+  
+  dims::pnn[bpnn_index_dims],  
+  expr::bpnn[bpnn_index_symbol_expression],
+  symbols::bpnn[bpnn_index_symbols],
+  symbols_structures::bpnn[bpnn_index_symbols_structures],
+  
+  );

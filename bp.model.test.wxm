@@ -1,9 +1,9 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 0.8.5 ] */
+/* [ Created with wxMaxima version 0.8.4 ] */
 
 /* [wxMaxima: input   start ] */
 kill(all);
-load("C:/Users/ace/code/workspace/maxima/daffodil/bp.pkg.mac");
+load("/host/Users/ace/code/workspace/maxima/daffodil/bp.pkg.mac");
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */
