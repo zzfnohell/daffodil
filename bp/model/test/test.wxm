@@ -3,7 +3,7 @@
 
 /* [wxMaxima: input   start ] */
 kill(all);
-load("/host/Users/ace/code/workspace/maxima/daffodil/bp.pkg.mac");
+load("c:/Users/ace/code/workspace/maxima/daffodil/bp/pkg.mac");
 /* [wxMaxima: input   end   ] */
 
 /* [wxMaxima: input   start ] */

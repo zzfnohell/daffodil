@@ -1,0 +1,36 @@
+file_search_maxima:cons(
+  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/###.{lisp,mac,wxm,mc}"),
+  file_search_maxima)$
+
+file_search_maxima:cons(
+  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/###.{lisp,mac,wxm,mc}"),
+  file_search_maxima)$
+
+file_search_maxima:cons(
+  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/model/###.{lisp,mac,wxm,mc}"),
+  file_search_maxima)$
+
+file_search_maxima:cons(
+  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/solve/###.{lisp,mac,wxm,mc}"),
+  file_search_maxima)$
+
+file_search_maxima:cons(
+  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/testdata/###.{lisp,mac,wxm,mc}"),
+  file_search_maxima)$
+
+file_search_maxima:cons(
+  sconcat("/host/Users/ace/code/workspace/maxima/daffodil/###.{lisp,mac,wxm,mc}"),
+  file_search_maxima)$
+
+load("differentiate.mac")$
+
+load("random.mac")$
+
+load("converter.mac")$
+
+load("model.mac")$
+
+load("lms.mac")$
+
+load('solver)$
+load("optmiz1")$

@@ -1,0 +1,117 @@
+/*
+bp-nn data structure:
+[
+1.symbol_expression(s),
+the symbol expression(s) of this model.
+
+2.symbols,
+the list of each level's symbol matrix's name.
+
+3.transfer_functions,
+the list of transfer functions.
+
+4.symbols_structures,
+the list of each level's symbol matrix,for bp include threshholds.
+
+5.error_function,
+normally,it is the target function.
+
+6.inputs,
+the list of input vectors
+
+7.outputs,
+the list of output vectors
+
+
+8.dims,
+the list of each level's dim,include threshholds
+
+9.numeric_structures,
+
+10.currrent error(cerror),
+11.max_times,
+the max iteration time.
+12.eta,
+learn rate used by lms method.
+
+13.min_error(recommanded),
+14.differentiate of symbols.
+
+[a b -1] .  [h1a h2a h3a]
+            [h1b h2b h3b]
+            [h1s h2s h3s]
+*/
+bpnn_index_symbol_express::1;
+bpnn_index_symbols::2;
+bpnn_index_transfer_function::3;
+bpnn_index_symbols_structures::4;
+bpnn_index_error_function::5;
+bpnn_index_inputs::6;
+bpnn_index_outputs::7;
+bpnn_index_dims::8;
+bpnn_index_cerror::9;
+bpnn_index_numeric_structures::10;
+bpnn_indx_max_times::11;
+bpnn_index_eta::12;
+bpnn_index_min_error::13;
+bpnn_index_differentiate::14;
+
+bpnn_generate_symbols_matrixes(dims,symbols):=block(
+  [i,len,r,tmp],
+  len:length(dims),
+  r:[],
+  for i:1 step 1 while i < len do block(
+    tmp:genmatrix(symbols[i],dims[i]+1,dims[i+1]),
+    r:endcons(tmp,r)),r);
+
+bpnn_compute_levels_output(input,matrixes,transfer_functions):=block(
+  [f],
+  local(f),
+  maplist(lambda([m,f],
+      if listp(input) then input:matrix(input),
+      input:addcol(input,[-1]),
+      input:input . m,
+      input:f(input)),matrixes,transfer_functions));
+
+bpnn_gen_outfunction(a,b,n):=block(
+  local(x),
+  a * x + matrix(makelist(b,i,1,n)));
+
+/*initiallize the nn data structure 
+*@param dims a list of level's dim,
+*/
+bpnn_create(dims,transfer_functions,levels_symbols,inputs,outputs,error_function):=block(
+  [i,bpnn,symbols,transfer_values,
+  symbol_expression,t,
+  symbol_structures,out_list,total_error],
+  symbols:levels_symbols,
+  symbol_structures:bpnn_generate_symbols_matrixes(dims,levels_symbols),
+  out_list:maplist(lambda([x],
+      t:bpnn_compute_levels_output(x,symbol_structures,transfer_functions),
+      last(t)),inputs),
+  total_error:error_function(outputs,out_list),
+  symbol_expression:total_error,
+  [symbol_expression,symbols,transfer_functions,symbol_structures,
+  error_function,inputs,outputs,dims]);
+
+bpnn_normalize(outputs,interval):=block(
+  [xmin,xmax,itmax,itmin],
+  itmin:interval[1],
+  itmax:interval[2],
+  mmin(v):= block([m],
+      m:v[1],
+      if matrixp(v) then mapmatrix(lambda([x],if x < m then m:x),v) else m:lmin(v),
+      m),
+    mmax(v):=-mmin(-v),
+    xmin:lmin(maplist(mmin,outputs)),
+    xmax:lmax(maplist(mmax,outputs)),
+    nnormalize(n):=(itmax - itmin) * (n-xmin)/(xmax-xmin) + itmin,
+    vnormalize(v):=if matrixp(v) then matrixmap(nnormalize,v) else maplist(nnormalize,v),
+    [maplist(vnormalize,outputs),diff(nnormalize(n),n,1),nnormalize(0)]);
+
+bpnn_gen_output(new_input,bpnn):=block(
+  [tmp,eqs],
+  tmp:bpnn_compute_levels_output(new_input,bpnn[4],bpnn[3]),
+  eqs:map("=",bpnn[2],bpnn[9]),
+  tmp:ev(tmp,eqs),
+  last(tmp));

@@ -15,6 +15,4 @@ bp_solve_sta(bpnn,interval):=block(
   dims::pnn[bpnn_index_dims],  
   expr::bpnn[bpnn_index_symbol_expression],
   symbols::bpnn[bpnn_index_symbols],
-  symbols_structures::bpnn[bpnn_index_symbols_structures],
-  
-  );
+  symbols_structures::bpnn[bpnn_index_symbols_structures]);
