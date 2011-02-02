@@ -18,11 +18,12 @@ Stoutemyer), Electrical Engineering Department, University of Hawaii,
 output format:
 [objsub,gradsub,mhessub,cpolysub,stapts[i]]
 */
-define_variable(opt_index_stapts,4,integer)$
-define_variable(opt_index_objsub,0,integer)$
-define_variable(opt_index_gradsub,1,integer)$
-define_variable(opt_index_mhessub,2,integer)$
-define_variable(opt_index_cpolysub,3,integer)$
+
+define_variable(opt_index_objsub,1,integer)$
+define_variable(opt_index_gradsub,2,integer)$
+define_variable(opt_index_mhessub,3,integer)$
+define_variable(opt_index_cpolysub,4,integer)$
+define_variable(opt_index_stapts,5,integer)$
 
 stapoints(objective,[list_args]):= block([
   lezeros,

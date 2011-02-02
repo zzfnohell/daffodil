@@ -4,24 +4,6 @@
 /* [wxMaxima: input   start ] */
 kill(all);
 load("C:/Users/ace/code/workspace/maxima/daffodil/bp/pkg.mac");
-tmp:stapoints([x^2+y^2],[],[x+y,x-y-6]);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-stapoints([x^2+y^2],[],[x+y,x-y]);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-Solver([first([2*x])=0],[x]);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-maplist(lambda([x],[x=0]),[a,b,c]);
-/* [wxMaxima: input   end   ] */
-
-/* [wxMaxima: input   start ] */
-define_variable(x,3,integer);
-x:4.2;
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */

@@ -73,9 +73,13 @@ bpnn_compute_levels_output(input,matrixes,transfer_functions):=block(
       input:input . m,
       input:f(input)),matrixes,transfer_functions));
 
+/*
+* @brief generate the out function.
+* @return the out function expression.
+*/
 bpnn_gen_outfunction(a,b,n):=block(
-  local(x),
-  a * x + matrix(makelist(b,i,1,n)));
+  b:matrix(makelist(b,i,1,n)),
+  buildq([x,a:a,b:b],a*x + b));
 
 /*initiallize the nn data structure 
 *@param dims a list of level's dim,
