@@ -37,3 +37,5 @@ load('solver)$
 load("optmiz1")$
 
 load("data.mac")$
+
+bpnn_define:1;
