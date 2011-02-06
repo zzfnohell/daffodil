@@ -4,6 +4,23 @@
 /* [wxMaxima: input   start ] */
 kill(all);
 load("C:/Users/ace/code/workspace/maxima/daffodil/bp/pkg.mac");
+bpnn:bpnn_create(dims,[transfun,transfun],hides,inputs,outputs,tef)$
+bp_solve_sta(bpnn,interval):=block([
+  dims,
+  expr,symbols,staps],
+  dims:bpnn[bpnn_index_dims],
+  expr:bpnn[bpnn_index_symbol_expression],
+  print(expr),
+  symbols:bpnn[bpnn_index_symbols],
+  staps:stapoints([expr]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bp_solve_sta(bpnn,[]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+stapoints([x^2]);
 /* [wxMaxima: input   end   ] */
 
 /* Maxima can't load/batch files which end with a comment! */

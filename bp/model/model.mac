@@ -41,20 +41,27 @@ learn rate used by lms method.
             [h1b h2b h3b]
             [h1s h2s h3s]
 */
-bpnn_index_symbol_express::1;
-bpnn_index_symbols::2;
-bpnn_index_transfer_function::3;
-bpnn_index_symbols_structures::4;
-bpnn_index_error_function::5;
-bpnn_index_inputs::6;
-bpnn_index_outputs::7;
-bpnn_index_dims::8;
-bpnn_index_cerror::9;
-bpnn_index_numeric_structures::10;
-bpnn_indx_max_times::11;
-bpnn_index_eta::12;
-bpnn_index_min_error::13;
-bpnn_index_differentiate::14;
+/* base structures*/
+define_variable(bpnn_index_symbol_expression,1,integer);
+define_variable(bpnn_index_symbols,2,integer);
+
+define_variable(bpnn_index_transfer_function,3,integer);
+define_variable(bpnn_index_symbols_structures,4,integer);
+define_variable(bpnn_index_error_function,5,integer);
+define_variable(bpnn_index_inputs,6,integer);
+define_variable(bpnn_index_outputs,7,integer);
+define_variable(bpnn_index_dims,8,integer);
+
+/*common properties for solving.*/
+define_variable(bpnn_index_cerror,9,integer);
+define_variable(bpnn_index_numeric_structures,10,integer);
+
+/*lms properties*/
+define_variable(bpnn_index_max_times,11,integer);
+define_variable(bpnn_index_eta,12,integer);
+define_variable(bpnn_index_min_error,13,integer);
+define_variable(bpnn_index_differentiate,14,integer);
+
 
 bpnn_generate_symbols_matrixes(dims,symbols):=block(
   [i,len,r,tmp],
@@ -68,7 +75,8 @@ bpnn_compute_levels_output(input,matrixes,transfer_functions):=block(
   [f],
   local(f),
   maplist(lambda([m,f],
-      if listp(input) then input:matrix(input),
+      if listp(input) then input:matrix(input)
+      else if not matrixp(input) then input:matrix([input]), 
       input:addcol(input,[-1]),
       input:input . m,
       input:f(input)),matrixes,transfer_functions));

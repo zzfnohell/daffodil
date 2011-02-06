@@ -32,6 +32,8 @@ load("model.mac")$
 
 load("lms.mac")$
 
+/*load("sta.mac")$*/
+
 load('solver)$
 
 load("optmiz1")$
