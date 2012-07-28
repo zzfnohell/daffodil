@@ -1,0 +1,2 @@
+package_directory:pathname_directory(load_pathname);
+load(sconcat(package_directory,"/random.mac"));
