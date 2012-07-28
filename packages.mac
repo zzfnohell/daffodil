@@ -1,8 +1,12 @@
+print("Load daffodil main packages.");
 
+package_directory:pathname_directory(load_pathname);
+
+load(sconcat(package_directory,"/ga/packages.mac"));
+
+
+/*
 workspace_path:"/home/zzfnohell/workspace/language/maxima/daffodil/"$
-
-
-/*workspace_path:"/home/zzfnohell/workspace/language/maxima/genetic_algorithm/"$*/
 file_search_maxima:cons(
   sconcat(sconcat(workspace_path,"###.{lisp,mac,wxm,mc}")),
   file_search_maxima)$
@@ -36,7 +40,7 @@ load("model.mac")$
 
 load("lms.mac")$
 
-/*load("sta.mac")$*/
+#load("sta.mac")$
 
 load('solver)$
 
@@ -45,3 +49,4 @@ load("optmiz1")$
 load("data.mac")$
 
 bpnn_define:1;
+*/
