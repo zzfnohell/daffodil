@@ -1,26 +1,30 @@
+
+workspace_path:"/home/zzfnohell/workspace/language/maxima/daffodil/"$
+
+
+/*workspace_path:"/home/zzfnohell/workspace/language/maxima/genetic_algorithm/"$*/
 file_search_maxima:cons(
-  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/###.{lisp,mac,wxm,mc}"),
+  sconcat(sconcat(workspace_path,"###.{lisp,mac,wxm,mc}")),
+  file_search_maxima)$
+file_search_maxima:cons(
+  sconcat(sconcat(workspace_path,"bp/###.{lisp,mac,wxm,mc}")),
+  file_search_maxima)$
+file_search_maxima:cons(
+  sconcat(sconcat(workspace_path,"bp/model/###.{lisp,mac,wxm,mc}")),
+  file_search_maxima)$
+file_search_maxima:cons(
+  sconcat(sconcat(workspace_path,"bp/solve/###.{lisp,mac,wxm,mc}")),
+  file_search_maxima)$
+file_search_maxima:cons(
+  sconcat(sconcat(workspace_path,"bp/testdata/###.{lisp,mac,wxm,mc}")),
+  file_search_maxima)$
+file_search_maxima:cons(
+  sconcat(sconcat(workspace_path,"###.{lisp,mac,wxm,mc}")),
+  file_search_maxima)$
+file_search_maxima:cons(
+  sconcat(sconcat(workspace_path,"###.{lisp,mac,wxm,mc}")),
   file_search_maxima)$
 
-file_search_maxima:cons(
-  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/###.{lisp,mac,wxm,mc}"),
-  file_search_maxima)$
-
-file_search_maxima:cons(
-  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/model/###.{lisp,mac,wxm,mc}"),
-  file_search_maxima)$
-
-file_search_maxima:cons(
-  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/solve/###.{lisp,mac,wxm,mc}"),
-  file_search_maxima)$
-
-file_search_maxima:cons(
-  sconcat("C:/Users/ace/code/workspace/maxima/daffodil/bp/testdata/###.{lisp,mac,wxm,mc}"),
-  file_search_maxima)$
-
-file_search_maxima:cons(
-  sconcat("/host/Users/ace/code/workspace/maxima/daffodil/###.{lisp,mac,wxm,mc}"),
-  file_search_maxima)$
 
 load("differentiate.mac")$
 
