@@ -1,0 +1,2 @@
+load("c:/Users/ace/code/workspace/maxima/daffodil/bp/pkg.mac");
+bpnn:bpnn_create(dims,[transfun,transfun],hides,inputs,outputs,tef)$
