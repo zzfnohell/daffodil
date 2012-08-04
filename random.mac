@@ -9,7 +9,7 @@ rand(interval):=block(
     mx:second(interval),
     d:mx-mn,
     mn + random(d));
-
+  
 /*create a randomized matrix
 *@param m rows of the rand matrix
 *@param n columns of the rand matrix
@@ -17,6 +17,7 @@ rand(interval):=block(
 *@return a randomized matrix
 */
 mrand(m,n,interval):=block([CI],
-    CI:array(CI,flonum,m,n),
-    CI:genmatrix(CI,m,n),
-    matrixmap(lambda([x],x:rand(interval)),CI));
+  CI:array(CI,flonum,m,n),
+  CI:genmatrix(CI,m,n),
+  matrixmap(lambda([x],x:rand(interval)),CI));
+  
