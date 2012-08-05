@@ -20,3 +20,6 @@ mrand(m,n,interval):=block([CI],
     CI:array(CI,flonum,m,n),
     CI:genmatrix(CI,m,n),
     matrixmap(lambda([x],x:rand(interval)),CI));
+
+
+ga_random(p):=random(p);

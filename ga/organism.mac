@@ -1,5 +1,8 @@
+defstruct(
+  organism(
+    genotype,
+    phenotype,
+    fitness));
 
-genotype
-chromosome
 
-phenotype
+
