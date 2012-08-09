@@ -1,4 +1,3 @@
-
 defstruct(
   ecosystem(
     target,
@@ -7,15 +6,20 @@ defstruct(
     max_generations,
     max_population_size
     crossover_ratio,
-    mutation_ratio));
+    mutation_ratio
+    selector));
+
+
 
 ga_ecosystem_select2(ecosystem):=block(
   
 );
 
 ga_ecosystem_update(ecosystem):=block(
-  
-);
+  ga_population_map(lambda([o],ecosystem@target(ecosystem,o))),
+  ga_population_sort(ecosystem@population),
+  ga_population_normalize(ecosystem@population),
+  []);
 
 ga_ecosystem_copy_operation(ecosystem):=1;
 
