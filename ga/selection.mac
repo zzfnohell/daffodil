@@ -1,2 +1,27 @@
 
-ga_select(organism):=block();
+ga_select(organisms):=block(
+  
+  
+);
+
+load(basic);
+
+roulette(fit):=block(
+  [s,l,r,idx],
+  l:length(fit),
+  s:sum(fit[i],i,1,l),
+  fit:makelist(sum(fit[j],j,1,i)/s,i,1,l),
+  r:random(1.0),
+  idx:sublist_indices(fit,lambda([x],x - r > 0)),
+  lmin(idx));
+
+load(ctensor);
+
+rouletten(fit,n):=block(
+  [idx,id,i],
+  idx:[],
+  for i:1 step 1 thru n do block(
+    id:roulette(fit),
+    idx:append(idx,[id]),
+    deleten(fit,id)),
+  idx);
