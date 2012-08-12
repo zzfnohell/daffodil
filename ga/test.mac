@@ -1,0 +1,17 @@
+kill(all);
+load("/home/zzfnohell/workspace/language/maxima/daffodil/packages.mac");
+
+o:ga_chromosome_operation();
+p1:ga_chromosome_new([[1,2],[2,3]],[0,1.0]);
+p2:ga_chromosome_new([[1,2],[2,3]],[0,1.0]);
+
+print(p1);
+print(p2);
+print("p1 clone");
+print(o@clone(o,p1));
+
+print("p1 mutate");
+print(o@mutate(o,p1));
+
+print("p1 p2 crossover");
+print(o@crossover(o,p1,p2));

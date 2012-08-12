@@ -19,7 +19,7 @@ ga_random_interval(interval):=block(
 ga_random_matrix(m,n,interval):=block([CI],
   CI:array(CI,flonum,m,n),
   CI:genmatrix(CI,m,n),
-  matrixmap(lambda([x],x:rand(interval)),CI));
+  matrixmap(lambda([x],x:ga_random_interval(interval)),CI));
   
   
 ga_random(p):=random(p);
