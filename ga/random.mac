@@ -3,12 +3,12 @@
 * and its second element is the interval's higher side.
 *@return a rand number in the interval.
 */
-rand(interval):=block(
-    [mn,mx,d],
-    mn:first(interval),
-    mx:second(interval),
-    d:mx-mn,
-    mn + random(d));
+ga_random_interval(interval):=block(
+   [mn,mx,d],
+   mn:first(interval),
+   mx:second(interval),
+   d:mx-mn,
+   mn + random(d));
 
 /*create a randomized matrix
 *@param m rows of the rand matrix
@@ -16,10 +16,12 @@ rand(interval):=block(
 *@param interval the interval which numbers in the matrix lie in
 *@return a randomized matrix
 */
-mrand(m,n,interval):=block([CI],
-    CI:array(CI,flonum,m,n),
-    CI:genmatrix(CI,m,n),
-    matrixmap(lambda([x],x:rand(interval)),CI));
-
-
+ga_random_matrix(m,n,interval):=block([CI],
+  CI:array(CI,flonum,m,n),
+  CI:genmatrix(CI,m,n),
+  matrixmap(lambda([x],x:rand(interval)),CI));
+  
+  
 ga_random(p):=random(p);
+
+

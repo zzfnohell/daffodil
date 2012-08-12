@@ -1,1 +1,43 @@
 
+defstruct(chromosome(matrixes));
+
+defstruct(chromosome_operation(clone,mutate,crossover));
+
+ga_chromosome_clone(operation,self):=block(new(chromosome(matrixes:copylist(self@matrixes))));
+
+ga_chromosome_mutate(operation,self):=block(
+  [c,l,m,n,r],
+  c:self@matrixes,
+  l:length(c),
+  l:ga_random(l) + 1,
+  [m,n]:matrix_size(c[l]),
+  [m,n]:[ga_random(m) + 1,ga_random(n) + 1],
+  r:ga_random_interval([-1.0,1.0]),
+  c[l][m,n]:c[l][m,n]+r,
+  []);
+
+ga_chromosome_crossover(operation,parent1,parent2):=block(
+  [p1,p2,l,m,n,r,c1,c2],
+  p1:parent1@matrixes,
+  p2:parent2@matrixes,
+  l:length(p1),
+  l:ga_random(l) + 1,
+  [m,n]:matrix_size(p1[l]),
+  [m,n]:[ga_random(m) + 1,ga_random(n) + 1],
+  r:ga_random_interval([0.0,1.0]),
+  c1:operation@clone(operation,p1),
+  c2:operation@clone(operation,p2),
+  c1[l][m,n]:p1[l][m,n] + r * (p1[l][m,n] - p2[l][m,n]),
+  c2[l][m,n]:p1[l][m,n] - r * (p1[l][m,n] - p2[l][m,n]),
+  [c1,c2]);
+
+ga_chromosome_new(dims,interval):=block(
+  [c],
+  c:maplist(lambda([d],ga_random_matrix(d[1],d[2],interval)),dims),
+  new(chromosome(matrixes:c)));
+
+ga_chromosome_operation():=new(
+  chromosome_operation(
+    clone:ga_chromosome_clone,
+    mutate:ga_chromosome_mutate,
+    crossover:ga_chromosome_crossover));
