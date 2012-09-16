@@ -1,16 +1,20 @@
-algorithms written in maxima
+functions:
 1.netural networks.
 2.support vector machine.
 
-appendix.1.naming
-1.1.abbreviations
-1.1.1.l = the representation of the list type.
-1.1.2.m = the representation of the matrix type.
-1.1.3.a = the representation of the array type.
-1.1.4.n = the representation of the numeric type.
-1.1.5.x = the representation of the unknown type.
-1.1.6.f = the representation of the function type.
-1.2.nomenclature
-type::=[lmanx]+;
-variants ::= type+_\w+|\w+_type;
-function ::= type+_\w+|\w+_type;
+appendix.1.nomenclature
+1.
+ 1)expression defined in ABNF
+ 2)replace whitespace with '_' while naming objects
+ 3)expression:
+  NAME_CHAR = ALPHA / DIGIT
+1.1 file
+ expression:
+ FILE_NAME = *((1*NAME_CHAR) "_") (1*NAME_CHAR) ["." 1*NAME_CHAR]
+ replace whitespace with '_'
+1.2 folder
+ expression:
+ FOLDER_NAME = *((1*NAME_CHAR) "_") (1*NAME_CHAR)
+1.3 function
+ FUNCTION_DESCRIPTION = *((1*NAME_CHAR) "_") (1*NAME_CHAR)
+ FUNCTION_NAME = FOLDER_NAME "_" FUNCTION_DESCRIPTION
