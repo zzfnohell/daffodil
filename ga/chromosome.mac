@@ -1,4 +1,3 @@
-
 defstruct(chromosome(matrixes));
 
 defstruct(chromosome_operation(clone,mutate,crossover));
@@ -44,3 +43,4 @@ ga_chromosome_operation():=new(
     clone:ga_chromosome_clone,
     mutate:ga_chromosome_mutate,
     crossover:ga_chromosome_crossover));
+

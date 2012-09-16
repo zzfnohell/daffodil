@@ -1,27 +1,27 @@
-
-ga_select(organisms):=block(
-  
-  
-);
+ga_select(pop,n):=block(
+  [indexes,fitness_list,organisms:pop@organisms],
+  pop@update(pop),
+  fitness_list:maplist(lambda([organism],organism@fitness),organisms),
+  rouletten(fitness_list,n));
 
 load(basic);
 
-roulette(fit):=block(
+roulette(fitness_list):=block(
   [s,l,r,idx],
-  l:length(fit),
-  s:sum(fit[i],i,1,l),
-  fit:makelist(sum(fit[j],j,1,i)/s,i,1,l),
+  l:length(),
+  s:sum(fitness_list[i],i,1,l),
+  fitness_list:makelist(sum(fitness_list[j],j,1,i)/s,i,1,l),
   r:random(1.0),
-  idx:sublist_indices(fit,lambda([x],x - r > 0)),
+  idx:sublist_indices(fitness_list,lambda([x],x - r > 0)),
   lmin(idx));
 
 load(ctensor);
 
-rouletten(fit,n):=block(
+rouletten(fitness_list,n):=block(
   [idx,id,i],
   idx:[],
   for i:1 step 1 thru n do block(
-    id:roulette(fit),
+    id:roulette(fitness_list),
     idx:append(idx,[id]),
-    deleten(fit,id)),
+    deleten(fitness_list,id)),
   idx);

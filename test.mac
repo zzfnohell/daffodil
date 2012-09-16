@@ -1,0 +1,7 @@
+debugmode(true)$
+print("Load daffodil test:")$
+test_directory:pathname_directory(load_pathname)$
+print(test_directory)$
+load(sconcat(test_directory,"/packages.mac"))$
+print("Load daffodil test.")$
+quit();

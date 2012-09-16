@@ -9,8 +9,6 @@ defstruct(
     mutation_ratio
     selector));
 
-
-
 ga_ecosystem_select2(ecosystem):=block(
   
 );
