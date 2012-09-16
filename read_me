@@ -1,6 +1,17 @@
 functions:
-1.netural networks.
-2.support vector machine.
+1. regression models
+
+1.1 netural networks.
+1.1.1 directory
+ ./bp
+
+1.2 support vector machine.
+
+2. optimization models
+
+2.1 genetic algorithm
+2.1.1 directory
+ ./ga
 
 appendix.1.nomenclature
 1.
