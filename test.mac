@@ -3,5 +3,10 @@ print("Load daffodil test:")$
 test_directory:pathname_directory(load_pathname)$
 print(test_directory)$
 load(sconcat(test_directory,"/packages.mac"))$
+
+load(sconcat(test_directory,"/test/trace.mac"))$
+load(sconcat(test_directory,"/test/assert.mac"))$
+
+load(sconcat(test_directory,"/ga/test.mac"))$
 print("Load daffodil test.")$
 quit();

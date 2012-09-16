@@ -1,5 +1,6 @@
-print("Load genetic algorithm package.");
-package_directory:pathname_directory(load_pathname);
+print("Load genetic algorithm package.")$
+package_directory:pathname_directory(load_pathname)$
 
-load(sconcat(package_directory,"/random.mac"));
-load(sconcat(package_directory,"/chromosome.mac"));
+load(sconcat(package_directory,"/random.mac"))$
+load(sconcat(package_directory,"/chromosome.mac"))$
+print("Load genetic algorithm package done.")$
