@@ -4,18 +4,18 @@ p2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 
 test_trace("chromosome.1:")$
 test_trace(p1)$
-test_trace("chromosome.1:")$
+test_trace("chromosome.2:")$
 test_trace(p2)$
 
 p1c:o@clone(o,p1)$
 test_trace("clone chromosome.1.cloned:")$
 test_trace(p1c)$
 test_assert_equal(p1,p1c,"cloned object is the same as original object.")$
-  
+
 p1m:o@mutate(o,p1)$
 test_trace("mutate chromosome.1.mutated:")$
 test_trace(p1m)$
-test_assert_not_equal(p1,p1m,"mutated object is not the same as the original object.")$
+test_assert_not_equal(p1c,p1m,"mutated object is not the same as the original object.")$
 
 [c1,c2]:o@crossover(o,p1,p2)$
 test_trace("crossover chromosome.1 & chromosome.2:")$

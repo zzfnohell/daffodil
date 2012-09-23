@@ -1,4 +1,22 @@
-test_assert_equal(a,b,message)::= if is(a=b) then test_trace("SUCCESSED:",message) else test_trace("FAILED:",message)$
-test_assert_true(a,message)::=if is(a) then test_trace("SUCCESSED:",message) else test_trace("FAILED:",message)$
-test_assert_false(a,message)::=if is(not a) then test_trace("SUCCESSED:",message) else test_trace("FAILED:",message)$
-test_assert_not_equal(a,b,message)::= if is(a#b) then test_trace("SUCCESSED:",message) else test_trace("FAILED:",message)$
+test_assert_equal(a,b,message):=
+if is(a=b)
+then test_trace("SUCCESSED:",message)
+else test_trace("FAILED:",message)$
+
+test_assert_true(a,message):=
+if is(a)
+then test_trace("SUCCESSED:",message)
+else test_trace("FAILED:",message)$
+
+test_assert_false(a,message):=
+if is(not a)
+then test_trace("SUCCESSED:",message)
+else test_trace("FAILED:",message)$
+
+test_assert_not_equal(a,b,message):=
+block(
+  print(a),
+  print(b),
+if is(a#b)
+then test_trace("SUCCESSED:",message)
+else test_trace("FAILED:",message))$

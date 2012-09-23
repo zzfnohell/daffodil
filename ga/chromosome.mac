@@ -2,8 +2,7 @@ defstruct(chromosome(matrixes));
 
 defstruct(chromosome_operation(clone,mutate,crossover));
 
-ga_chromosome_clone(operation,self):=block(
-  new(chromosome(matrixes:copylist(self@matrixes))));
+ga_chromosome_clone(operation,self):=new(chromosome(matrixes:copylist(self@matrixes)));
 
 ga_chromosome_mutate(operation,self):=block(
   [c,l,m,n,r],
