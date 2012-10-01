@@ -9,4 +9,5 @@ load(sconcat(test_directory,"/test/assert.mac"))$
 
 load(sconcat(test_directory,"/ga/test.mac"))$
 print("Load daffodil test.")$
+
 quit();
