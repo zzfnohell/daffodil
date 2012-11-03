@@ -1,1 +1,2 @@
-load(sconcat(test_directory,"/ga/test.mac"))$
+load_mac("packages.mac")$
+load_mac("/ga/test.mac")$
