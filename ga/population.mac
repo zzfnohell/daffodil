@@ -1,8 +1,0 @@
-(defstruct population(organisms,operations,selector,best));
-
-ga_population_update(pop):=block();
-
-
-ga_population_new(selector):=block();
-
-

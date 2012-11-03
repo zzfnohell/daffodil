@@ -1,6 +1,6 @@
 defstruct(chromosome(matrixes));
 
-defstruct(chromosome_operation(clone,mutate,crossover));
+defstruct(chromosome_class(clone,mutate,crossover));
 
 ga_chromosome_clone(operation,self):=new(chromosome(matrixes:copylist(self@matrixes)));
 
@@ -37,8 +37,8 @@ ga_chromosome_new(dims,interval):=block(
   c:maplist(lambda([d],ga_random_matrix(d[1],d[2],interval)),dims),
   new(chromosome(matrixes:c)));
 
-ga_chromosome_operation():=new(
-  chromosome_operation(
+ga_chromosome_class():=new(
+  chromosome_class(
     clone:ga_chromosome_clone,
     mutate:ga_chromosome_mutate,
     crossover:ga_chromosome_crossover));

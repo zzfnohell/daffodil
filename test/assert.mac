@@ -1,22 +1,49 @@
-test_assert_equal(a,b,message):=
-if is(a=b)
-then test_trace("SUCCESSED:",message)
-else test_trace("FAILED:",message)$
+test_case_successed_count:0;
+test_case_failed_count:0;
 
-test_assert_true(a,message):=
-if is(a)
-then test_trace("SUCCESSED:",message)
-else test_trace("FAILED:",message)$
+defstruct(test_case(name,test_context,failed_count,successed_count,inclusive_count));
 
-test_assert_false(a,message):=
-if is(not a)
-then test_trace("SUCCESSED:",message)
-else test_trace("FAILED:",message)$
+test_begin(name):=block(
+  test_trace("Begin test case:",name),
+  new(test_case(name:name,test_context:[],failed_count:0,successed_count:0,inclusive_count:0)));
 
-test_assert_not_equal(a,b,message):=
-block(
-  print(a),
-  print(b),
+test_end(case):=block(
+  test_trace("End test case:",case@name),
+  test_trace("SUCCESSED CASES:",case@successed_count),
+  test_trace("INCLUSIVE CASES:",case@inclusive_count),
+  test_trace("FAILED CASES:",case@failed_count),
+  test_trace("TOTAL CASES:",case@successed_count + case@inclusive_count + case@failed_count));
+
+test_assert_trace_success(case,value,message):=block(
+  case@successed_count:case@successed_count + 1,
+  test_trace("SUCCESSED:",message),
+  test_trace("Actual value:"),
+  test_trace(value));
+
+test_assert_trace_failure(case,actual,expected,message):=block(
+  case@failed_count:case@failed_count + 1,
+  test_trace("FAILED:",message),
+  test_trace("Actual value:"),
+  test_trace(actual),
+  test_trace("Expected value:"),
+  test_trace(expected));
+
+test_assert_equal(case,actual,expected,message):=
+if is(actual=expected)
+then test_assert_trace_success(case,actual,message)
+else test_assert_trace_failure(case,actual,expected,message);
+
+test_assert_true(case,actual,message):=
+if is(actual)
+then test_assert_trace_success(case,actual,message)
+else test_assert_trace_failure(case,actual,expected,message);
+
+test_assert_false(case,actual,message):=
+if is(not actual)
+then test_assert_trace_success(case,actual,message)
+else test_assert_trace_failure(case,actual,expected,message);
+
+test_assert_not_equal(case,actual,expected,message):=
 if is(a#b)
-then test_trace("SUCCESSED:",message)
-else test_trace("FAILED:",message))$
+then test_assert_trace_success(case,actual,message)
+else test_assert_trace_failure(case,actual,expected,message);

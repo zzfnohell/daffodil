@@ -1,4 +1,4 @@
-o:ga_chromosome_operation()$
+o:ga_chromosome_class()$
 p1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 p2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 
