@@ -1,2 +1,0 @@
-load_mac("packages.mac")$
-load_mac("/ga/test.mac")$

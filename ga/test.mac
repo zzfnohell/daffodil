@@ -1,5 +1,5 @@
 print("Load genetic algorithm test:")$
-test_directory:pathname_directory(load_pathname)$
-load(sconcat(test_directory,"/packages.mac"))$
-load(sconcat(test_directory,"/test/chromosome.mac"))$
+load_mac("/packages.mac")$
+load_mac("/test.mac")$
+/*load_mac("/test/chromosome.mac")$*/
 print("Load genetic algorithm test done.")$
