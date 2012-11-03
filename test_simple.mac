@@ -1,5 +1,5 @@
 daffodil_root_directory:pathname_directory(load_pathname)$
-print("Loading simple test...")
-load(sconcat(daffodil_root_directory,"/test.mac"))$
-load(sconcat(daffodil_root_directory,"/test/simple.mac"))$
-print("Loading simple test done.")
+print("Loading simple test...")$
+load_mac("/test.mac")$
+load_mac("/test/simple.mac")$
+print("Loading simple test done.")$
