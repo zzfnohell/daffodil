@@ -1,0 +1,1 @@
+load(sconcat(test_directory,"/ga/test.mac"))$

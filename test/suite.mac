@@ -1,0 +1,56 @@
+defstruct(
+  test_suite(
+    name,
+    suite_context,
+    failed_cases,
+    successed_cases,
+    inclusive_cases))$
+
+test_begin(name,suite_context):=
+new(
+  test_suite(
+    name:name,
+    suite_context:suite_context,
+    failed_cases:[],
+    passed_cases:[],
+    inclusive_cases:[]))$
+
+test_end(suite):=
+block(
+  test_trace("End Testing:",suite@name),
+  test_trace("Passed Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Passed]:",case@name)),
+    suite@passed_cases),
+  test_trace("Failed Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Failed]:",case@name)),
+    suite@failed_cases),
+  test_trace(
+    "Total Failed Cases Count:",
+    length(suite@failed_cases)),
+  test_trace("Failed Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Failed]:",case@name)),
+    suite@failed_cases),
+  test_trace("Inclusive Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Inclusive]:",case@name)),
+    suite@failed_cases),
+  test_trace(
+    "Total Passed Cases Count:",
+    length(suite@passed_cases)),
+  test_trace(
+    "Total Failed Cases Count:",
+    length(suite@failed_cases)),
+  test_trace(
+    "Total Inclusive Cases Count:",
+    length(suite@inclusive_cases)))$
