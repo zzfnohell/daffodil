@@ -2,10 +2,10 @@ print("Loading init mac...")$
 daffodil_root_directory:pathname_directory(load_pathname)$
 
 load_mac(sub):=block(
-  [path],
+  [path,prom],
   path:sconcat(daffodil_root_directory,sub),
-  print("Loading file:[",path, "]..."),
+  print(sconcat("Loading file:[",path,"]...")),
   load(path),
-  print("Loading file:[",path, "] done"))$
+  print(sconcat("Loading file:[",path, "] done")))$
 
 print("Loading init mac done.")$

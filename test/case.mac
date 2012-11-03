@@ -20,7 +20,7 @@ block(
 
 test_end_case(case):=
 block(
-  test_trace("End test case:[",case@suite@name,"].","[",case@name,"]")
+  test_trace("End test case:[",case@suite@name,"].","[",case@name,"]"),
   test_trace("Passed Assertions Count:",case@passed_count),
   test_trace("Inclusive Assertions Count:",case@inclusive_count),
   test_trace("Failed Assertions Count:",case@failed_count),
