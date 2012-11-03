@@ -1,4 +1,3 @@
-daffodil_root_directory:pathname_directory(load_pathname)$
 print("Loading simple test...")$
 load_mac("/test.mac")$
 load_mac("/test/simple.mac")$

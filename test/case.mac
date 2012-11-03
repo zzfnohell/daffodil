@@ -3,19 +3,20 @@ defstruct(
     name,
     suite,
     case_context,
-    failed_assertions,
-    passed_assertions,
-    inclusive_assertions))$
+    failed_count,
+    passed_count,
+    inclusive_count))$
 
 test_begin_case(suite,name,case_context):=
 block(
-  test_trace("Begin test case:[",suite@name,"].","[",name,"]"),
+  test_trace(sconcat("Begin test case:[",suite@name,"].","[",name,"]")),
   new(
     test_case(
       name:name,
+      suite:suite,
       case_context:case_context,
       failed_count:0,
-      successed_count:0,
+      passed_count:0,
       inclusive_count:0)))$
 
 test_end_case(case):=
@@ -25,25 +26,28 @@ block(
   test_trace("Inclusive Assertions Count:",case@inclusive_count),
   test_trace("Failed Assertions Count:",case@failed_count),
   if (case@inclusive_count > 0) then
-    suite@inclusive_cases:append(suite@inclusive_cases,case)
+    suite@inclusive_cases:append(suite@inclusive_cases,[case])
   else if (case@failed_count > 0) then
-    suite@failed_cases:append(suite@failed_cases,case)
+    suite@failed_cases:append(suite@failed_cases,[case])
   else
-    suite@passed_cases:append(suite@passed_cases,case))$
+    suite@passed_cases:append(suite@passed_cases,[case]))$
 
-test_assert_trace_pass(case,value,message):=block(
-  case@successed_count:case@passed_count + 1,
-  test_trace("[Passed]:",message),
-  test_trace("[Actual]:"),
-  test_trace(value));
-
-test_assert_trace_failure(case,actual,expected,message):=block(
-  case@failed_count:case@failed_count + 1,
-  test_trace("[Failed]:",message),
+test_assert_trace_compare(case,actual,expected,message):=
+block(
   test_trace("[Actual]:"),
   test_trace(actual),
   test_trace("[Expected]:"),
   test_trace(expected))$
+
+test_assert_trace_pass(case,actual,expected,message):=block(
+  case@passed_count:case@passed_count + 1,
+  test_trace("[Passed]:",message),
+  test_assert_trace_compare(case,actual,expected,messsage))$
+    
+test_assert_trace_failure(case,actual,expected,message):=block(
+  case@failed_count:case@failed_count + 1,
+  test_trace("[Failed]:",message),
+  test_assert_trace_compare(case,actual,expected,messsage))$
 
 test_assert_inclusive(case,message):=
 block(
@@ -52,20 +56,21 @@ block(
 
 test_assert_equal(case,actual,expected,message):=
 if is(actual=expected)
-then test_assert_trace_pass(case,actual,message)
-else test_assert_trace_failure(case,actual,expected,message);
+then test_assert_trace_pass(case,actual,expected,message)
+else test_assert_trace_failure(case,actual,expected,message)$
 
 test_assert_true(case,actual,message):=
 if is(actual)
-then test_assert_trace_pass(case,actual,message)
-else test_assert_trace_failure(case,actual,expected,message);
+then test_assert_trace_pass(case,actual,true,message)
+else test_assert_trace_failure(case,actual,true,message)$
 
 test_assert_false(case,actual,message):=
 if is(not actual)
-then test_assert_trace_pass(case,actual,message)
-else test_assert_trace_failure(case,actual,expected,message);
+then test_assert_trace_pass(case,actual,false,message)
+else test_assert_trace_failure(case,actual,false,message)$
 
 test_assert_not_equal(case,actual,expected,message):=
-if is(a#b)
-then test_assert_trace_pass(case,actual,message)
-else test_assert_trace_failure(case,actual,expected,message);
+block(
+  if is(actual#expected)
+  then test_assert_trace_pass(case,actual,expected,message)
+  else test_assert_trace_failure(case,actual,expected,message))$
