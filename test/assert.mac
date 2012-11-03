@@ -1,13 +1,81 @@
-test_case_successed_count:0;
-test_case_failed_count:0;
+defstruct(
+  test_case(
+    name,
+    suite,
+    case_context,
+    failed_assertions,
+    passed_assertions,
+    inclusive_assertions))$
 
-defstruct(test_case(name,test_context,failed_count,successed_count,inclusive_count));
+defstruct(
+  test_suite(
+    name,
+    suite_context,
+    failed_cases,
+    successed_cases,
+    inclusive_cases))$
 
-test_begin(name):=block(
+test_begin(name,suite_context):=
+new(
+  test_suite(
+    name:name,
+    suite_context:suite_context,
+    failed_cases:[],
+    passed_cases:[],
+    inclusive_cases:[]))$
+
+test_end(suite):=
+block(
+  test_trace("End Testing:",suite@name),
+  test_trace("Passed Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Passed]:",case@name)),
+    suite@passed_cases),
+  test_trace("Failed Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Failed]:",case@name)),
+    suite@failed_cases),
+  test_trace(
+    "Total Failed Cases Count:",
+    length(suite@failed_cases)),
+  test_trace("Failed Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Failed]:",case@name)),
+    suite@failed_cases),
+  test_trace("Inclusive Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace("[Inclusive]:",case@name)),
+    suite@failed_cases),
+  test_trace(
+    "Total Passed Cases Count:",
+    length(suite@passed_cases)),
+  test_trace(
+    "Total Failed Cases Count:",
+    length(suite@failed_cases)),
+  test_trace(
+    "Total Inclusive Cases Count:",
+    length(suite@inclusive_cases)))$
+ 
+test_begin_case(suite,name,case_context):=
+block(
   test_trace("Begin test case:",name),
-  new(test_case(name:name,test_context:[],failed_count:0,successed_count:0,inclusive_count:0)));
+  new(
+    test_case(
+      name:name,
+      case_context:case_context,
+      failed_count:0,
+      successed_count:0,
+      inclusive_count:0)));
 
-test_end(case):=block(
+test_end_case(case):=block(
   test_trace("End test case:",case@name),
   test_trace("SUCCESSED CASES:",case@successed_count),
   test_trace("INCLUSIVE CASES:",case@inclusive_count),

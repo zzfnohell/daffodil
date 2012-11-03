@@ -1,13 +1,9 @@
 debugmode(true)$
-print("Load daffodil test:")$
-test_directory:pathname_directory(load_pathname)$
-print(test_directory)$
-load(sconcat(test_directory,"/packages.mac"))$
-
-load(sconcat(test_directory,"/test/trace.mac"))$
-load(sconcat(test_directory,"/test/assert.mac"))$
-
-load(sconcat(test_directory,"/ga/test.mac"))$
-print("Load daffodil test.")$
-
-quit();
+print("Loading daffodil test...")$
+daffodil_root_directory:pathname_directory(load_pathname)$
+print(daffodil_root_directory)$
+/*load(sconcat(daffodil_root_directory,"/packages.mac"))$*/
+load(sconcat(daffodil_root_directory,"/test/trace.mac"))$
+load(sconcat(daffodil_root_directory,"/test/suite.mac"))$
+load(sconcat(daffodil_root_directory,"/test/case.mac"))$
+print("Loading daffodil test framework done.")$

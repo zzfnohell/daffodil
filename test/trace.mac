@@ -1,2 +1,3 @@
 /* test egg check in*/
+
 test_trace([args])::=buildq([y:args],print(splice(y)));
