@@ -45,3 +45,5 @@ block(
   test_trace(
     "Total Inclusive Cases Count:",
     length(suite@inclusive_cases)))$
+
+test_suite_log(suite,[args])::=buildq([y:args],test_trace(splice(y)));

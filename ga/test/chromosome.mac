@@ -57,4 +57,4 @@ test_trace("child.2:")$
 test_trace(c2)$
 */
 
-test_suite(suite)$
+test_end(suite)$
