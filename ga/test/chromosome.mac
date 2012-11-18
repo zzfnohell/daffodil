@@ -2,7 +2,10 @@ o:ga_chromosome_class_new()$
 p1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 p2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 
-test:test_begin("Chromosome Test")$
+suite:test_begin("Chromosome Test")$
+
+
+
 
 test_trace("chromosome.1:")$
 test_trace(p1)$

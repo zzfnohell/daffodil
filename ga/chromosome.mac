@@ -37,6 +37,13 @@ ga_chromosome_mutate(operation,self):=block(
       mindex:[m,n],
       random:r)))$
 
+defstruct(
+  ga_chromosome_crossover_result(
+    chromosomes,
+    lindex,
+    mindex,
+    random))$
+
 ga_chromosome_crossover(operation,parent1,parent2):=block(
   [p1,p2,l,m,n,r,c1,c2],
   p1:parent1@matrixes,
@@ -52,7 +59,11 @@ ga_chromosome_crossover(operation,parent1,parent2):=block(
   c2:c2@matrixes,
   c1[l][m,n]:p1[l][m,n] + r * (p1[l][m,n] - p2[l][m,n]),
   c2[l][m,n]:p1[l][m,n] - r * (p1[l][m,n] - p2[l][m,n]),
-  [c1,c2]);
+  new(ga_chromosome_crossover_result(
+    chromosomes:[c1,c2],
+    lindex:l,
+    mindex:[m,n],
+    random:r)));
 
 ga_chromosome_new(dims,interval):=block(
   [c],
