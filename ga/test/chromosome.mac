@@ -1,39 +1,49 @@
-o:ga_chromosome_class_new()$
-p1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
-p2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
+class:ga_chromosome_class_new()$
+chromosome_1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
+chromosome_2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 
 suite:test_begin("Chromosome Test",[])$
 
 test_trace("chromosome.1:")$
-test_trace(p1)$
+test_trace(chromosome_1)$
 test_trace("chromosome.2:")$
-test_trace(p2)$
+test_trace(chromosome_2)$
 
 clone_case:test_begin_case(suite,"Test Clone",[])$
 
-p1c:o@clone(o,p1)$
+chromosome_1_cloned:class@clone(o,chromosome_1)$
 test_trace("clone chromosome.1.cloned:")$
-test_trace(p1c)$
+test_trace(chromosome_cloned)$
 test_assert_equal(
   clone_case,
-  p1,
-  p1c,
+  chromosome_1,
+  chromosome_1_cloned,
   "cloned object is the same as original object.")$
 
 test_end_case(clone_case)$
 
-
 mutation_test:test_begin_case(suite,"Test Mutation",[])$
-p1m:o@mutate(o,p1)$
-test_trace_log("mutate chromosome.1.mutated:")$
-test_trace(p1m)$
 
+mutation_result:class@mutate(o,chromosome_1)$
 
-test_assert_not_equal(
-  test,
-  p1c,
-  p1m,
-  "mutated object is not the same as the original object.")$
+test_trace_log(mutation_test,"mutate chromosome.1.mutated:")$
+test_trace_log(mutation_test,mutation_result)$
+
+chromosome_1_mutated:mutation_result@chromosome$
+l:mutation_result@lindex$
+[m,n]:mutation_result@mindex$
+r:mutation_result@random$
+
+for i:1 thru length(mutation_result@chromosome@matrixes) do block(
+  ms:matrix_size(chromosome_1@matrixes[i]),
+  for j:1 thru ms[1] do
+  for k:1 thru ms[2] do block(
+    val:chromosome_1@matrixes[i][j,k],
+    new_val:chromosome_1_mutated@matrixes[i][j,k],
+    if is(l=i) and is(j=m) and is(k=n) then block(
+      test_assert_equal(mutation_test,val,new_val + r,"value at the mutated point"))
+    else block(
+      test_assert_equal(mutation_test,val,new_val + r,"value at a non-mutated point")))),
 
 test_end_case(mutation_test)$
 
