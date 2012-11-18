@@ -1,10 +1,4 @@
-print("Load daffodil main packages.");
-
-package_directory:pathname_directory(load_pathname);
-
-load(sconcat(package_directory,"/ga/packages.mac"));
-
-
+load_mac("ga/packages.mac")$
 /*
 workspace_path:"/home/zzfnohell/workspace/language/maxima/daffodil/"$
 file_search_maxima:cons(
