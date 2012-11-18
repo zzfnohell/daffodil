@@ -1,6 +1,7 @@
 suite:test_begin("Simple","Suite Context")$
 
 passed_case:test_begin_case(suite,"Passed Case",[])$
+test_log(passed_case,"Logging in a passed case.")$
 test_assert_equal(passed_case,1,1,"Pass Assert Equal")$
 test_assert_true(passed_case,true,"Pass Assert True")$
 test_assert_false(passed_case,false,"Pass Assert false")$
@@ -8,6 +9,7 @@ test_assert_not_equal(passed_case,1,2,"Pass Assert Not Equal")$
 test_end_case(passed_case)$
 
 failed_case:test_begin_case(suite,"Failed Case",[])$
+test_log(failed_case,"Logging in a failed case.")$
 test_assert_equal(failed_case,1,2,"Failed Assert Equal")$
 test_assert_true(failed_case,false,"Failed Assert True")$
 test_assert_false(failed_case,true,"Failed Assert false")$
@@ -15,6 +17,7 @@ test_assert_not_equal(failed_case,1,1,"Failed Assert Not Equal")$
 test_end_case(failed_case)$
 
 inclusive_case:test_begin_case(suite,"Inclusive Case",[])$
+test_log(inclusive_case,"Logging in an inclusive case.")$
 test_assert_inclusive(inclusive_case,"Inclusive Assertion")$
 test_end_case(inclusive_case)$
 

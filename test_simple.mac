@@ -1,4 +1,4 @@
 print("Loading simple test...")$
-load_mac("/test.mac")$
-load_mac("/test/simple.mac")$
+load_mac("test.mac")$
+load_mac("test/simple.mac")$
 print("Loading simple test done.")$

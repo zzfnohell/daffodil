@@ -22,18 +22,22 @@ test_assert_equal(
 
 test_end_case(clone_case)$
 
-/*
 
+mutation_test:test_begin_case(suite,"Test Mutation",[])$
 p1m:o@mutate(o,p1)$
-test_trace("mutate chromosome.1.mutated:")$
+test_trace_log("mutate chromosome.1.mutated:")$
 test_trace(p1m)$
+
+
 test_assert_not_equal(
   test,
   p1c,
   p1m,
   "mutated object is not the same as the original object.")$
 
+test_end_case(mutation_test)$
 
+/*
 [c1,c2]:o@crossover(o,p1,p2)$
 test_trace("crossover chromosome.1 & chromosome.2:")$
 test_trace("child.1:")$

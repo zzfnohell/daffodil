@@ -115,3 +115,6 @@ test_assert_not_equal(case,actual,expected,message):=
 if is(a#b)
 then test_assert_trace_success(case,actual,message)
 else test_assert_trace_failure(case,actual,expected,message);
+
+test_log(case,msg):=test_trace(msg);
+
