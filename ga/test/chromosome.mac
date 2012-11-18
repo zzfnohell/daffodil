@@ -11,9 +11,9 @@ test_trace(chromosome_2)$
 
 clone_case:test_begin_case(suite,"Test Clone",[])$
 
-chromosome_1_cloned:class@clone(o,chromosome_1)$
-test_trace("clone chromosome.1.cloned:")$
-test_trace(chromosome_cloned)$
+chromosome_1_cloned:class@clone(class,chromosome_1)$
+test_case_log(clone_case,"clone chromosome.1.cloned:")$
+test_case_log(clone_case,chromosome_cloned)$
 test_assert_equal(
   clone_case,
   chromosome_1,
@@ -22,12 +22,12 @@ test_assert_equal(
 
 test_end_case(clone_case)$
 
-mutation_test:test_begin_case(suite,"Test Mutation",[])$
+mutation_case:test_begin_case(suite,"Test Mutation",[])$
 
-mutation_result:class@mutate(o,chromosome_1)$
+mutation_result:class@mutate(class,chromosome_1)$
 
-test_trace_log(mutation_test,"mutate chromosome.1.mutated:")$
-test_trace_log(mutation_test,mutation_result)$
+test_case_log(mutation_case,"mutate chromosome.1.mutated:")$
+test_case_log(mutation_case,mutation_result)$
 
 chromosome_1_mutated:mutation_result@chromosome$
 l:mutation_result@lindex$
@@ -36,16 +36,17 @@ r:mutation_result@random$
 
 for i:1 thru length(mutation_result@chromosome@matrixes) do block(
   ms:matrix_size(chromosome_1@matrixes[i]),
+  print(ms),
   for j:1 thru ms[1] do
   for k:1 thru ms[2] do block(
     val:chromosome_1@matrixes[i][j,k],
     new_val:chromosome_1_mutated@matrixes[i][j,k],
     if is(l=i) and is(j=m) and is(k=n) then block(
-      test_assert_equal(mutation_test,val,new_val + r,"value at the mutated point"))
+      test_assert_equal(mutation_case,val + r,new_val,"value at the mutated point"))
     else block(
-      test_assert_equal(mutation_test,val,new_val + r,"value at a non-mutated point")))),
+      test_assert_equal(mutation_case,val,new_val,"value at a non-mutated point"))))$
 
-test_end_case(mutation_test)$
+test_end_case(mutation_case)$
 
 /*
 [c1,c2]:o@crossover(o,p1,p2)$

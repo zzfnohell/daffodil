@@ -22,8 +22,9 @@ defstruct(
     random))$
 
 ga_chromosome_mutate(operation,self):=block(
-  [c,l,m,n,r],
-  c:self@matrixes,
+  [cloned,c,l,m,n,r],
+  cloned:operation@clone(operation,self),
+  c:cloned@matrixes,
   l:length(c),
   l:ga_random(l) + 1,
   [m,n]:matrix_size(c[l]),
@@ -32,7 +33,7 @@ ga_chromosome_mutate(operation,self):=block(
   c[l][m,n]:c[l][m,n]+r,
   new(
     ga_chromosome_mutate_result(
-      self,
+      cloned,
       lindex:l,
       mindex:[m,n],
       random:r)))$
