@@ -2,20 +2,27 @@ o:ga_chromosome_class_new()$
 p1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 p2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 
-suite:test_begin("Chromosome Test")$
-
-
-
+suite:test_begin("Chromosome Test",[])$
 
 test_trace("chromosome.1:")$
 test_trace(p1)$
 test_trace("chromosome.2:")$
 test_trace(p2)$
 
+clone_case:test_begin_case(suite,"Test Clone",[])$
+
 p1c:o@clone(o,p1)$
 test_trace("clone chromosome.1.cloned:")$
 test_trace(p1c)$
-test_assert_equal(test,p1,p1c,"cloned object is the same as original object.")$
+test_assert_equal(
+  clone_case,
+  p1,
+  p1c,
+  "cloned object is the same as original object.")$
+
+test_end_case(clone_case)$
+
+/*
 
 p1m:o@mutate(o,p1)$
 test_trace("mutate chromosome.1.mutated:")$
@@ -33,5 +40,6 @@ test_trace("child.1:")$
 test_trace(c1)$
 test_trace("child.2:")$
 test_trace(c2)$
+*/
 
-test_end(test)$
+test_suite(suite)$
