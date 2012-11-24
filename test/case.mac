@@ -7,7 +7,7 @@ defstruct(
     passed_count,
     inclusive_count))$
 
-test_begin_case(suite,name,case_context):=
+test_case_begin(suite,name,case_context):=
 block(
   test_trace(sconcat("Begin test case:[",suite@name,"].","[",name,"]")),
   new(
@@ -25,9 +25,9 @@ the form like:
    buildq([y:args],errcatch(splice(y))));
  can be passed.
 */
-test_run_case(case,[args])::=buildq([y:args],errcatch(splice(y)));
+test_case_run(case,[args])::=buildq([y:args],errcatch(splice(y)));
 
-test_end_case(case):=
+test_case_end(case):=
 block(
   test_trace("End test case:[",case@suite@name,"].","[",case@name,"]"),
   test_trace("Passed Assertions Count:",case@passed_count),

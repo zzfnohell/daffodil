@@ -2,43 +2,43 @@ suite:test_begin("Simple","Suite Context")$
 
 test_suite_log(suite,"Logging in test suite 1","Logging in test suite 2")$
 
-passed_case:test_begin_case(suite,"Passed Case",[])$
-test_run_case(
+passed_case:test_case_begin(suite,"Passed Case",[])$
+test_case_run(
   passed_case,
   test_case_log(passed_case,"Logging in a passed case."),
   test_case_assert_equal(passed_case,"Pass Assert Equal",1,1,1),
   test_case_assert_true(passed_case,"Pass Assert True",true,true,true),
   test_case_assert_false(passed_case,"Pass Assert false",false,false,false),
   test_case_assert_not_equal(passed_case,"Pass Assert Not Equal",1,2,3))$
-test_end_case(passed_case)$
+test_case_end(passed_case)$
 
-failed_case:test_begin_case(suite,"Failed Case",[])$
-test_run_case(
+failed_case:test_case_begin(suite,"Failed Case",[])$
+test_case_run(
   failed_case,
   test_case_log(failed_case,"Logging in a failed case."))$
 
-test_run_case(
+test_case_run(
   failed_case,
   test_case_assert_equal(failed_case,"Failed Assert Equal",1,2,2))$
 
-test_run_case(
+test_case_run(
   failed_case,
   test_case_assert_true(failed_case,"Failed Assert True",false,false,false))$
 
-test_run_case(
+test_case_run(
   failed_case,
   test_case_assert_false(failed_case,"Failed Assert false",true,true,true))$
 
-test_run_case(
+test_case_run(
   failed_case,
   test_case_assert_not_equal(failed_case,"Failed Assert Not Equal",1,1,1,1))$
-test_end_case(failed_case)$
+test_case_end(failed_case)$
 
-inclusive_case:test_begin_case(suite,"Inclusive Case",[])$
-test_run_case(
+inclusive_case:test_case_begin(suite,"Inclusive Case",[])$
+test_case_run(
   inclusive_case,
   test_case_log(inclusive_case,"Logging in an inclusive case."),
   test_case_assert_inclusive(inclusive_case,"Inclusive Assertion"))$
-test_end_case(inclusive_case)$
+test_case_end(inclusive_case)$
 
 test_end(suite)$
