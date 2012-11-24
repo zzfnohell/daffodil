@@ -6,7 +6,7 @@ defstruct(
     passed_cases,
     inclusive_cases))$
 
-test_begin(name,suite_context):=
+test_suite_begin(name,suite_context):=
 new(
   test_suite(
     name:name,
@@ -15,7 +15,7 @@ new(
     passed_cases:[],
     inclusive_cases:[]))$
 
-test_end(suite):=
+test_suite_end(suite):=
 block(
   test_trace("End Testing:",suite@name),
   test_trace("Passed Cases:"),

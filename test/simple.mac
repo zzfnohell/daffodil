@@ -1,4 +1,4 @@
-suite:test_begin("Simple","Suite Context")$
+suite:test_suite_begin("Simple","Suite Context")$
 
 test_suite_log(suite,"Logging in test suite 1","Logging in test suite 2")$
 
@@ -41,4 +41,4 @@ test_case_run(
   test_case_assert_inclusive(inclusive_case,"Inclusive Assertion"))$
 test_case_end(inclusive_case)$
 
-test_end(suite)$
+test_suite_end(suite)$
