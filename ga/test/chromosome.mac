@@ -1,70 +1,75 @@
+
 class:ga_chromosome_class_new()$
 chromosome_1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 chromosome_2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 
-suite:test_begin("Chromosome Test",[])$
+suite:test_suite_begin("Chromosome Test",[])$
 
-test_trace("chromosome.1:")$
-test_trace(chromosome_1)$
-test_trace("chromosome.2:")$
-test_trace(chromosome_2)$
+test_suite_log(suite,"chromosome.1:")$
+test_suite_log(suite,chromosome_1)$
+test_suite_log(suite,"chromosome.2:")$
+test_suite_log(suite,chromosome_2)$
 
-clone_case:test_begin_case(suite,"Test Clone",[])$
-
-chromosome_1_cloned:class@clone(class,chromosome_1)$
-test_case_log(clone_case,"clone chromosome.1.cloned:")$
-test_case_log(clone_case,chromosome_cloned)$
-test_assert_equal(
+clone_case:test_case_begin(suite,"Test Clone",[])$
+test_case_run(
   clone_case,
-  chromosome_1,
-  chromosome_1_cloned,
-  "cloned object is the same as original object.")$
+  chromosome_1_cloned:class@clone(class,chromosome_1),
+  test_case_log(clone_case,"clone chromosome.1.cloned:"),
+  test_case_log(clone_case,chromosome_cloned),
+  test_case_assert_equal(
+    clone_case,
+    "cloned object is the same as original object.",
+    chromosome_1,
+    chromosome_1_cloned))$
+test_case_end(clone_case)$
 
-test_end_case(clone_case)$
-
-mutation_case:test_begin_case(suite,"Test Mutation",[])$
-
-mutation_result:class@mutate(class,chromosome_1)$
-
-test_case_log(mutation_case,"mutate chromosome.1.mutated:")$
-test_case_log(mutation_case,mutation_result)$
-
-chromosome_1_mutated:mutation_result@chromosome$
-l:mutation_result@lindex$
-[m,n]:mutation_result@mindex$
-r:mutation_result@random$
-
-list_length_1:length(chromosome_1@matrixes)$
-list_length_mutated:length(chromosome_1_mutated@matrixes)$
-test_assert_equal(
+mutation_case:test_case_begin(suite,"Test Mutation",[])$
+test_case_run(
   mutation_case,
-  list_length_1,
-  list_length_mutated,
-  "the mutated matrix list length equals to the original matrix list length")$
-list_length:list_length_1$
-
-for i:1 thru list_length do block(
-  matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
-  matrix_size_mutated:matrix_size(chromosome_1_mutated@matrixes[i]),
+  mutation_result:class@mutate(class,chromosome_1),
+  test_case_log(mutation_case,"mutate chromosome.1.mutated:"),
+  test_case_log(mutation_case,mutation_result),
+  chromosome_1_mutated:mutation_result@chromosome,
+  l:mutation_result@lindex,
+  [m,n]:mutation_result@mindex,
+  r:mutation_result@random,
+  list_length_1:length(chromosome_1@matrixes),
+  list_length_mutated:length(chromosome_1_mutated@matrixes),
   test_assert_equal(
     mutation_case,
-    matrix_size_1,
-    matrix_size_mutated,
-    "the mutated matrix size equals to the original matrix size"),
-  ms:matrix_size_1,
-  for j:1 thru ms[1] do
-  for k:1 thru ms[2] do block(
-    val:chromosome_1@matrixes[i][j,k],
-    new_val:chromosome_1_mutated@matrixes[i][j,k],
-    if is(l=i) and is(j=m) and is(k=n) then block(
-      test_assert_equal(mutation_case,val + r,new_val,"value at the mutated point"))
-    else block(
-      test_assert_equal(mutation_case,val,new_val,"value at a non-mutated point"))))$
-
-test_end_case(mutation_case)$
+    "the mutated matrix list length equals to the original matrix list length",
+    list_length_1,
+    list_length_mutated),
+  list_length:list_length_1,
+  for i:1 thru list_length do block(
+    matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
+    matrix_size_mutated:matrix_size(chromosome_1_mutated@matrixes[i]),
+    test_case_assert_equal(
+      mutation_case,
+      "the mutated matrix size equals to the original matrix size",
+      matrix_size_1,
+      matrix_size_mutated),
+    ms:matrix_size_1,
+    for j:1 thru ms[1] do
+    for k:1 thru ms[2] do block(
+      val:chromosome_1@matrixes[i][j,k],
+      new_val:chromosome_1_mutated@matrixes[i][j,k],
+      if is(l=i) and is(j=m) and is(k=n) then block(
+        test_case_assert_equal(
+          mutation_case,
+          "value at the mutated point",
+          val + r,
+          new_val))
+      else block(
+        test_case_assert_equal(
+          mutation_case,
+          "value at a non-mutated point",
+          val,
+          new_val)))))$
+test_case_end(mutation_case)$
 
 /*
-crossover_case:test_begin_case(suite,"Test Crossover",[])$
+crossover_case:test_case_begin(suite,"Test Crossover",[])$
 
 crossover_result:class@crossover(class,chromosome_1,chromosome_2)$
 
@@ -83,7 +88,7 @@ parent:[chromosome_1,chromosome_2]$
 
 list_length_1:length(chromosome_1@matrixes)$
 list_length_mutated:length(chromosome_1_mutated@matrixes)$
-test_assert_equal(
+test_case_assert_equal(
   list_length_1,
   list_length_mutated,
   "the mutated matrix list length equals to the original matrix list length")$
@@ -94,7 +99,7 @@ matrix_size_1:matrix_size(chromosome_1@matrixes[i])$
 for i:1 thru length(mutation_result@chromosome@matrixes) do block(
   matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
   matrix_size_mutated:matrix_size(chromosome_1_mutated@matrixes[i]),
-  test_assert_equal(
+  test_case_assert_equal(
     matrix_size,
     matrix_size_mutated,
     "the mutated matrix size equals to the original matrix size")$
@@ -104,11 +109,11 @@ for i:1 thru length(mutation_result@chromosome@matrixes) do block(
     val:chromosome_1@matrixes[i][j,k],
     new_val:chromosome_1_mutated@matrixes[i][j,k],
     if is(l=i) and is(j=m) and is(k=n) then block(
-      test_assert_equal(mutation_case,val + r,new_val,"value at the mutated point"))
+      test_case_assert_equal(mutation_case,val + r,new_val,"value at the mutated point"))
     else block(
-      test_assert_equal(mutation_case,val,new_val,"value at a non-mutated point"))))$
+      test_case_assert_equal(mutation_case,val,new_val,"value at a non-mutated point"))))$
 
-test_end_case(mutation_case)$
+test_case_end(mutation_case)$
 
 */
-test_end(suite)$
+test_suite_end(suite)$
