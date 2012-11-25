@@ -1,3 +1,6 @@
+load_mac("ga/packages.mac")$
+load_mac("test.mac")$
+
 
 class:ga_chromosome_class_new()$
 chromosome_1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$

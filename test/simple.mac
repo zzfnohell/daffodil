@@ -1,3 +1,5 @@
+load_mac("test.mac")$
+
 suite:test_suite_begin("Simple","Suite Context")$
 
 test_suite_log(suite,"Logging in test suite 1","Logging in test suite 2")$

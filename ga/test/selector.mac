@@ -1,3 +1,6 @@
+load_mac("ga/packages.mac")$
+load_mac("test.mac")$
+
 suite:test_suite_begin("Test selector",[])$
 
 population:[
@@ -31,31 +34,31 @@ test_suite_log(
   ga_select(population,1));
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
-  ga_select(population,1));
+  ga_select(population,1))$
 test_suite_log(
   suite,
   "Logging 1 selection results 10 times done.")$
@@ -65,34 +68,34 @@ test_suite_log(
   "Logging 2 selection results 10 times ...")$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
-  ga_select(population,2));
+  ga_select(population,2))$
 test_suite_log(
   suite,
   "Logging 2 selection results 10 times done.")$

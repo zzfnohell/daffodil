@@ -1,11 +1,15 @@
 print("Loading init mac...")$
 daffodil_root_directory:pathname_directory(load_pathname)$
-
+daffodil_loaded_files:[]$
 load_mac(sub):=block(
   [path,prom],
   path:sconcat(daffodil_root_directory,sub),
-  print(sconcat("Loading file:[",path,"]...")),
-  load(path),
-  print(sconcat("Loading file:[",path, "] done")))$
+  if member(path,daffodil_loaded_files) then
+  print(sconcat("File:[",path,"] has already been loaded."))
+  else block(
+    print(sconcat("Loading file:[",path,"]...")),
+    load(path),
+    daffodil_loaded_files:cons(path,daffodil_loaded_files),
+    print(sconcat("Loading file:[",path, "] done"))))$
 
 print("Loading init mac done.")$
