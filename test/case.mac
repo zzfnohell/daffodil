@@ -64,36 +64,48 @@ block(
   test_trace("[Inclusive]:",message),
   error("Assertion Inclusive"))$
 
+test_case_assume_trace_compare(case,expected,actual):=
+block(
+  test_trace("[Actual]:"),
+  test_trace(actual),
+  test_trace("[Expected]:"),
+  test_trace(expected))$
+
+test_case_assume_trace_pass(case,message,expected,actual):=block(
+  case@passed_count:case@passed_count + 1,
+  test_trace("[Passed]:",message),
+  test_case_assert_trace_compare(case,expected,actual))$
+
+test_case_assume_trace_failure(case,message,expected,actual):=block(
+  case@failed_count:case@failed_count + 1,
+  test_trace("[Failed]:",message),
+  test_case_assert_trace_compare(case,expected,actual),
+  error("Assume Failed"))$
+
+test_case_assume_inclusive(case,message):=
+block(
+  case@inclusive_count:case@inclusive_count + 1,
+  test_trace("[Inclusive]:",message),
+  error("Assume Inclusive"))$
+
 test_case_assert_equal(case,message,expected,actual):=block(
-  maplist(
-    lambda([a],
-      if is(a=expected)
-      then test_case_assert_trace_pass(case,message,expected,a)
-      else test_case_assert_trace_failure(case,message,expected,a)),
-    actual))$
-
-test_case_assert_true(case,message,actual):=
-maplist(
-  lambda([a],
-    if is(a)
-    then test_case_assert_trace_pass(case,message,true,a)
-    else test_case_assert_trace_failure(case,message,true,a)),
-  actual)$
-
-test_case_assert_false(case,message,actual):=
-maplist(
-  lambda([a],
-    if is(not a)
-    then test_case_assert_trace_pass(case,message,false,a)
-    else test_case_assert_trace_failure(case,message,false,a)),
-  actual)$
+  if is(actual=expected)
+  then test_case_assert_trace_pass(case,message,expected,actual)
+  else test_case_assert_trace_failure(case,message,expected,actual))$
 
 test_case_assert_not_equal(case,message,expected,actual):=block(
-  maplist(
-    lambda([a],
-      if is(a#expected)
-      then test_case_assert_trace_pass(case,message,expected,a)
-      else test_case_assert_trace_failure(case,message,expected,a)),
-    actual))$
+  if is(actual#expected)
+  then test_case_assert_trace_pass(case,message,expected,actual)
+  else test_case_assert_trace_failure(case,message,expected,actual))$
 
-test_case_log(case,items):=fullmap(test_trace,items)$
+test_case_assume_equal(case,message,expected,actual):=block(
+  if is(actual=expected)
+  then test_case_assume_trace_pass(case,message,expected,actual)
+  else test_case_assume_trace_failure(case,message,expected,actual))$
+
+test_case_assume_not_equal(case,message,expected,actual):=block(
+  if is(actual#expected)
+  then test_case_assume_trace_pass(case,message,expected,actual)
+  else test_case_assume_trace_failure(case,message,expected,actual))$
+
+test_case_log(case,item):=test_trace(item)$
