@@ -3,15 +3,13 @@ load_mac("test.mac")$
 
 suite:test_suite_begin("Test ecosystem",[])$
 
-population:[
-ga_chromosome_new([[1,1]],[10,100.0]),
-ga_chromosome_new([[1,1]],[10,100.0]),
-ga_chromosome_new([[1,1]],[10,100.0]),
-ga_chromosome_new([[1,1]],[10,100.0]),
-ga_chromosome_new([[1,1]],[10,100.0])
-]$
+population:[]$
+for i:1 thru 10 do block(
+  population:append(
+    population,
+    [ga_chromosome_new([[1,1]],[10,100.0])]))$
 
-test_target(e,c):=1/(1+ c@fitness:c@matrixes[1][1,1] ^ 2);
+test_target(e,c):=0.01/(0.01 + c@fitness:c@matrixes[1][1,1] ^ 2);
 
 ecosystem:new(
   ga_ecosystem(
@@ -53,6 +51,6 @@ test_suite_log(
 
 test_suite_log(
     suite,
-    ecosystem))$
+    ecosystem)$
 
 test_suite_end(suite)$

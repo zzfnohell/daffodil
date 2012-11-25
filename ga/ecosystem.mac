@@ -71,7 +71,7 @@ ga_ecosystem_next_generation(ecosystem):=block(
   [population,next_population,old_best,children],
   next_population:[],
   ga_ecosystem_update_fitness(ecosystem@population),
-  for i:0 step 2 while i < length(ecosystem@population) do block(
+  for i:1 step 2 while i < length(ecosystem@population) do block(
     children:ga_ecosystem_new_children2(
       ecosystem@population,
       ecosystem@crossover_ratio,
@@ -82,6 +82,10 @@ ga_ecosystem_next_generation(ecosystem):=block(
       ecosystem@population,
       ecosystem@mutation_ratio),
     next_population:append(next_population,children)),
-  kill(ecosystem@population),
   ecosystem@population:next_population,
   ga_ecosystem_update_best(ecosystem))$
+
+ga_ecosystem_evaluate(ecosystem):=block(
+  for i:1 thru ecosystem@max_generations do block(
+    ga_ecosystem_next_generation(ecosystem))
+)$
