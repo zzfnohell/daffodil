@@ -9,7 +9,7 @@ defstruct(
     mutate,
     crossover))$
 
-ga_chromosome_clone(operation,self):=new(
+ga_chromosome_clone(self):=new(
   ga_chromosome(
     matrixes:copylist(self@matrixes),
     fitness:self@fitness))$
@@ -21,9 +21,9 @@ defstruct(
     mindex,
     random))$
 
-ga_chromosome_mutate(operation,self):=block(
+ga_chromosome_mutate(self):=block(
   [cloned,c,l,m,n,r],
-  cloned:operation@clone(operation,self),
+  cloned:ga_chromosome_clone(self),
   c:cloned@matrixes,
   l:length(c),
   l:ga_random(l) + 1,
@@ -45,7 +45,7 @@ defstruct(
     mindex,
     random))$
 
-ga_chromosome_crossover(operation,parents):=block(
+ga_chromosome_crossover(parents):=block(
   [p1,p2,l,m,n,r,c1,c2],
   p1:parents[1]@matrixes,
   p2:parents[2]@matrixes,
@@ -54,8 +54,8 @@ ga_chromosome_crossover(operation,parents):=block(
   [m,n]:matrix_size(p1[l]),
   [m,n]:[ga_random(m) + 1,ga_random(n) + 1],
   r:ga_random_interval([0.0,1.0]),
-  c1:operation@clone(operation,parents[1]),
-  c2:operation@clone(operation,parents[2]),
+  c1:ga_chromosome_clone(parents[1]),
+  c2:ga_chromosome_clone(parents[2]),
   c1@matrixes[l][m,n]:p1[l][m,n] + r * (p1[l][m,n] - p2[l][m,n]),
   c2@matrixes[l][m,n]:p1[l][m,n] - r * (p1[l][m,n] - p2[l][m,n]),
   new(ga_chromosome_crossover_result(

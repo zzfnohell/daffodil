@@ -1,8 +1,6 @@
 load_mac("ga/packages.mac")$
 load_mac("test.mac")$
 
-
-class:ga_chromosome_class_new()$
 chromosome_1:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 chromosome_2:ga_chromosome_new([[1,2],[2,3]],[0,1.0])$
 
@@ -16,7 +14,7 @@ test_suite_log(suite,chromosome_2)$
 clone_case:test_case_begin(suite,"Test Clone",[])$
 test_case_run(
   clone_case,
-  chromosome_1_cloned:class@clone(class,chromosome_1),
+  chromosome_1_cloned:ga_chromosome_clone(chromosome_1),
   test_case_log(clone_case,"clone chromosome.1.cloned:"),
   test_case_log(clone_case,chromosome_cloned),
   test_case_assert_equal(
@@ -29,7 +27,7 @@ test_case_end(clone_case)$
 mutation_case:test_case_begin(suite,"Test Mutation",[])$
 test_case_run(
   mutation_case,
-  mutation_result:class@mutate(class,chromosome_1),
+  mutation_result:ga_chromosome_mutate(chromosome_1),
   test_case_log(mutation_case,"mutate chromosome.1.mutated:"),
   test_case_log(mutation_case,mutation_result),
   chromosome_1_mutated:mutation_result@chromosome,
@@ -78,7 +76,7 @@ test_case_run(
   crossover_case,
   parents:[chromosome_1,chromosome_2],
   test_case_log(crossover,parents),
-  crossover_result:class@crossover(class,parents),
+  crossover_result:ga_chromosome_crossover(parents),
   children:crossover_result@chromosomes,
   test_case_log(crossover_case,"chromosome.1.crossovered:"),
   test_case_log(crossover_case, children[1]),
