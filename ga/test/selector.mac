@@ -1,2 +1,100 @@
-pop:[
-new(ga_chromosome(matrixes,fitness)
+suite:test_suite_begin("Test selector",[])$
+
+population:[
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0])
+]$
+
+test_suite_log(
+  suite,
+  "Logging population ...")$
+
+for i:1 thru length(population) do block(
+  population[i]@fitness:i,
+  test_suite_log(
+    suite,
+    population[i]))$
+
+test_suite_log(
+  suite,
+  "Logging population done.")$
+
+test_suite_log(
+  suite,
+  "Logging 1 selection results 10 times...")$
+
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  ga_select(population,1));
+test_suite_log(
+  suite,
+  "Logging 1 selection results 10 times done.")$
+
+test_suite_log(
+  suite,
+  "Logging 2 selection results 10 times ...")$
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  ga_select(population,2));
+test_suite_log(
+  suite,
+  "Logging 2 selection results 10 times done.")$
+
+test_suite_end(suite)$

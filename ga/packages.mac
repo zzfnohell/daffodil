@@ -2,4 +2,6 @@ print("Load genetic algorithm package.")$
 
 load_mac("ga/random.mac")$
 load_mac("ga/chromosome.mac")$
+load_mac("ga/selector.mac")$
+
 print("Load genetic algorithm package done.")$

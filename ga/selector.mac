@@ -7,7 +7,7 @@ load(basic);
 
 roulette(fitness_list):=block(
   [s,l,r,idx],
-  l:length(),
+  l:length(fitness_list),
   s:sum(fitness_list[i],i,1,l),
   fitness_list:makelist(sum(fitness_list[j],j,1,i)/s,i,1,l),
   r:random(1.0),
