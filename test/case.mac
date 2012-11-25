@@ -5,7 +5,9 @@ defstruct(
     case_context,
     failed_count,
     passed_count,
-    inclusive_count))$
+    inclusive_count,
+    has_error,
+    has_ended))$
 
 test_case_begin(suite,name,case_context):=
 block(
@@ -17,7 +19,9 @@ block(
       case_context:case_context,
       failed_count:0,
       passed_count:0,
-      inclusive_count:0)))$
+      inclusive_count:0,
+      has_error:false,
+      has_ended:false)))$
 
 /*
 the form like:
@@ -25,7 +29,7 @@ the form like:
    buildq([y:args],errcatch(splice(y))));
  can be passed.
 */
-test_case_run(case,[args])::=buildq([y:args],errcatch(splice(y)));
+test_case_run(case,[args])::=buildq([case,y:args],errcatch(splice(y),case@has_ended:true));
 
 test_case_end(case):=
 block(
@@ -37,8 +41,10 @@ block(
   suite@inclusive_cases:append(suite@inclusive_cases,[case])
   else if (case@failed_count > 0) then
   suite@failed_cases:append(suite@failed_cases,[case])
+  else if case@has_ended then
+  suite@passed_cases:append(suite@passed_cases,[case])
   else
-  suite@passed_cases:append(suite@passed_cases,[case]))$
+  error("unkown running status."))$
 
 test_case_assert_trace_compare(case,expected,actual):=
 block(
