@@ -29,7 +29,11 @@ the form like:
    buildq([y:args],errcatch(splice(y))));
  can be passed.
 */
-test_case_run(case,[args])::=buildq([case,y:args],errcatch(splice(y),case@has_ended:true));
+test_case_run(case,[args])::=buildq(
+  [case,y:args],
+  errcatch(
+    splice(y),
+    case@has_ended:true))$
 
 test_case_end(case):=
 block(
