@@ -36,10 +36,13 @@ test_suite_log(
 
 test_suite_log(
   suite,
-  "Logging generations results 10 times ...")$
+  "Logging generations results 100 times ...")$
 
-for i:1 step 1 thru 10 do block(
+for i:1 step 1 thru 100 do block(
   ga_ecosystem_next_generation(ecosystem),
+  test_suite_log(
+    suite,
+    concat("Generations:",i)),
   test_suite_log(
     suite,
     ecosystem@best@fitness))$
@@ -47,5 +50,9 @@ for i:1 step 1 thru 10 do block(
 test_suite_log(
   suite,
   "Logging generations results 10 times done.")$
+
+test_suite_log(
+    suite,
+    ecosystem))$
 
 test_suite_end(suite)$

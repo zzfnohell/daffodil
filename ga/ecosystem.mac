@@ -36,8 +36,6 @@ ga_ecosystem_update_best(ecosystem):=block(
     else block(
       len:length(ecosystem@population),
       ecosystem@population[len]:ga_chromosome_clone(old))))$
-      
-  
 
 ga_ecosystem_mutate(children,mutation_ratio):=block(
   maplist(
@@ -84,5 +82,6 @@ ga_ecosystem_next_generation(ecosystem):=block(
       ecosystem@population,
       ecosystem@mutation_ratio),
     next_population:append(next_population,children)),
+  kill(ecosystem@population),
   ecosystem@population:next_population,
   ga_ecosystem_update_best(ecosystem))$
