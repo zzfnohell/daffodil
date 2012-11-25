@@ -68,41 +68,36 @@ test_case_run(
           new_val)))))$
 test_case_end(mutation_case)$
 
-/*
+
 crossover_case:test_case_begin(suite,"Test Crossover",[])$
+test_case_run(
+  crossover_case,
+  parents=[chromosome_1,chromosome_2],
+  crossover_result:class@crossover(class,parents),
+  children:crossover_result@chromosome,
+  test_case_log(crossover_case,"mutate chromosome.1.crossovered:"),
+  test_case_log(crossover_case, children[1]),
+  test_case_log(crossover_case,"mutate chromosome.2.crossovered:"),
+  test_case_log(crossover_case, children[2]),
+  l:crossover_result@lindex,
+  [m,n]:crossover_result@mindex,
+  r:crossover_result@random,
+  list_length_1:length(parents[1]@matrixes),
+  list_length_mutated:length(children[1]@matrixes),
 
-crossover_result:class@crossover(class,chromosome_1,chromosome_2)$
-
-children:crossover_result@chromosome$
-
-test_case_log(crossover_case,"mutate chromosome.1.crossovered:")$
-test_case_log(crossover_case, children[1])$
-test_case_log(crossover_case,"mutate chromosome.2.crossovered:")$
-test_case_log(crossover_case, children[2])$
-
-l:crossover_result@lindex$
-[m,n]:crossover_result@mindex$
-r:crossover_result@random$
-
-parent:[chromosome_1,chromosome_2]$
-
-list_length_1:length(chromosome_1@matrixes)$
-list_length_mutated:length(chromosome_1_mutated@matrixes)$
-test_case_assert_equal(
-  list_length_1,
-  list_length_mutated,
-  "the mutated matrix list length equals to the original matrix list length")$
-
-matrix_size_1:matrix_size(chromosome_1@matrixes[i])$
-
-
-for i:1 thru length(mutation_result@chromosome@matrixes) do block(
-  matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
-  matrix_size_mutated:matrix_size(chromosome_1_mutated@matrixes[i]),
   test_case_assert_equal(
-    matrix_size,
-    matrix_size_mutated,
-    "the mutated matrix size equals to the original matrix size")$
+    crossover_case
+"the mutated matrix list length equals to the original matrix list length",
+     list_length_1,
+     list_length_mutated),
+  matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
+  for i:1 thru length(mutation_result@chromosome@matrixes) do block(
+    matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
+    matrix_size_mutated:matrix_size(chromosome_1_mutated@matrixes[i]),
+    test_case_assert_equal(
+      matrix_size,
+      matrix_size_mutated,
+      "the mutated matrix size equals to the original matrix size")$
   
   for j:1 thru ms[1] do
   for k:1 thru ms[2] do block(

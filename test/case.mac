@@ -51,8 +51,8 @@ test_case_assert_trace_pass(case,message,expected,actual):=block(
   case@passed_count:case@passed_count + 1,
   test_trace("[Passed]:",message),
   test_case_assert_trace_compare(case,expected,actual))$
-    
-    test_case_assert_trace_failure(case,message,expected,actual):=block(
+
+test_case_assert_trace_failure(case,message,expected,actual):=block(
   case@failed_count:case@failed_count + 1,
   test_trace("[Failed]:",message),
   test_case_assert_trace_compare(case,expected,actual),
@@ -64,7 +64,7 @@ block(
   test_trace("[Inclusive]:",message),
   error("Assertion Inclusive"))$
 
-test_case_assert_equal(case,message,expected,[actual]):=block(
+test_case_assert_equal(case,message,expected,actual):=block(
   maplist(
     lambda([a],
       if is(a=expected)
@@ -72,7 +72,7 @@ test_case_assert_equal(case,message,expected,[actual]):=block(
       else test_case_assert_trace_failure(case,message,expected,a)),
     actual))$
 
-test_case_assert_true(case,message,[actual]):=
+test_case_assert_true(case,message,actual):=
 maplist(
   lambda([a],
     if is(a)
@@ -80,7 +80,7 @@ maplist(
     else test_case_assert_trace_failure(case,message,true,a)),
   actual)$
 
-test_case_assert_false(case,message,[actual]):=
+test_case_assert_false(case,message,actual):=
 maplist(
   lambda([a],
     if is(not a)
@@ -88,7 +88,7 @@ maplist(
     else test_case_assert_trace_failure(case,message,false,a)),
   actual)$
 
-test_case_assert_not_equal(case,message,expected,[actual]):=block(
+test_case_assert_not_equal(case,message,expected,actual):=block(
   maplist(
     lambda([a],
       if is(a#expected)
@@ -96,4 +96,4 @@ test_case_assert_not_equal(case,message,expected,[actual]):=block(
       else test_case_assert_trace_failure(case,message,expected,a)),
     actual))$
 
-test_case_log(case,[args])::=buildq([y:args],test_trace(splice(y)));
+test_case_log(case,items):=fullmap(test_trace,items)$
