@@ -66,49 +66,75 @@ test_case_run(
           "value at a non-mutated point",
           val,
           new_val)))))$
+
 test_case_end(mutation_case)$
 
 
 crossover_case:test_case_begin(suite,"Test Crossover",[])$
 test_case_run(
   crossover_case,
-  parents=[chromosome_1,chromosome_2],
+  parents:[chromosome_1,chromosome_2],
+  test_case_log(crossover,parents),
   crossover_result:class@crossover(class,parents),
-  children:crossover_result@chromosome,
-  test_case_log(crossover_case,"mutate chromosome.1.crossovered:"),
+  children:crossover_result@chromosomes,
+  test_case_log(crossover_case,"chromosome.1.crossovered:"),
   test_case_log(crossover_case, children[1]),
-  test_case_log(crossover_case,"mutate chromosome.2.crossovered:"),
+  test_case_log(crossover_case,"chromosome.2.crossovered:"),
   test_case_log(crossover_case, children[2]),
+  test_case_assume_equal(
+    crossover_case,
+    "The counts of matrixes in parent chromosomes are equal.",
+    length(parents[1]@matrixes),
+    length(parents[2]@matrixes)),
+  maplist(
+    lambda(
+      [m1,m2],
+      test_case_assume_equal(
+        crossover_case,
+        "The sizes of matrix in parent chromosomes are equal.",
+        matrix_size(m1),
+        matrix_size(m2))),
+    parents[1]@matrixes,
+    parents[2]@matrixes),
+  
+  list_size:length(parents[1]@matrixes),
+  matrix_sizes:maplist(matrix_size,parents[1]@matrixes),
   l:crossover_result@lindex,
   [m,n]:crossover_result@mindex,
   r:crossover_result@random,
-  list_length_1:length(parents[1]@matrixes),
-  list_length_mutated:length(children[1]@matrixes),
-
-  test_case_assert_equal(
-    crossover_case
-"the mutated matrix list length equals to the original matrix list length",
-     list_length_1,
-     list_length_mutated),
-  matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
-  for i:1 thru length(mutation_result@chromosome@matrixes) do block(
-    matrix_size_1:matrix_size(chromosome_1@matrixes[i]),
-    matrix_size_mutated:matrix_size(chromosome_1_mutated@matrixes[i]),
-    test_case_assert_equal(
-      matrix_size,
-      matrix_size_mutated,
-      "the mutated matrix size equals to the original matrix size")$
   
-  for j:1 thru ms[1] do
-  for k:1 thru ms[2] do block(
-    val:chromosome_1@matrixes[i][j,k],
-    new_val:chromosome_1_mutated@matrixes[i][j,k],
-    if is(l=i) and is(j=m) and is(k=n) then block(
-      test_case_assert_equal(mutation_case,val + r,new_val,"value at the mutated point"))
-    else block(
-      test_case_assert_equal(mutation_case,val,new_val,"value at a non-mutated point"))))$
+  maplist(
+    lambda(
+      [chromosome],
+      print(chromosome),
+      test_case_assert_equal(
+        crossover_case,
+        "The crossover child list length equals to parent's",
+        list_size,
+        length(chromosome@matrixes)),
+      maplist(
+        lambda(
+          [m,s],
+          test_case_assert_equal(
+            crossover_case,
+            "The crossover child matrix size equals to parent's",
+            s,
+            matrix_size(m))),
+        chromosome@matrixes,
+        matrix_sizes)),
+    children),
+  
+  test_case_assert_equal(
+    crossover_case,
+    "The crossovered value at crosspoint in 1st crossover child",
+    children[1]@matrixes[l][m,n],
+    parents[1]@matrixes[l][m,n] + r * (parents[1]@matrixes[l][m,n] - parents[2]@matrixes[l][m,n])),
+  
+  test_case_assert_equal(
+    crossover_case,
+    "The crossovered value at crosspoint in 2nd crossover child",
+    children[2]@matrixes[l][m,n],
+    parents[1]@matrixes[l][m,n] - r * (parents[1]@matrixes[l][m,n] - parents[2]@matrixes[l][m,n])))$
+test_case_end(crossover_case)$
 
-test_case_end(mutation_case)$
-
-*/
 test_suite_end(suite)$

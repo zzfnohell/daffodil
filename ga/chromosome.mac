@@ -56,10 +56,8 @@ ga_chromosome_crossover(operation,parents):=block(
   r:ga_random_interval([0.0,1.0]),
   c1:operation@clone(operation,parents[1]),
   c2:operation@clone(operation,parents[2]),
-  c1:c1@matrixes,
-  c2:c2@matrixes,
-  c1[l][m,n]:p1[l][m,n] + r * (p1[l][m,n] - p2[l][m,n]),
-  c2[l][m,n]:p1[l][m,n] - r * (p1[l][m,n] - p2[l][m,n]),
+  c1@matrixes[l][m,n]:p1[l][m,n] + r * (p1[l][m,n] - p2[l][m,n]),
+  c2@matrixes[l][m,n]:p1[l][m,n] - r * (p1[l][m,n] - p2[l][m,n]),
   new(ga_chromosome_crossover_result(
     chromosomes:[c1,c2],
     lindex:l,
