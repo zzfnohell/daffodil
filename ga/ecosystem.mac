@@ -24,7 +24,6 @@ ga_ecosystem_update(ecosystem):=block(
       [p1,p2],
       is(p1@fitness>p2@fitness))),
   ecosystem@best:ga_chromosome_clone(
-    ecosystem@chromosome_class,
     first(ecosystem@population)))$
 
 ga_ecosystem_mutate(children,mutation_ratio):=block(
