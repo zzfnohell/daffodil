@@ -1,63 +1,71 @@
 defstruct(
-  ecosystem(
+  ga_ecosystem(
     target,
     population,
-    best_individual,
+    best,
     max_generations,
     max_population_size
     crossover_ratio,
-    mutation_ratio
-    selector));
+    mutation_ratio,
+    chromosome_class))$
 
-ga_ecosystem_select2(ecosystem):=block(
-  
-);
+defstruct(
+  ga_ecosystem_class(
+    ))$
 
 ga_ecosystem_update(ecosystem):=block(
-  ga_population_map(lambda([o],ecosystem@target(ecosystem,o))),
-  ga_population_sort(ecosystem@population),
-  ga_population_normalize(ecosystem@population),
-  []);
+  maplist(
+    lambda(
+      [chromosome],
+      chromosome@fitness:ecosystem@target(ecosystem,chromosome))),
+  ecosystem@population:sort(
+    ecosystem@population,
+    lambda(
+      [p1,p2],
+      is(p1@fitness>p2@fitness))),
+  ecosystem@best:ga_chromosome_clone(
+    ecosystem@chromosome_class,
+    first(ecosystem@population)))$
 
-ga_ecosystem_copy_operation(ecosystem):=1;
+ga_ecosystem_mutate(children,mutation_ratio):=block(
+  maplist(
+    lambda(
+      [chromosome],
+      rand:ga_random([0,1.0]),
+      if is(rand<mutation_ratio) then block(
+        mutation_result:ga_chromosome_mutate(chromosome),
+        mutation_result@chromosome)),
+    children))$
 
-ga_ecosystem_copy_crossover(ecosystem,children):=block();
+ga_ecosystem_new_children2(population,crossover_ratio,mutation_ratio):=block(
+  [parents,children,operation,rand],
+  parents:ga_select(population,2),
+  rand:ga_random([0,1.0]),
+  if is(rand<crossover_ratio) then block(
+    crossover_result:ga_chromosome_crossover(parents),
+    children:crossover_result@chromosomes)
+  else
+  children:maplist(ga_chromosome_clone,parents),
+  ga_ecosystem_mutate(children,mutation_ratio))$
 
-
-ga_ecosystem_copy_replace(ecosystem,children):=block();
-
-
-ga_ecosystem_mutate_operation(ecosystem,children):=block(
-  
-);
-
-
-
-ga_ecosystem_new_children2(ecosystem):=block(
-  [children,operation],
-  children:ga_ecosystem_select2(ecosystem),
-  operation:ga_ecosystem_copy_operation(ecosystem),
-  children:operation(ecosystem,children),
-  operation:ga_ecosystem_mutate_operation(ecosystem),
-  children:operation(ecosystem,children),
-  children);
-
-ga_ecosystem_new_child(ecosystem):=block(
-  [children,select_index],
-  children:ga_ecosystem_select2(),
-  select_index:ga_random(2) + 1,
-  ga_organism_copy(children[select_index]));
-
-ga_ecosystem_set_population(ecosystem,population):=ecosystem@population:population;
+ga_ecosystem_new_child(population,mutation_ratio):=block(
+  [children],
+  children:ga_select(population,1),
+  ga_ecosystem_mutate(children,mutation_ratio))$
 
 ga_ecosystem_next_generation(ecosystem):=block(
-  [next_population,i,children],
-  next_population:new_population(),
-  if for i:0 step 2 while i < ecosystem@max_population_size do block(
-    children:ga_ecosystem_new_children2(ecosystem),
-    ga_population_add(children)),
+  [population,next_population,children],
+  next_population:[],
+  if for i:0 step 2 while i < length(ecosystem@population) do block(
+    children:ga_ecosystem_new_children2(
+      ecosystem@population,
+      ecosystem@crossover_ratio,
+      ecosystem@mutation_ratio),
+    next_population:append(next_population,children)),
   if i # ecosystem@max_population_size then block(
-    children:ga_ecosystem_new_children1(ecosystem),
-    ga_population_add(children)),
-  ga_ecosystem_set_population(ecosystem,next_population)
+    children:ga_ecosystem_new_children1(
+      ecosystem@population,
+      ecosystem@mutation_ratio),
+    next_population:append(next_population,children)),
+  ecosystem@population:next_population,
   ga_ecosystem_update(ecosystem));

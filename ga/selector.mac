@@ -1,3 +1,10 @@
+defstruct(
+  ga_selector())$
+
+defstruct(
+  ga_selector_class(
+    select))$
+
 ga_select(pop,n):=block(
   [indexes,fitness_list],
   fitness_list:maplist(lambda([p],p@fitness),pop),
