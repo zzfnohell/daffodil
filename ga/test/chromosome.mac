@@ -137,4 +137,19 @@ test_case_run(
     parents[1]@matrixes[l][m,n] - r * (parents[1]@matrixes[l][m,n] - parents[2]@matrixes[l][m,n])))$
 test_case_end(crossover_case)$
 
+for i:1 thru list_size do
+for j:1 thru matrix_sizes[i][1] do
+for k:1 thru matrix_sizes[i][2] do
+if not(is(i=l) and is(j=m) and is(k=n)) then block(
+  test_case_assert_equal(
+    crossover_case,
+    "The non-crossovered value at crosspoint in 1st crossover child",
+    children[1]@matrixes[i][j,k],
+    parents[1]@matrixes[i][j,k]),
+  test_case_assert_equal(
+    crossover_case,
+    "The non-crossovered value at crosspoint in 2nd crossover child",
+    children[2]@matrixes[i][j,k],
+    parents[2]@matrixes[i][j,k]))$
+
 test_suite_end(suite)$
