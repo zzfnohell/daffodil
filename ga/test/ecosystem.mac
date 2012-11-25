@@ -1,0 +1,35 @@
+load_mac("ga/packages.mac")$
+load_mac("test.mac")$
+
+suite:test_suite_begin("Test ecosystem",[])$
+
+population:[
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0]),
+ga_chromosome_new([[1,1],[1,1]],[0,1.0])
+]$
+
+test_suite_log(
+  suite,
+  "Logging population ...")$
+
+for i:1 thru length(population) do block(
+  population[i]@fitness:i,
+  test_suite_log(
+    suite,
+    population[i]))$
+
+test_suite_log(
+  suite,
+  "Logging population done.")$
+
+test_suite_log(
+  suite,
+  "Logging 2 selection results 10 times ...")$
+test_suite_log(
+  suite,
+  "Logging 2 selection results 10 times done.")$
+
+test_suite_end(suite)$
