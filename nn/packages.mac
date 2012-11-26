@@ -1,0 +1,7 @@
+print("Load netural network package.")$
+
+load_mac("nn/model.mac")$
+load_mac("nn/lms.mac")$
+load_mac("nn/sta.mac")$
+
+print("Load netural network package done.")$
