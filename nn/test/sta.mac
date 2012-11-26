@@ -1,2 +1,10 @@
-load("c:/Users/ace/code/workspace/maxima/daffodil/bp/pkg.mac");
-bpnn:bpnn_create(dims,[transfun,transfun],hides,inputs,outputs,tef)$
+load_mac("ga/packages.mac")$
+load_mac("test.mac")$
+
+bpnn:bpnn_create(
+  dims,
+  [transfun,transfun],
+  hides,
+  inputs,
+  outputs,
+  tef)$
