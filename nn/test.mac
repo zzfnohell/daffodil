@@ -1,0 +1,5 @@
+print("Load netural network test:")$
+load_mac("nn/packages.mac")$
+load_mac("test.mac")$
+
+print("Load netural network test done.")$
