@@ -62,6 +62,14 @@ define_variable(bpnn_index_eta,12,integer);
 define_variable(bpnn_index_min_error,13,integer);
 define_variable(bpnn_index_differentiate,14,integer);
 
+defstruct(
+  bpnn(
+    symbol_expression,
+    symbols,
+    transfer_function,
+    error_function,
+    input,
+    output))$
 
 bpnn_generate_symbols_matrixes(dims,symbols):=block(
   [i,len,r,tmp],
