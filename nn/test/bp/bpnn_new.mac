@@ -1,0 +1,53 @@
+load_mac("nn/packages.mac")$
+load_mac("test.mac")$
+
+load_mac("nn/test/data.mac")$
+
+suite:test_suite_begin("Test bpnn_new",[])$
+
+test_suite_log(suite,"Test functions in the BPNN.")$
+bpnn:[]$
+nn_outputs:[]$
+
+bpnn_create_case:test_case_begin(suite,"Test bpnn_new",[])$
+test_case_run(
+  bpnn_create_case,
+  test_case_log(bpnn_create_case,"Transfer function value at 1"),
+  test_case_log(bpnn_create_case,transfer_function(1)),
+  test_case_log(bpnn_create_case,"create BPNN."),
+  bpnn:bpnn_new(
+    dims,
+    hides,
+    [transfer,transfer],
+    total_error),
+  test_case_log(bpnn_create_case,bpnn),
+  test_case_assert_not_equal(
+    bpnn_create_case,
+    "Created a BPNN structure",
+    bpnn,
+    []),
+  test_case_assert_equal(
+    bpnn_create_case,
+    "Dims equal.",
+    dims,
+    bpnn@dims),
+  
+  maplist(
+    lambda(
+      [f1,f2],
+      test_case_assert_equal(
+        bpnn_create_case,
+        "Transfer functions equal.",
+        f1(1),
+        f2(1))),
+    [transfer,transfer],
+    bpnn@transfer_functions),
+  
+  test_case_assert_equal(
+    bpnn_create_case,
+    "Error function.",
+    total_error([[1,1]],[[1,1]]),
+    bpnn@error_function([[1,1]],[[1,1]])))$
+test_case_end(bpnn_create_case)$
+
+test_suite_end(suite)$

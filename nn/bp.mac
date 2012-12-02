@@ -15,6 +15,15 @@ defstruct(
     transfer_functions,
     error_function))$
 
+bpnn_generate_numeric_matrixes(dims,interval):=block(
+  [list],
+  local(rand),
+  list:[],
+  rand[i,j]:=random(2.0) - 1,
+  for i:1 step 1 while i < length(dims) do block(
+    list:endcons(genmatrix(rand,dims[i]+1,dims[i+1]),list)),
+  list);
+
 bpnn_generate_symbol_matrixes(dims,symbols):=block(
   [i,len,result,tmp],
   len:length(dims),
@@ -71,8 +80,6 @@ bpnn_evalute(bpnn,expression):=block(
     bpnn@numeric_matrixes),
   ev(expression,equations))$
 
-
-
 bpnn_caculate_numeric_output(bpnn,input):=block(
   [symbol_output],
   symbol_output:bpnn_caculate_symbol_output(bpnn,input),
@@ -95,6 +102,7 @@ bpnn_new(dims,hides,transfer_functions,error_function):=block(
       dims:dims,
       hides:hides,
       symbol_matrixes:bpnn_generate_symbol_matrixes(dims,hides),
+      numeric_matrixes:bpnn_generate_numeric_matrixes(dims,[-1,1]),
       transfer_functions:transfer_functions,
       error_function:error_function)))$
 

@@ -1,0 +1,38 @@
+load_mac("nn/packages.mac")$
+load_mac("test.mac")$
+
+load_mac("nn/test/data.mac")$
+
+suite:test_suite_begin("BPNN Test Suite",[])$
+
+test_suite_log(suite,"Test functions in the BPNN.")$
+bpnn:[]$
+nn_outputs:[]$
+
+bpnn_error_case:test_case_begin(suite,"Test bpnn_caculate_symbol_error.",[])$
+test_case_run(
+  bpnn_error_case,
+  test_case_log(bpnn_error_case,"create BPNN."),
+  bpnn:bpnn_new(
+    dims,
+    hides,
+    [transfer,transfer],
+    total_error),
+  test_case_log(bpnn_error_case,bpnn),
+  maplist(
+    lambda(
+      [input,output],
+      test_case_log(bpnn_error_case,"Logging input value:"),
+      test_case_log(bpnn_error_case,input),
+      test_case_log(bpnn_error_case,"Logging output value"),
+      test_case_log(bpnn_error_case,output)),
+    inputs,
+    outputs),
+  
+  test_case_log(bpnn_error_case,"Loging error value"),
+  test_case_log(
+    bpnn_error_case,
+    bpnn_caculate_symbol_error(bpnn,inputs,outputs)))$
+test_case_end(bpnn_error_case)$
+
+test_suite_end(suite)$
