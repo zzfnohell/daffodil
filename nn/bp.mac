@@ -9,7 +9,7 @@
 defstruct(
   bpnn(
     matrixes,
-    transfer_function,
+    transfer_functions,
     error_function))$
 
 bpnn_generate_symbol_matrixes(dims,symbols):=block(
@@ -56,7 +56,7 @@ bpnn_generate_outfunction(a,b,n):=block(
 bpnn_new(dims,levels_symbols,transfer_functions,error_function):=block(
   new(
     bpnn(
-      symbol_matrixes:bpnn_generate_symbols_matrixes(dims,levels_symbols),
+      symbol_matrixes:bpnn_generate_symbol_matrixes(dims,levels_symbols),
       transfer_functions:transfer_functions,
       error_function:error_function)))$
 

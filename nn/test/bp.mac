@@ -1,4 +1,4 @@
-load_mac("ga/packages.mac")$
+load_mac("nn/packages.mac")$
 load_mac("test.mac")$
 
 load_mac("nn/test/data.mac")$
@@ -10,13 +10,20 @@ test_suite_log(suite,"Test functions in the BPNN.")$
 bpnn_create_case:test_case_begin(suite,"Test BPNN creation",[])$
 test_case_run(
   bpnn_create_case,
+  test_case_log(bpnn_create_case,"Transfer function value at 1"),
+  test_case_log(bpnn_create_case,transfer_function(1)),
   test_case_log(bpnn_create_case,"create BPNN."),
-  test_case_log(bpnn_create_case,dims),
-  test_case_assert_equal(
+  bpnn:bpnn_new(
+    dims,
+    hides,
+    [transfer_function,transfer_function],
+    error_function),
+  test_case_log(bpnn_create_case,bpnn),
+  test_case_assert_not_equal(
     bpnn_create_case,
-    "cloned object is the same as original object.",
-    1,
-    1))$
+    "Created a BPNN structure",
+    bpnn,
+    []))$
 test_case_end(bpnn_create_case)$
 
 test_suite_end(suite)$
