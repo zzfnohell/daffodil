@@ -7,6 +7,7 @@ suite:test_suite_begin("BPNN Test Suite",[])$
 
 test_suite_log(suite,"Test functions in the BPNN.")$
 bpnn:[]$
+nn_outputs:[]$
 bpnn_create_case:test_case_begin(suite,"Test bpnn_new",[])$
 test_case_run(
   bpnn_create_case,
@@ -54,23 +55,27 @@ bpnn_output_case:test_case_begin(suite,"Test bpnn_caculate_symbol_output.",[])$
 test_case_run(
   bpnn_output_case,
   test_case_log(bpnn_output_case,"Input values."),
-  outputs:maplist(
+  nn_outputs:maplist(
     lambda(
       [input],
       test_case_log(bpnn_output_case,"Logging input value:"),
       test_case_log(bpnn_output_case,input),
       output:bpnn_caculate_symbol_output(bpnn,input),
       test_case_log(bpnn_output_case,"Logging output value"),
-      test_case_log(bpnn_output_case,output)),
+      test_case_log(bpnn_output_case,output),
+      test_case_assert_equal(
+        bpnn_output_case,
+        "Output size",
+        [1,2],
+        matrix_size(output)),
+      output),
     inputs))$
 test_case_end(bpnn_output_case)$
 
 bpnn_error_case:test_case_begin(suite,"Test bpnn_caculate_symbol_error.",[])$
 test_case_run(
   bpnn_error_case,
-  test_case_log(bpnn_error_case,"error."),
-  test_case_log(bpnn_error_case,error_function([1,1],[1,1])),
-  outputs:maplist(
+  maplist(
     lambda(
       [input,output],
       test_case_log(bpnn_error_case,"Logging input value:"),
@@ -79,9 +84,10 @@ test_case_run(
       test_case_log(bpnn_error_case,output)),
     inputs,
     outputs),
+  
   test_case_log(bpnn_error_case,"Loging error value"),
   test_case_log(bpnn_error_case,
-    bpnn_caculate_symbol_error(bpnn,inputs,outputs)))$
+    bpnn_caculate_symbol_error(bpnn,inputs,nn_outputs)))$
 test_case_end(bpnn_error_case)$
 
 test_suite_end(suite)$
