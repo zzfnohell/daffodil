@@ -83,7 +83,7 @@ bpnn_evaluate(bpnn,expression):=block(
 bpnn_caculate_numeric_output(bpnn,input):=block(
   [symbol_output],
   symbol_output:bpnn_caculate_symbol_output(bpnn,input),
-  bpnn_evalute(bpnn,symbol_output))$
+  bpnn_evaluate(bpnn,symbol_output))$
 
 /*
 * @brief generate the out function.
