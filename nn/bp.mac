@@ -64,7 +64,7 @@ bpnn_caculate_symbol_error(bpnn,input,excepted):=block(
   print(excepted),
   bpnn@error_function(excepted,outputs))$
 
-bpnn_evalute(bpnn,expression):=block(
+bpnn_evaluate(bpnn,expression):=block(
   [equations],
   equations:[],
   maplist(
