@@ -21,7 +21,7 @@ bpnn_generate_symbol_matrixes(dims,symbols):=block(
     result:endcons(tmp,result)),
   result);
 
-bpnn_compute_symbol_level_output(input,matrixes,transfer_functions):=block(
+bpnn_caculate_symbol_level_output(input,matrixes,transfer_functions):=block(
   [f],
   local(f),
   maplist(
@@ -34,9 +34,9 @@ bpnn_compute_symbol_level_output(input,matrixes,transfer_functions):=block(
     matrixes,
     transfer_functions));
 
-bpnn_compute_symbol_output(bpnn,input):=block(
+bpnn_caculate_symbol_output(bpnn,input):=block(
   [outputs],
-  outputs:bpnn_compute_symbol_level_output(
+  outputs:bpnn_caculate_symbol_level_output(
     input,
     bpnn@matrixes,
     bpnn@transfer_functions),
