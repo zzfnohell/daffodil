@@ -27,5 +27,5 @@ error_function(results,excepted):=block(
       (x-y) . (x-y)),
     results,
     excepted),
-  total:sum(list[i],i,1,length(t)),
+  total:sum(list[i],i,1,length(list)),
   sqrt(total));

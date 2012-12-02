@@ -8,6 +8,8 @@
 
 defstruct(
   bpnn(
+    dims,
+    hides,
     matrixes,
     transfer_functions,
     error_function))$
@@ -53,12 +55,19 @@ bpnn_generate_outfunction(a,b,n):=block(
 /*initiallize the nn data structure 
 *@param dims a list of level's dim,
 */
-bpnn_new(dims,levels_symbols,transfer_functions,error_function):=block(
+bpnn_new(dims,hides,transfer_functions,error_function):=block(
   new(
     bpnn(
-      symbol_matrixes:bpnn_generate_symbol_matrixes(dims,levels_symbols),
+      dims:dims,
+      hides:hides,
+      symbol_matrixes:bpnn_generate_symbol_matrixes(dims,hides),
       transfer_functions:transfer_functions,
       error_function:error_function)))$
+
+bpnn_caculate_symbol_error(bpnn,input,excepted):=block(
+  [output],
+  output:bpnn_caculate_symbol_output(bpnn,input),
+  bpnn@error_function(excepted,output))$
 
 bpnn_normalize(outputs,interval):=block(
   [xmin,xmax,itmax,itmin],
