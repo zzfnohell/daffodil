@@ -86,8 +86,9 @@ test_case_run(
     outputs),
   
   test_case_log(bpnn_error_case,"Loging error value"),
-  test_case_log(bpnn_error_case,
-    bpnn_caculate_symbol_error(bpnn,inputs,nn_outputs)))$
+  test_case_log(
+    bpnn_error_case,
+    bpnn_caculate_symbol_error(bpnn,inputs,outputs)))$
 test_case_end(bpnn_error_case)$
 
 test_suite_end(suite)$

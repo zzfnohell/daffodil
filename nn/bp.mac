@@ -44,6 +44,17 @@ bpnn_caculate_symbol_output(bpnn,input):=block(
     bpnn@transfer_functions),
   last(outputs))$
 
+bpnn_caculate_symbol_error(bpnn,input,excepted):=block(
+  [outputs],
+  outputs:maplist(
+    lambda(
+      [input],
+      bpnn_caculate_symbol_output(bpnn,input)),
+    inputs),
+  print(excepted),
+  bpnn@error_function(excepted,outputs))$
+
+
 /*
 * @brief generate the out function.
 * @return the out function expression.
@@ -63,15 +74,6 @@ bpnn_new(dims,hides,transfer_functions,error_function):=block(
       symbol_matrixes:bpnn_generate_symbol_matrixes(dims,hides),
       transfer_functions:transfer_functions,
       error_function:error_function)))$
-
-bpnn_caculate_symbol_error(bpnn,input,excepted):=block(
-  [outputs],
-  outputs:maplist(
-    lambda(
-      [input],
-      bpnn_caculate_symbol_output(bpnn,input)),
-    inputs),
-  bpnn@error_function(excepted,outputs))$
 
 bpnn_normalize(outputs,interval):=block(
   [xmin,xmax,itmax,itmin],
