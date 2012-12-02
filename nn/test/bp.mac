@@ -23,42 +23,65 @@ test_case_run(
     bpnn_create_case,
     "Created a BPNN structure",
     bpnn,
-    []))$
+    []),
+  
+  test_case_assert_equal(
+    bpnn_create_case,
+    "Dims equal.",
+    dims,
+    bpnn@dims),
+  
+  maplist(
+    lambda(
+      [f1,f2],
+      test_case_assert_equal(
+        bpnn_create_case,
+        "Transfer functions equal.",
+        f1(1),
+        f2(1))),
+    [transfer_function,transfer_function],
+    bpnn@transfer_functions),
+  
+  test_case_assert_equal(
+    bpnn_create_case,
+    "Error function.",
+    error_function([[1,1]],[[1,1]]),
+    bpnn@error_function([[1,1]],[[1,1]])))$
 test_case_end(bpnn_create_case)$
 
-if not is(bpnn=[]) then block(
-  bpnn_output_case:test_case_begin(suite,"Test bpnn_caculate_symbol_output.",[]),
-  test_case_run(
-    bpnn_output_case,
-    test_case_log(bpnn_output_case,"Input values."),
-    outputs:maplist(
-      lambda(
-        [input],
-        test_case_log(bpnn_output_case,"Logging input value:"),
-        test_case_log(bpnn_output_case,input),
-        output:bpnn_caculate_symbol_output(bpnn,input),
-        test_case_log(bpnn_output_case,"Logging output value"),
-        test_case_log(bpnn_output_case,output)),
-      inputs)),
-  test_case_end(bpnn_output_case),
-  
-  bpnn_error_case:test_case_begin(suite,"Test bpnn_caculate_symbol_error.",[]),
-  test_case_run(
-    bpnn_error_case,
-    test_case_log(bpnn_error_case,"error."),
-    test_case_log(bpnn_error_case,error_function([1,1],[1,1])),
-    outputs:maplist(
-      lambda(
-        [input,output],
-        test_case_log(bpnn_error_case,"Logging input value:"),
-        test_case_log(bpnn_error_case,input),
-        test_case_log(bpnn_error_case,"Logging output value"),
-        test_case_log(bpnn_error_case,output),
-        test_case_log(bpnn_error_case,"Loging error value"),
-        test_case_log(bpnn_error_case,
-          bpnn_caculate_symbol_error(bpnn,input,output))),
-      inputs,
-      outputs)),
-  test_case_end(bpnn_error_case))$
+
+bpnn_output_case:test_case_begin(suite,"Test bpnn_caculate_symbol_output.",[])$
+test_case_run(
+  bpnn_output_case,
+  test_case_log(bpnn_output_case,"Input values."),
+  outputs:maplist(
+    lambda(
+      [input],
+      test_case_log(bpnn_output_case,"Logging input value:"),
+      test_case_log(bpnn_output_case,input),
+      output:bpnn_caculate_symbol_output(bpnn,input),
+      test_case_log(bpnn_output_case,"Logging output value"),
+      test_case_log(bpnn_output_case,output)),
+    inputs))$
+test_case_end(bpnn_output_case)$
+
+bpnn_error_case:test_case_begin(suite,"Test bpnn_caculate_symbol_error.",[])$
+test_case_run(
+  bpnn_error_case,
+  test_case_log(bpnn_error_case,"error."),
+  test_case_log(bpnn_error_case,error_function([1,1],[1,1])),
+  outputs:maplist(
+    lambda(
+      [input,output],
+      test_case_log(bpnn_error_case,"Logging input value:"),
+      test_case_log(bpnn_error_case,input),
+      test_case_log(bpnn_error_case,"Logging output value"),
+      test_case_log(bpnn_error_case,output),
+      test_case_log(bpnn_error_case,"Loging error value"),
+      test_case_log(bpnn_error_case,
+        bpnn_caculate_symbol_error(bpnn,input,output))),
+    inputs,
+    outputs))$
+test_case_end(bpnn_error_case)$
 
 test_suite_end(suite)$
