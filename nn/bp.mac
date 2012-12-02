@@ -65,9 +65,13 @@ bpnn_new(dims,hides,transfer_functions,error_function):=block(
       error_function:error_function)))$
 
 bpnn_caculate_symbol_error(bpnn,input,excepted):=block(
-  [output],
-  output:bpnn_caculate_symbol_output(bpnn,input),
-  bpnn@error_function(excepted,output))$
+  [outputs],
+  outputs:maplist(
+    lambda(
+      [input],
+      bpnn_caculate_symbol_output(bpnn,input)),
+    inputs),
+  bpnn@error_function(excepted,outputs))$
 
 bpnn_normalize(outputs,interval):=block(
   [xmin,xmax,itmax,itmin],

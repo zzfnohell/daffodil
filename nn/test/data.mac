@@ -15,9 +15,9 @@ hides:[h1,h2];
 
 dims:[2,3,2];
 
-transfer_function(x):=(1-exp(-x))/(1+exp(-x));
+transfer(x):=(1-exp(-x))/(1+exp(-x));
 
-error_function(results,excepted):=block(
+total_error(results,excepted):=block(
   [total,list],
   list:maplist(
     lambda(

@@ -16,8 +16,8 @@ test_case_run(
   bpnn:bpnn_new(
     dims,
     hides,
-    [transfer_function,transfer_function],
-    error_function),
+    [transfer,transfer],
+    total_error),
   test_case_log(bpnn_create_case,bpnn),
   test_case_assert_not_equal(
     bpnn_create_case,
@@ -39,13 +39,13 @@ test_case_run(
         "Transfer functions equal.",
         f1(1),
         f2(1))),
-    [transfer_function,transfer_function],
+    [transfer,transfer],
     bpnn@transfer_functions),
   
   test_case_assert_equal(
     bpnn_create_case,
     "Error function.",
-    error_function([[1,1]],[[1,1]]),
+    total_error([[1,1]],[[1,1]]),
     bpnn@error_function([[1,1]],[[1,1]])))$
 test_case_end(bpnn_create_case)$
 
@@ -76,12 +76,12 @@ test_case_run(
       test_case_log(bpnn_error_case,"Logging input value:"),
       test_case_log(bpnn_error_case,input),
       test_case_log(bpnn_error_case,"Logging output value"),
-      test_case_log(bpnn_error_case,output),
-      test_case_log(bpnn_error_case,"Loging error value"),
-      test_case_log(bpnn_error_case,
-        bpnn_caculate_symbol_error(bpnn,input,output))),
+      test_case_log(bpnn_error_case,output)),
     inputs,
-    outputs))$
+    outputs),
+  test_case_log(bpnn_error_case,"Loging error value"),
+  test_case_log(bpnn_error_case,
+    bpnn_caculate_symbol_error(bpnn,inputs,outputs)))$
 test_case_end(bpnn_error_case)$
 
 test_suite_end(suite)$
