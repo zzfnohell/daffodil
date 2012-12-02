@@ -2,7 +2,7 @@ print("Load netural network package.")$
 
 /*load("optmiz1")$*/
 load_mac("nn/bp.mac")$
-/*load_mac("nn/lms.mac")$
-load_mac("nn/sta.mac")$
+load_mac("nn/lms.mac")$
+/*load_mac("nn/sta.mac")$
 */
 print("Load netural network package done.")$

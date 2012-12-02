@@ -10,7 +10,8 @@ defstruct(
   bpnn(
     dims,
     hides,
-    matrixes,
+    symbol_matrixes,
+    numeric_matrixes,
     transfer_functions,
     error_function))$
 
@@ -40,7 +41,7 @@ bpnn_caculate_symbol_output(bpnn,input):=block(
   [outputs],
   outputs:bpnn_caculate_symbol_level_output(
     input,
-    bpnn@matrixes,
+    bpnn@symbol_matrixes,
     bpnn@transfer_functions),
   last(outputs))$
 
@@ -54,6 +55,28 @@ bpnn_caculate_symbol_error(bpnn,input,excepted):=block(
   print(excepted),
   bpnn@error_function(excepted,outputs))$
 
+bpnn_evalute(bpnn,expression):=block(
+  [equations],
+  equations:[],
+  maplist(
+    lambda(
+      [symbol_matrix,numeric_matrix],
+      matrixmap(
+        lambda(
+          [s,n],
+          equations:cons(s=n,equations)),
+        symbol_matrix,
+        numeric_matrix)),
+    bpnn@symbol_matrixes,
+    bpnn@numeric_matrixes),
+  ev(expression,equations))$
+
+
+
+bpnn_caculate_numeric_output(bpnn,input):=block(
+  [symbol_output],
+  symbol_output:bpnn_caculate_symbol_output(bpnn,input),
+  bpnn_evalute(bpnn,symbol_output))$
 
 /*
 * @brief generate the out function.
