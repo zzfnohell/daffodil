@@ -4,7 +4,8 @@ defstruct(
     suite_context,
     failed_cases,
     passed_cases,
-    inclusive_cases))$
+    inclusive_cases,
+    error_cases))$
 
 test_suite_begin(name,suite_context):=
 new(
@@ -13,7 +14,8 @@ new(
     suite_context:suite_context,
     failed_cases:[],
     passed_cases:[],
-    inclusive_cases:[]))$
+    inclusive_cases:[],
+    error_cases:[]))$
 
 test_suite_end(suite):=
 block(
@@ -36,6 +38,12 @@ block(
       [case],
       test_trace(sconcat("[Inclusive]:[",case@name,"]"))),
     suite@failed_cases),
+  test_trace("Error Cases:"),
+  maplist(
+    lambda(
+      [case],
+      test_trace(sconcat("[Error]:[",case@name,"]"))),
+    suite@error_cases),
   test_trace(
     "Total Passed Cases Count:",
     length(suite@passed_cases)),
@@ -44,6 +52,19 @@ block(
     length(suite@failed_cases)),
   test_trace(
     "Total Inclusive Cases Count:",
-    length(suite@inclusive_cases)))$
+    length(suite@inclusive_cases)),
+  test_trace(
+    "Total Error Cases Count:",
+    length(suite@error_cases)),
+  if length(suite@error_cases) = 0 then block(
+    if length(suite@failed_cases) = 0 then block(
+      if length(suite@inclusive_cases) = 0 then block(
+        test_trace(sconcat("[",suite@name,"] IS PASSED")))
+      else block(
+        test_trace(sconcat("[",suite@name,"] IS INCLUSIVE."))))
+    else block(
+      test_trace(sconcat("[",suite@name,"] IS FAILED."))))
+  else block(
+    test_trace(sconcat("[",suite@name,"] HAS ERRORS."))))$
 
 test_suite_log(suite,[args])::=buildq([y:args],test_trace(splice(y)));

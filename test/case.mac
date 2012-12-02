@@ -41,14 +41,14 @@ block(
   test_trace("Passed Assertions Count:",case@passed_count),
   test_trace("Inclusive Assertions Count:",case@inclusive_count),
   test_trace("Failed Assertions Count:",case@failed_count),
-  if (case@inclusive_count > 0) then
-  suite@inclusive_cases:append(suite@inclusive_cases,[case])
-  else if (case@failed_count > 0) then
+  if (case@failed_count > 0) then
   suite@failed_cases:append(suite@failed_cases,[case])
+  else if (case@inclusive_count > 0) then
+  suite@inclusive_cases:append(suite@inclusive_cases,[case])
   else if case@has_ended then
   suite@passed_cases:append(suite@passed_cases,[case])
   else
-  error("unkown running status."))$
+  suite@error_cases:append(suite@error_cases,[case]))$
 
 test_case_assert_trace_compare(case,expected,actual):=
 block(

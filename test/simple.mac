@@ -70,4 +70,12 @@ test_case_run(
   test_case_assert_inclusive(inclusive_case,"Inclusive Assertion"))$
 test_case_end(inclusive_case)$
 
+error_case:test_case_begin(suite,"Error Case",[])$
+
+test_case_run(
+  error_case,
+  genmatrix(false,1,1))$
+
+test_case_end(error_case)$
+
 test_suite_end(suite)$
