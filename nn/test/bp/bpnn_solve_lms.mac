@@ -21,7 +21,7 @@ test_case_run(
   test_case_log(case,bpnn),
   
   lms:new(
-    bpnn_lms(
+    bpnn_lms_input(
       bpnn:bpnn,
       inputs:inputs,
       outputs:outputs,
@@ -29,11 +29,21 @@ test_case_run(
       eta:0.1)),
   test_case_log(case,"LMS solver input."),
   test_case_log(case,lms),
-  result:bpnn_solve_lms(lms)
-/*,  test_case_log(case,"LMS solver result."),
-  test_case_log(case,bpnn)
-*/
-)$
+  result:bpnn_solve_lms(lms),
+  test_case_log(case,"LMS solver result."),
+  test_case_log(case,result),
+  
+  err_expr:bpnn_caculate_symbol_error(lms@bpnn,lms@inputs,lms@outputs),
+  original_error:bpnn_evaluate(lms@bpnn,err_expr),
+  test_case_log(case,"Original error"),
+  test_case_log(case,original_error),
+  test_case_log(case,"Solved error"),
+  test_case_log(case,result@total_error),
+  test_case_assert_equal(
+    case,
+    "LMS result less or equal to original error",
+    is(result@total_error <= original_error),
+    true))$
 
 test_case_end(case)$
 

@@ -1,15 +1,20 @@
 
 defstruct(
-  bpnn_lms(
+  bpnn_lms_input(
     bpnn,
     inputs,
     outputs,
     max_times,
     eta))$
 
+defstruct(
+  bpnn_lms_output(
+    bpnn,
+    total_error))$
+
 bpnn_solve_lms(lms):=block(
-  [i,error_expr,derror,bpnn,err],
-  bpnn:lms@bpnn,
+  [i,error_expr,derror,bpnn,bpnn1,err,err1,err2],
+  bpnn:bpnn_clone(lms@bpnn),
   error_expr:bpnn_caculate_symbol_error(bpnn,lms@inputs,lms@outputs),
   derror:maplist(
     lambda(
@@ -20,14 +25,15 @@ bpnn_solve_lms(lms):=block(
           diff(error_expr,symb)),
         mat)),
     bpnn@symbol_matrixes),
-  /* print(error_expr), */
-  /* print(derror), */
-  for i:1 step 1 thru lms@max_times do block(
-    
+  for i:1 step 1 thru lms@max_times do(
+    bpnn1:bpnn_clone(bpnn),
+    err1:bpnn_evaluate(bpnn,error_expr),
     bpnn@numeric_matrixes:bpnn@numeric_matrixes - lms@eta * bpnn_evaluate(bpnn,derror),
-
-    print(bpnn@numeric_matrixes)
-    )
-  )$
+    err2:bpnn_evaluate(bpnn,error_expr),
+    if is(err1 <= err2) then return([bpnn,err]:[bpnn1,err1])),
+  new(
+    bpnn_lms_output(
+      bpnn:bpnn,
+      total_error:err)))$
 
 
