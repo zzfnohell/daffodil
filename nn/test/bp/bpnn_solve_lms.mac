@@ -12,7 +12,7 @@ nn_outputs:[]$
 case:test_case_begin(suite,"Test bpnn_solve_lms",[])$
 test_case_run(
   case,
-  test_case_log(_case,"create BPNN."),
+  test_case_log(case,"create BPNN."),
   bpnn:bpnn_new(
     dims,
     hides,
@@ -20,9 +20,20 @@ test_case_run(
     total_error),
   test_case_log(case,bpnn),
   
-  result:bpnn_solve_lms(bpnn,inputs,outputs,100),
-  test_case_log(case,"LMS solver result."),
-  test_case_log(case,bpnn))$
+  lms:new(
+    bpnn_lms(
+      bpnn:bpnn,
+      inputs:inputs,
+      outputs:outputs,
+      max_times:100,
+      eta:0.1)),
+  test_case_log(case,"LMS solver input."),
+  test_case_log(case,lms),
+  result:bpnn_solve_lms(lms)
+/*,  test_case_log(case,"LMS solver result."),
+  test_case_log(case,bpnn)
+*/
+)$
 
 test_case_end(case)$
 

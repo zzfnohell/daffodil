@@ -15,6 +15,16 @@ defstruct(
     transfer_functions,
     error_function))$
 
+bpnn_clone(bpnn):=new(
+  bpnn(
+    dims:copylist(bpnn@dims),
+    hides:copylist(bpnn@hides),
+    symbol_matrixes:copylist(bpnn@symbol_matrixes),
+    numeric_matrixes:copylist(bpnn@numeric_matrixes),
+    transfer_functions:copylist(bpnn@transfer_functions),
+    error_function:bpnn@error_function))$
+  
+
 bpnn_generate_numeric_matrixes(dims,interval):=block(
   [list],
   local(rand),

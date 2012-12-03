@@ -1,0 +1,36 @@
+load_mac("nn/packages.mac")$
+load_mac("test.mac")$
+
+load_mac("nn/test/data.mac")$
+
+suite:test_suite_begin("Test bpnn_new",[])$
+
+test_suite_log(suite,"Test functions in the BPNN.")$
+bpnn:[]$
+nn_outputs:[]$
+
+case:test_case_begin(suite,"Test bpnn_clone",[])$
+test_case_run(
+  case,
+  test_case_log(case,"create BPNN."),
+  bpnn:bpnn_new(
+    dims,
+    hides,
+    [transfer,transfer],
+    total_error),
+  clone:bpnn_clone(bpnn),
+  
+  test_case_assert_equal(
+    case,
+    "Clone result equals to the original value.",
+    bpnn,
+    clone),
+  test_case_assert_not_equal(
+    case,
+    "Clone result does not equal to the original value.",
+    true,
+    ?eq(bpnn,clone))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$

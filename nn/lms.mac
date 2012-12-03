@@ -2,23 +2,32 @@
 defstruct(
   bpnn_lms(
     bpnn,
-    matrixes,
     inputs,
-    outputs))$
+    outputs,
+    max_times,
+    eta))$
 
-bpnn_solve_lms(bpnn,inputs,outputs,max_times):=block(
-  [numeric_matrixes,equations,error_expr,derror],
-  local(diff_error),
-  error_expr:bpnn_caculate_symbol_error(bpnn,inputs,outputs),
+bpnn_solve_lms(lms):=block(
+  [i,error_expr,derror,bpnn,err],
+  bpnn:lms@bpnn,
+  error_expr:bpnn_caculate_symbol_error(bpnn,lms@inputs,lms@outputs),
   derror:maplist(
     lambda(
       [mat],
       matrixmap(
         lambda(
           [symb],
-          diff(error_expr,symbol)),
+          diff(error_expr,symb)),
         mat)),
     bpnn@symbol_matrixes),
-  print(derror))$
+  /* print(error_expr), */
+  /* print(derror), */
+  for i:1 step 1 thru lms@max_times do block(
+    
+    bpnn@numeric_matrixes:bpnn@numeric_matrixes - lms@eta * bpnn_evaluate(bpnn,derror),
+
+    print(bpnn@numeric_matrixes)
+    )
+  )$
 
 
