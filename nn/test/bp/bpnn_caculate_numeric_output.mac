@@ -9,7 +9,7 @@ test_suite_log(suite,"Test functions in the BPNN.")$
 bpnn:[]$
 nn_outputs:[]$
 
-case:test_case_begin(suite,"Test bpnn_evaluate",[])$
+case:test_case_begin(suite,"Test bpnn_new",[])$
 test_case_run(
   case,
   test_case_log(_case,"create BPNN."),
@@ -20,12 +20,14 @@ test_case_run(
     total_error),
   test_case_log(case,bpnn),
   
-  result:bpnn_evaluate(bpnn,bpnn@symbol_matrixes),
-  test_case_assert_equal(
-    case,
-    "Evaluate value Equal.",
-    result,
-    bpnn@numeric_matrixes))$
+  maplist(
+    lambda(
+      [input],
+      output:bpnn_caculate_numeric_output(bpnn,inputs[1]),
+      test_case_log(case,"Logging numeric output:"),
+      test_case_log(case,output)),
+    inputs))$
+    
 test_case_end(case)$
 
 test_suite_end(suite)$

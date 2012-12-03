@@ -5,14 +5,6 @@ defstruct(
     matrixes,
     inputs,
     outputs))$
-/*    
-bpnn_generate_numeric_matrixes(dims,interval):=block(
-  [i,len,r],
-  len:length(dims),
-  r:[],
-  for i:1 step 1 while i < len do block(
-    r:endcons(mrand(dims[i]+1,dims[i+1],interval),r)),
-  r);
 
 bpnn_solve_lms(bpnn,inputs,outputs,max_times):=block(
   [numeric_matrixes,error_diff,equations,error_expr],
@@ -36,4 +28,3 @@ bpnn_solve_lms(bpnn,inputs,outputs,max_times):=block(
     print(float(cerror))),
   bpnn:append(bpnn,[numeric_structures,cerror,max_time,eta,min_error,dsymbols]));
 
-*/

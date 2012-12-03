@@ -3,13 +3,13 @@ load_mac("test.mac")$
 
 load_mac("nn/test/data.mac")$
 
-suite:test_suite_begin("Test bpnn_evaluate",[])$
+suite:test_suite_begin("Test bpnn_solve_lms",[])$
 
 test_suite_log(suite,"Test functions in the BPNN.")$
 bpnn:[]$
 nn_outputs:[]$
 
-case:test_case_begin(suite,"Test bpnn_evaluate",[])$
+case:test_case_begin(suite,"Test bpnn_solve_lms",[])$
 test_case_run(
   case,
   test_case_log(_case,"create BPNN."),
@@ -20,12 +20,9 @@ test_case_run(
     total_error),
   test_case_log(case,bpnn),
   
-  result:bpnn_evaluate(bpnn,bpnn@symbol_matrixes),
-  test_case_assert_equal(
-    case,
-    "Evaluate value Equal.",
-    result,
-    bpnn@numeric_matrixes))$
+  result:bpnn_solve_lms(bpnn,inputs,outputs,100),
+  test_case_log(case,"LMS solver result."),
+  test_case_log(case,bpnn),
 test_case_end(case)$
 
 test_suite_end(suite)$
