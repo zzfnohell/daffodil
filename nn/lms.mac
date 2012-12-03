@@ -7,24 +7,18 @@ defstruct(
     outputs))$
 
 bpnn_solve_lms(bpnn,inputs,outputs,max_times):=block(
-  [numeric_matrixes,error_diff,equations,error_expr],
+  [numeric_matrixes,equations,error_expr,derror],
   local(diff_error),
-  numeric_structures:bpnn_generate_numeric_matrixes(bpnn@dims,[-1,1]),
   error_expr:bpnn_caculate_symbol_error(bpnn,inputs,outputs),
-  equations:maplist(
-    lambda([symbol_matrix,numeric_matrix],
+  derror:maplist(
+    lambda(
+      [mat],
       matrixmap(
-        "="
-        s,
-        n)),
-    bpnn@matrixes),
-"=",bpnn@hides,numeric_matrixes),
-  cerror:ev(expr,eqs),
-  for i:1 step 1 thru max_times while cerror>min_error do block(
-    temp:numeric_structures - eta * ev(dsymbols,eqs),
-    numeric_structures:temp,
-    eqs:map("=",symbols,numeric_structures),
-    cerror:ev(expr,eqs),
-    print(float(cerror))),
-  bpnn:append(bpnn,[numeric_structures,cerror,max_time,eta,min_error,dsymbols]));
+        lambda(
+          [symb],
+          diff(error_expr,symbol)),
+        mat)),
+    bpnn@symbol_matrixes),
+  print(derror))$
+
 

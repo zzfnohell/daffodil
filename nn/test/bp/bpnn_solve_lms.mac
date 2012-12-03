@@ -22,7 +22,8 @@ test_case_run(
   
   result:bpnn_solve_lms(bpnn,inputs,outputs,100),
   test_case_log(case,"LMS solver result."),
-  test_case_log(case,bpnn),
+  test_case_log(case,bpnn))$
+
 test_case_end(case)$
 
 test_suite_end(suite)$
