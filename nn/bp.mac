@@ -95,17 +95,6 @@ bpnn_caculate_numeric_output(bpnn,input):=block(
   symbol_output:bpnn_caculate_symbol_output(bpnn,input),
   bpnn_evaluate(bpnn,symbol_output))$
 
-/*
-* @brief generate the out function.
-* @return the out function expression.
-*/
-bpnn_generate_outfunction(a,b,n):=block(
-  b:matrix(makelist(b,i,1,n)),
-  buildq([x,a:a,b:b],a*x + b));
-
-/*initiallize the nn data structure 
-*@param dims a list of level's dim,
-*/
 bpnn_new(dims,hides,transfer_functions,error_function):=block(
   new(
     bpnn(
