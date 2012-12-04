@@ -3,7 +3,7 @@ load_mac("test.mac")$
 
 load_mac("nn/test/data.mac")$
 
-suite:test_suite_begin("Test bpnn_new",[])$
+suite:test_suite_begin("Test bpnn_clone",[])$
 
 test_suite_log(suite,"Test functions in the BPNN.")$
 bpnn:[]$
@@ -29,7 +29,7 @@ test_case_run(
     case,
     "Clone result does not equal to the original value.",
     true,
-    ?eq(bpnn,clone))$
+    ?eq(bpnn,clone)))$
 
 test_case_end(case)$
 

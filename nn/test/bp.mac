@@ -1,4 +1,7 @@
 load_mac("nn/test/bp/bpnn_new.mac")$
+load_mac("nn/test/bp/bpnn_clone.mac")$
+load_mac("nn/test/bp/bpnn_evaluate.mac")$
 load_mac("nn/test/bp/bpnn_caculate_symbol_output.mac")$
 load_mac("nn/test/bp/bpnn_caculate_symbol_error.mac")$
-load_mac("nn/test/bp/bpnn_caculate_symbol_error.mac")$
+load_mac("nn/test/bp/bpnn_caculate_numeric_output.mac")$
+load_mac("nn/test/bp/bpnn_solve_lms.mac")$
