@@ -1,11 +1,4 @@
-/*required:
-optimiz1.
-
-*/
-
-define_variable(sta_loaded,true,boolean)$
-
-define_variable(bpnn_index_sta,-1,integer)$
+load("optmiz");
 
 /*
 * @brief find the best sta point.
