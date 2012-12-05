@@ -15,7 +15,8 @@ defstruct(
 bpnn_solve_sta(sta):=block(
   [err_expr,stapts],
   err_expr:bpnn_caculate_symbol_error(sta@bpnn,sta@inputs,sta@outputs),
-  stapts:stapoints([err_expr]),
+  err_expr:
+stapts:stapoints([err_expr]),
   print(stapts),
   new(
     bpnn_sta_output(

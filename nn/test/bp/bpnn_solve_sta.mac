@@ -1,0 +1,49 @@
+load_mac("nn/packages.mac")$
+load_mac("test.mac")$
+
+load_mac("nn/test/data.mac")$
+
+suite:test_suite_begin("Test bpnn_solve_sta",[])$
+
+test_suite_log(suite,"Test functions in the BPNN.")$
+bpnn:[]$
+nn_outputs:[]$
+
+case:test_case_begin(suite,"Test bpnn_solve_sta",[])$
+test_case_run(
+  case,
+  test_case_log(case,"create BPNN."),
+  bpnn:bpnn_new(
+    dims,
+    hides,
+    [transfer,transfer],
+    total_error),
+  test_case_log(case,bpnn),
+  
+  sta:new(
+    bpnn_sta_input(
+      bpnn:bpnn,
+      inputs:inputs,
+      outputs:outputs)),
+  
+  test_case_log(case,"STA solver input."),
+  test_case_log(case,sta),
+  result:bpnn_solve_sta(sta),
+  test_case_log(case,"STA solver result."),
+  test_case_log(case,result),
+  
+  err_expr:bpnn_caculate_symbol_error(sta@bpnn,sta@inputs,sta@outputs),
+  original_error:bpnn_evaluate(sta@bpnn,err_expr),
+  test_case_log(case,"Original error"),
+  test_case_log(case,original_error),
+  test_case_log(case,"Solved error"),
+  test_case_log(case,result@total_error),
+  test_case_assert_equal(
+    case,
+    "STA result less or equal to original error",
+    is(result@total_error <= original_error),
+    true))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$
