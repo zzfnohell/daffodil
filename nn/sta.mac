@@ -1,35 +1,23 @@
 load("optmiz");
 
-/*
-* @brief find the best sta point.
-* @param sta_list a list return from stapoints calling.
-* @return the best sta point.
-*/
-bpnn_solve_sta_findbest(sta_list):=block(
-  [i,minv,tmpv,mini],
-  minv:first(first(sta_list[1])),
-  mini:1,
-  for i:2 step 1 thru length(sta_list) do block(
-    tmpv:first(first(sta_list[1])),
-    if tmpv<minv then (minv:tmpv,mini:i)),
-  sta_list[mini])$
 
-/*
-* @brief solve bp problem using sta. 
-* @param bpnn base bpnn list.
-* @param interval
-* @return sta-bpnn
-*/
-bp_solve_sta(bpnn,interval):=block([
-  i,temp,
-  dims,
-  expr,
-  symbols,
-  eqs,
-  stapts],
-  dims:bpnn[bpnn_index_dims],
-  expr:bpnn[bpnn_index_symbol_expression],
-  symbols:bpnn[bpnn_index_symbols],
-  stapts:stapoints([expr]),
+defstruct(
+  bpnn_sta_input(
+    bpnn,
+    inputs,
+    outputs))$
+
+defstruct(
+  bpnn_sta_output(
+    bpnn,
+    total_error))$
+
+bpnn_solve_sta(sta):=block(
+  [err_expr,stapts],
+  err_expr:bpnn_caculate_symbol_error(sta@bpnn,sta@inputs,sta@outputs),
+  stapts:stapoints([err_expr]),
   print(stapts),
-  stapts);
+  new(
+    bpnn_sta_output(
+      bpnn:sta@bpnn,
+      total_error:0)));
