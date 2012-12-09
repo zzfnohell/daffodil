@@ -1,0 +1,3 @@
+print("Loading Qusi-Newton numeric optimaization(BFGS) package...")$
+load_mac("bfgs/bfgs.mac")$
+print("Loading Qusi-Newton numeric optimaization(BFGS) package done.")$
