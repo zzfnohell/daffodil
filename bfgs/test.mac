@@ -1,0 +1,4 @@
+print("Loading Qusi-Newton numeric optimaization(BFGS) test...")$
+load_mac("bfgs/packages.mac")$
+load_mac("test.mac")$
+print("Loading Qusi-Newton numeric optimaization(BFGS) test done.")$
