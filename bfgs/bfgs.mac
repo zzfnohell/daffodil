@@ -17,7 +17,12 @@ bfgs_gradient(func,vars):=maplist(
     [x],
     diff(func,x)),
   vars)$
-  
+
+bfgs_evaluate(func,vars,point):=block(
+  [equations],
+  equations:maplist("=",vars,point),
+  ev(func,equations))$
+
 bfgs_optimize(bfgs):=block(
   [gradient],
   []

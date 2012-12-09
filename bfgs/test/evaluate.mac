@@ -1,0 +1,31 @@
+load_mac("bfgs/test.mac")$
+
+suite:test_suite_begin("Test bfgs_evaluate",[])$
+
+test_suite_log(suite,"Test bfgs_evaluate.")$
+
+case:test_case_begin(suite,"Test bfgs_evaluate",[])$
+test_case_run(
+  case,
+  block(
+    [func,grad],
+    test_case_log(case,"Logging in ."),
+    func:x^2 + 2 * y,
+    test_case_log(case,"target function:"),
+    test_case_log(case,func),
+    
+    test_case_assert_equal(
+      case,
+      "bfgs_evalute result at point(0,0) assertion.",
+      0,
+      bfgs_evaluate(func,[x,y],[0,0])),
+    
+    test_case_assert_equal(
+      case,
+      "bfgs_evalute result at point(0,0) assertion.",
+      3,
+      bfgs_evaluate(func,[x,y],[1,1]))))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$
