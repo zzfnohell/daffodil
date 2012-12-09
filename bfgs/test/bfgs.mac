@@ -1,2 +1,14 @@
 load_mac("bfgs/test.mac")$
 
+suite:test_suite_begin("Test BFGS optimization",[])$
+
+test_suite_log(suite,"Test BFGS.")$
+
+case:test_case_begin(suite,"Test BFGS",[])$
+test_case_run(
+  case,
+  test_case_log(case,"Logging in BFGS testing."))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$
