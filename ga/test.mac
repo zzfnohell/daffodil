@@ -1,7 +1,4 @@
-print("Load genetic algorithm test:")$
+print("Loading genetic algorithm test...")$
 load_mac("ga/packages.mac")$
 load_mac("test.mac")$
-
-load_mac("ga/test/chromosome.mac")$
-load_mac("ga/test/selector.mac")$
-print("Load genetic algorithm test done.")$
+print("Loading genetic algorithm test done.")$

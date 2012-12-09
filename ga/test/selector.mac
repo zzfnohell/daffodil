@@ -1,5 +1,4 @@
-load_mac("ga/packages.mac")$
-load_mac("test.mac")$
+load_mac("ga/test.mac")$
 
 suite:test_suite_begin("Test selector",[])$
 
