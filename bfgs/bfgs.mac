@@ -1,0 +1,24 @@
+
+defstruct(
+  bfgs_input(
+    target,
+    variables,
+    start_point,
+    max_times))$
+
+defstruct(
+  bfgs_output(
+    target,
+    point))$
+
+
+bfgs_gradient(func,vars):=maplist(
+  lambda(
+    [x],
+    diff(func,x)),
+  vars)$
+  
+bfgs_optimize(bfgs):=block(
+  [gradient],
+  []
+)$
