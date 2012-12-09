@@ -1,6 +1,4 @@
-load_mac("nn/packages.mac")$
-load_mac("test.mac")$
-
+load_mac("nn/test.mac")$
 load_mac("nn/test/data.mac")$
 
 suite:test_suite_begin("BPNN bpnn_caculate_symbol_output",[])$
