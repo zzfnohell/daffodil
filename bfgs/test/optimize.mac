@@ -1,0 +1,41 @@
+load_mac("bfgs/test.mac")$
+
+suite:test_suite_begin("Test bfgs_optimize",[])$
+
+test_suite_log(suite,"Test bfgs_optimize.")$
+
+case:test_case_begin(suite,"Test bfgs_optimize",[])$
+test_case_run(
+  case,
+  block(
+    [input,output],
+    local(func,grad),
+    test_case_log(case,"Logging in ."),
+    func(x):=x[1]^2 + x[2] ^ 2,
+    grad(x):=transpose([2 * x[1], 2 * x[2]]),
+    test_case_log(case,"target function:"),
+    test_case_log(case,"func(x):=x[1]^2 + x[2] ^ 2"),
+    test_case_log(case,"grad(x):=transpose([2 * x[1], 2 * x[2]])"),
+    input:new(
+      bfgs_input(
+        func:func,
+        grad:grad,
+        init:transpose([1,1]),
+        eps:0.01,
+        max_times:10)),
+    test_case_log(case,"BFGS Input:"),
+    test_case_log(case,input),
+    test_case_log(case,"Calling BFGS optimization..."),
+    output:bfgs_evaluate(input),
+    test_case_log(case,"BFGS optimization output:"),
+    test_case_log(case,output)
+    /*test_case_assert_equal(
+      case,
+      "bfgs_evalute result at point(0,0) assertion.",
+      0,
+      bfgs_evaluate(func,[x,y],[0,0])) */
+    ))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$

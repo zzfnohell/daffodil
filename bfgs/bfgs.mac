@@ -26,7 +26,7 @@ bfgs_linear_search_wolfe_condation(func,grad,X,dir,c1,c2,inc,dec,init):=block(
   error("invalid parameters [c1 c2]."),
   unless condition do block(
     if (alpha = 0.0) then error("error alpha value.")
-    print(count:count+1),
+    print("Wolfe Linear Search Count:"count:count+1),
     newX : X + alpha * dir,
     left : func(newX),
     right : func(X) + c1 * alpha * (grad(X) * dir),
