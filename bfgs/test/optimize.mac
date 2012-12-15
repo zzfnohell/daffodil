@@ -9,19 +9,19 @@ test_case_run(
   case,
   block(
     [input,output],
-/*    local(test_func,test_grad),*/
+    local(test_func,test_grad),
     test_case_log(case,"Logging in ."),
     test_func(x):=float(x[1,1]^2 + x[2,1] ^ 2),
     test_grad(x):=float(matrix([2*x[1,1]],[2*x[2,1]])),
     test_case_log(case,"target function:"),
-    test_case_log(case,"test_func(x):=x[1]^2 + x[2] ^ 2"),
-    test_case_log(case,"test_grad(x):=transpose([2 * x[1], 2 * x[2]])"),
+    test_case_log(case,"func(x):=float(x[1,1]^2 + x[2,1] ^ 2)"),
+    test_case_log(case,"grad(x):=float(matrix([2*x[1,1]],[2*x[2,1]]))"),
     input:new(
       bfgs_input(
         func:test_func,
         grad:test_grad,
         init:transpose([1,1]),
-        eps:0.001,
+        eps:0.00001,
         max_times:30)),
     test_case_log(case,"BFGS Input:"),
     test_case_log(case,input),
