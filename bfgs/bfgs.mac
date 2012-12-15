@@ -1,29 +1,87 @@
-
 defstruct(
   bfgs_input(
-    target,
-    variables,
-    start_point,
+    func,
+    grad,
+    /* A column vector.*/
+    init,
+    eps,
     max_times))$
 
 defstruct(
   bfgs_output(
-    target,
-    point))$
+    value,
+    times,
+    estimate,
+    gradient,
+    hessian))$
 
+bfgs_norm(vector):=float(sqrt(sum(vector[i]^2,i,1,length(vector))))$
 
-bfgs_gradient(func,vars):=maplist(
-  lambda(
-    [x],
-    diff(func,x)),
-  vars)$
-
-bfgs_evaluate(func,vars,point):=block(
-  [equations],
-  equations:maplist("=",vars,point),
-  ev(func,equations))$
+bfgs_linear_search_wolfe_condation(func,grad,X,dir,c1,c2,inc,dec,init):=block(
+  [alpha,newX,condition,left,right,count],
+  count:0,
+  alpha:init,
+  conditon:false,
+  if not (0 < c1 and c1 < c2 and c2 < 1) then
+  error("invalid parameters [c1 c2]."),
+  unless condition do block(
+    if (alpha = 0.0) then error("error alpha value.")
+    print(count:count+1),
+    newX : X + alpha * dir,
+    left : func(newX),
+    right : func(X) + c1 * alpha * (grad(X) * dir),
+    condition : not is(left > right),
+    if  condation then block(
+      left : grad(newX) * dir,
+      right : c2 * grad(X) * dir,
+      condation = not abs(left) > abs(right);
+      if not condation then alpha *= inc,
+      else alpha *= dec)),
+  alpha)$
 
 bfgs_optimize(bfgs):=block(
-  [gradient],
-  []
-)$
+  [alpha,times,Br,X1,X2,dX1,dX2,value,Grad,P,S,Y,t1,t2,t3,t4,t5,t6,t7,t8],
+  local(Brf),
+  Brf[i,j] := if i=j then 1.0 else 0.0,
+  Br:genmatrix(Brf,length(bfgs@init),length(bfgs@init)),
+  X1 : bfgs@init,
+  value:bfgs@func(bfgs@init),
+  Grad:bfgs@grad(bfgs@init),
+  for times:0 step 1 thru bfgs@max_times do block(
+    Grad : bfgs@grad(X1),
+    P : Br * (-1 * Grad),
+    if bfgs_norm(P) < bfgs@eps then return,
+    alpha : 1 / bfgs_norm(P),
+    alpha : bfgs_linear_search_wolfe_condation(
+      bfgs@func,
+      bfgs@grad,
+      X1,
+      P,
+      0.0001,
+      0.9,
+      1.1,
+      0.5,
+      alpha),
+    S : alpha * P,
+    X2 : X1 + S,
+    dX1 : bfgs@grad(X1),
+    dX2 : bfgs@grad(X2),
+    Y : dX2 - dX1,
+    t1 : transpose(S) . Y,
+    t2 : transpose(Y) . Br . Y,
+    t3 : S . transpose(S),
+    t4 : (t1 + t2) * t3,
+    t5 : (transpose(Y) . S) ^ 2,
+    t6 : Br . Y . transpose(S),
+    t7 : S . transpose(Y) . Br,
+    t8 : transpose(S) . Y,
+    Br : Br + t4 / t5 - (t6 + t7) / t8,
+    X1 : X2,
+    value : bfgs@func(X1)),
+  new(
+    bfgs_output(
+      value:value,
+      times:times,
+      estimate:X1,
+      gradient:Grad,
+      hessian:Br)))$
