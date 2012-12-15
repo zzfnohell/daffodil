@@ -9,29 +9,29 @@ test_case_run(
   case,
   block(
     [input,output],
-    local(func,grad),
+/*    local(test_func,test_grad),*/
     test_case_log(case,"Logging in ."),
-    func(x):=x[1]^2 + x[2] ^ 2,
-    grad(x):=transpose([2 * x[1], 2 * x[2]]),
+    test_func(x):=float(x[1,1]^2 + x[2,1] ^ 2),
+    test_grad(x):=float(matrix([2*x[1,1]],[2*x[2,1]])),
     test_case_log(case,"target function:"),
-    test_case_log(case,"func(x):=x[1]^2 + x[2] ^ 2"),
-    test_case_log(case,"grad(x):=transpose([2 * x[1], 2 * x[2]])"),
+    test_case_log(case,"test_func(x):=x[1]^2 + x[2] ^ 2"),
+    test_case_log(case,"test_grad(x):=transpose([2 * x[1], 2 * x[2]])"),
     input:new(
       bfgs_input(
-        func:func,
-        grad:grad,
+        func:test_func,
+        grad:test_grad,
         init:transpose([1,1]),
-        eps:0.01,
-        max_times:10)),
+        eps:0.001,
+        max_times:30)),
     test_case_log(case,"BFGS Input:"),
     test_case_log(case,input),
     test_case_log(case,"Calling BFGS optimization..."),
-    output:bfgs_evaluate(input),
+    output:bfgs_optimize(input),
     test_case_log(case,"BFGS optimization output:"),
     test_case_log(case,output)
     /*test_case_assert_equal(
       case,
-      "bfgs_evalute result at point(0,0) assertion.",
+      "bfgs_optimize result at point(0,0) assertion.",
       0,
       bfgs_evaluate(func,[x,y],[0,0])) */
     ))$
