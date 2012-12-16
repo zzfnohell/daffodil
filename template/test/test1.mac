@@ -1,8 +1,7 @@
 load_mac("XXX/test.mac")$
 
 suite:test_suite_begin("Test Suite SuiteXXX",[])$
-
-test_suite_log(suite,"Loging something.")$
+test_suite_log(suite,"Testing XXX...")$
 
 case:test_case_begin(suite,"Test Case CaseYYY",[])$
 
@@ -16,4 +15,5 @@ test_case_run(
 
 test_case_end(case)$
 
+test_suite_log(suite,"Testing XXX done.")$
 test_suite_end(suite)$

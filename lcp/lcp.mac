@@ -1,1 +1,28 @@
-/*package main*/
+/*
+LCP(Linear Complementarity Promblem)
+v - M . p = q,
+v >= 0,p >= 0,
+tranpose(v) . p = 0.
+where v,p,q are column vectors dims n, M is an (n,n) matrix
+*/
+
+defstruct(
+  lcp_input(
+    M,
+    q))$
+
+defstruct(
+  lcp_output(v,p))$
+
+lcp_min_index(list):=block(
+  [index,i],
+  index:1,
+  for i:2 step 1 thru length(list) do block(
+    if is(list[i] < list[index]) then index:i),
+  index)$
+
+
+
+lcp_scale():=block()$
+
+lcp_solve(input):=block()$
