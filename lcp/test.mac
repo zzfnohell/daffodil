@@ -1,0 +1,7 @@
+block(
+  [package_name],
+  package_name:"LCP",
+  print("Loading [", package_name, "] test..."),
+  load_mac("lcp/packages.mac"),
+  load_mac("test.mac"),
+  print("Loading [", package_name, "] test done."))$

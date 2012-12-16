@@ -46,7 +46,14 @@ function process_template()
             
             dest_path=$old
         else
-            cp -i -v $base $dest_path
+            case $base in
+                create);;
+                .);;
+                *.mac)
+                    cp -i -v $base $dest_path
+                    ;;
+                *);;
+            esac
         fi
     done
 }
