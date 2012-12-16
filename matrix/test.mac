@@ -1,0 +1,7 @@
+block(
+  [package_name],
+  package_name:"Simple Matrix Operations",
+  print("Loading [", package_name, "] test..."),
+  load_mac("matrix/packages.mac"),
+  load_mac("test.mac"),
+  print("Loading [", package_name, "] test done."))$

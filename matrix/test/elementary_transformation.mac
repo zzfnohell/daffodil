@@ -1,0 +1,7 @@
+load_mac("matrix/test/elementary_transformation/matrix_row_add.mac")$
+load_mac("matrix/test/elementary_transformation/matrix_row_switch.mac")$
+load_mac("matrix/test/elementary_transformation/matrix_row_multiple.mac")$
+
+load_mac("matrix/test/elementary_transformation/matrix_col_add.mac")$
+load_mac("matrix/test/elementary_transformation/matrix_col_switch.mac")$
+load_mac("matrix/test/elementary_transformation/matrix_col_multiple.mac")$

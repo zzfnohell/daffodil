@@ -1,0 +1,24 @@
+load_mac("matrix/test.mac")$
+
+suite:test_suite_begin("matrix_row_multiple",[])$
+test_suite_log(suite,"Testing matrix_row_multiple...")$
+
+case:test_case_begin(suite,"matrix_row_multiple",[])$
+
+test_case_run(
+  case,
+  block(
+    [mat],
+    mat:matrix([1,2,3,4],[1,2,3,4],[2,3,4,5],[7,8,9,0]),
+    test_case_log(case,"Test Matrix:"),
+    test_case_log(case,mat),
+    test_case_assume_equal(
+      case,
+      "Matrix multiple -1 to row 4:",
+      matrix([1,2,3,4],[1,2,3,4],[2,3,4,5],[-7,-8,-9,-0]),
+      matrix_row_multiple(mat,-1,4))))$
+
+test_case_end(case)$
+
+test_suite_log(suite,"Testing matrix_row_multiple done.")$
+test_suite_end(suite)$

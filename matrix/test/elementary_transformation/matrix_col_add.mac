@@ -1,0 +1,24 @@
+load_mac("matrix/test.mac")$
+
+suite:test_suite_begin("matrix_col_add",[])$
+test_suite_log(suite,"Testing matrix_col_add...")$
+
+case:test_case_begin(suite,"matrix_col_add",[])$
+
+test_case_run(
+  case,
+  block(
+    [mat],
+    mat:matrix([1,2,3,4],[1,2,3,4],[2,3,4,5],[7,8,9,0]),
+    test_case_log(case,"Test Matrix:"),
+    test_case_log(case,mat),
+    test_case_assume_equal(
+      case,
+      "Matrix add Column 1 to 3 scale -1:",
+      matrix([1,2,2,4],[1,2,2,4],[2,3,2,5],[7,8,2,0]),
+      matrix_col_add(mat,-1,1,3))))$
+
+test_case_end(case)$
+
+test_suite_log(suite,"Testing matrix_col_add done.")$
+test_suite_end(suite)$

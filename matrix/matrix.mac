@@ -1,0 +1,51 @@
+/*package main*/
+
+matrix_row_add(M,s,i,j):=block(
+  [c,m,n,R],
+  [m,n]:matrix_size(M),
+  R:copymatrix(M),
+  for c:1 step 1 thru n do block(
+    R[j,c]:R[j,c] + M[i,c] * s),
+  R)$
+
+matrix_row_switch(M,i,j):=block(
+  [c,m,n,R],
+  [m,n]:matrix_size(M),
+  R:copymatrix(M),
+  for c:1 step 1 thru n do block(
+    R[j,c]:M[i,c],
+    R[i,c]:M[j,c]),
+  R)$
+
+matrix_row_multiple(M,s,i):=block(
+  [c,m,n,R],
+  [m,n]:matrix_size(M),
+  R:copymatrix(M),
+  for c:1 step 1 thru n do block(
+    R[i,c]:s * M[i,c]),
+  R)$
+
+matrix_col_add(M,s,i,j):=block(
+  [r,m,n,R],
+  [m,n]:matrix_size(M),
+  R:copymatrix(M),
+  for r:1 step 1 thru m do block(
+    R[r,j]:M[r,j] + s * M[r,i]),
+  R)$
+
+matrix_col_switch(M,i,j):=block(
+  [r,m,n,R],
+  [m,n]:matrix_size(M),
+  R:copymatrix(M),
+  for r:1 step 1 thru m do block(
+    R[r,i]:M[r,j],
+    R[r,j]:M[r,i]),
+  R)$
+
+matrix_col_multiple(M,s,i):=block(
+  [r,m,n,R],
+  [m,n]:matrix_size(M),
+  R:copymatrix(M),
+  for r:1 step 1 thru m do block(
+    R[r,i]:s * M[r,i]),
+  R)$
