@@ -1,0 +1,61 @@
+#! /bin/bash
+src_path=`readlink -f $0`
+src_path=`dirname $src_path`
+if [[ $# != 1 ]];
+then
+    echo "USAGE:bash create path"
+    exit 1
+fi
+
+echo "Create project use template in:"
+echo $src_path
+
+dest_path=`readlink -f $1`
+if [ ! -d $dest_path ];
+then
+    mkdir $dest_path
+fi
+echo "Destination path:"
+echo $dest_path
+
+if [[ "$dest_path" == "$src_path"* ]];
+then
+    echo "Destination path is a subpath of the source path."
+    exit 1
+fi
+
+function process_template()
+{
+    for entry in $@
+    do 
+        base=`basename $entry`
+        if [ -d $entry ];
+        then
+            echo "Directory:$base"
+            old=$dest_path
+            dest_path="${old}/$base"
+            if [ ! -d $dest_path ];
+            then
+                echo "Creating path:$dest_path..."
+                mkdir $dest_path
+                echo "Creating path:$dest_path done."
+            fi
+            pushd $entry 1>/dev/null
+            process_template $(ls)
+            popd 1>/dev/null
+            
+            dest_path=$old
+        else
+            cp -i -v $base $dest_path
+        fi
+    done
+}
+
+pushd $src_path 1>/dev/null
+process_template $(ls)
+popd 1>/dev/null
+
+#if [ ! -d $dest_path ];
+#then
+#    mkdir $dest_path
+#fi
