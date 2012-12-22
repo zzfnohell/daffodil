@@ -1,0 +1,36 @@
+load_mac("lcp/test.mac")$
+
+suite:test_suite_begin("test lcp_rotate",[])$
+
+case:test_case_begin(suite,"lcp_rotate test case",[])$
+
+test_case_run(
+  case,
+  block(
+    [M,base,posi,newM,newBase],
+    M:matrix([1,2,3],[4,-1,6],[7,8,9]),
+    base:transpose([1,2,3]),
+    posi:[2,2],
+    test_case_log(case,"M:"),
+    test_case_log(case,M),
+    test_case_log(case,"base:"),
+    test_case_log(case,base),
+    test_case_log(case,"Position:"),
+    test_case_log(case,posi),
+    test_case_log(case,"Invoking lcp_rotate..."),
+    [newM,newBase]:lcp_rotate(M,base,posi[1],posi[2]),
+    test_case_log(case,"Invoking lcp_rotate done."),
+    test_case_assert_equal(case,
+      "Compareing ",
+      [
+      matrix(
+        [9,0,15],
+        [-4,1,-6],
+        [39,0,57]),
+      transpose([5,-2,19])
+      ],
+      [newM,newBase])))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$

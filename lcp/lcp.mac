@@ -21,8 +21,22 @@ lcp_min_index(list):=block(
     if is(list[i] < list[index]) then index:i),
   index)$
 
+lcp_rotate_position(M,base):=block()$
 
-
-lcp_scale():=block()$
+lcp_rotate(M,base,r,c):=block(
+  [i,scale,size,newM,newBase],
+  size:matrix_size(M),
+  newM:copymatrix(M),
+  newBase:copymatrix(base),
+  for i:1 step 1 thru size[1] do block(
+    if is(i = r) then block(
+      scale:1/newM[i,c],
+      newM:matrix_row_multiple(newM,scale,i),
+      newBase:matrix_row_multiple(newBase,scale,i))
+    else block(
+      scale: -newM[i,c] / newM[r,c],
+      newM:matrix_row_add(newM,scale,r,i),
+      newBase:matrix_row_add(newBase,scale,r,i))),
+  [newM,newBase])$
 
 lcp_solve(input):=block()$
