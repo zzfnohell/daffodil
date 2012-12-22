@@ -62,5 +62,5 @@ lcp_table_matrix(M):=block(
   genmatrix(f,n,2*n+1))$
 
 lcp_solve(input):=block(
-  [table_matrix,base]
+  [table_matrix,base],
   table_matrix:lcp_table_matrix(input@M))$
