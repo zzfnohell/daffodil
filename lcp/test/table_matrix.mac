@@ -1,0 +1,30 @@
+load_mac("lcp/test.mac")$
+
+suite:test_suite_begin("test lcp_table_matrix",[])$
+
+case:test_case_begin(suite,"lcp_table_matrix test case",[])$
+
+test_case_run(
+  case,
+  block(
+    [M],
+    M:matrix(
+      [1,1,3,4],
+      [5,3,1,1],
+      [2,1,2,0],
+      [1,4,1,1]),
+    test_case_log(case,"Input M:"),
+    test_case_log(case,M),
+    test_case_assert_equal(
+      case,
+      "compare lcp_table_matrix",
+      matrix(
+        [1,0,0,0,-1,-1,-3,-4,-1],
+        [0,1,0,0,-5,-3,-1,-1,-1],
+        [0,0,1,0,-2,-1,-2,0,-1],
+        [0,0,0,1,-1,-4,-1,-1,-1]),
+      lcp_table_matrix(M))))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$

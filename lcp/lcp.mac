@@ -48,4 +48,19 @@ lcp_rotate_row_index(M,base,k):=block(
         if is(base[r]/M[r,k] < base[min_row]/M[min_row,k]) then min_row:r))),
   min_row)$
 
-lcp_solve(input):=block()$
+lcp_table_matrix(M):=block(
+  [m,n],
+  local(f),
+  [m,n]:matrix_size(M),
+  if is(m#n) then error("M must be an nxn matrix"),
+  f[i,j]:=block(
+    if is(j<=n) then block(
+      if (i = j) then 1
+      else 0)
+    else if is(j <= 2*n) then -M[i,j-n]
+    else -1),
+  genmatrix(f,n,2*n+1))$
+
+lcp_solve(input):=block(
+  [table_matrix,base]
+  table_matrix:lcp_table_matrix(input@M))$
