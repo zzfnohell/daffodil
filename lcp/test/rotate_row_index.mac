@@ -1,0 +1,33 @@
+load_mac("lcp/test.mac")$
+
+suite:test_suite_begin("test lcp_rotate_row_index",[])$
+
+test_suite_log(suite,"lcp_rotate_row_index")$
+
+case:test_case_begin(suite,"lcp_rotate_row_index",[])$
+
+test_case_run(
+  case,
+  block(
+    [M,base,k,min_row],
+    M:matrix(
+      [1,0,0,-1,0,3,-2,-3,0],
+      [0,1,0,-1,-4,1,0,0,0],
+      [0,0,1,-1,-1,3,-1,1,0],
+      [0,0,0,-1,1,4,1,1,1]),
+    base:matrix(2,5,2,3),
+    k:8,
+    test_case_log(case,"M:"),
+    test_case_log(case,M),
+    test_case_log(case,"base:"),
+    test_case_log(case,base),
+    test_case_log(case,"k"),
+    test_case_log(case,k),
+    test_case_log(case,"invoking lcp_rotate_row_index..."),
+    min_row:lcp_rotate_row_index(M,base,k),
+    test_case_log(case,"invoking lcp_rotate_row_index done."),
+    test_case_assume_equal(case,"compare min row index",3,min_row)))$
+
+test_case_end(case)$
+
+test_suite_end(suite)$
