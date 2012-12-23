@@ -66,43 +66,55 @@ lcp_solve(input):=block(
   local(fv,fp),
   M:copymatrix(input@M),
   q:copymatrix(input@q),
-  [n,n]:matrix_size(M),
-  base:q,
-  table_matrix:lcp_table_matrix(M),
-  base_indexes:makelist(i,i,1,n),
-  p0:2*n+1,
-  k:2*n+1,
-  min_row:lcp_min_index(q),
-  print([min_row,k]),
-  [table_matrix,base]:lcp_rotate(table_matrix,base,min_row,k),
-  baseIn:k,
-  baseOut:base_indexes[min_row],
-  base_indexes[min_row]:baseIn,
-  isFinished:false,
-  print(base,table_matrix),
-  /*print("Main loop"),*/
-  while not isFinished do block(
-    k: if (baseOut > n) then baseOut - n else baseOut + n,
-    min_row:lcp_rotate_row_index(table_matrix,base,k),
-    if (min_row # []) then block(
-      print([min_row,k]),
-      [table_matrix,base]:lcp_rotate(table_matrix,base,min_row,k),
-      print(base,table_matrix),
-      baseIn:k,
-      baseOut:base_indexes[min_row],
-      base_indexes[min_row]:baseIn,
-      isFinished:is(baseOut=p0))
-    else isFinished:true),
-  /*print("Finished."),*/
-  block(
-    [i],
+  isFinished:true,
+  matrixmap(
+    lambda(
+      [e],
+      if e <= 0 then isFinished:false),
+    q),
+  if isFinished then block(
     result:new(
       lcp_output(
-        v:makelist(0,i,1,n),
-        p:makelist(0,i,1,n))),
-    for i:1 thru n do block(
-      if base_indexes[i] <= n then result@v[base_indexes[i]]:base[i,1]
-      else result@p[base_indexes[i] - n]:base[i,1])),
+          v:makelist(q[i,1],i,1,q),
+          p:makelist(0,i,1,n))))
+  else block(
+    [n,n]:matrix_size(M),
+    base:q,
+    table_matrix:lcp_table_matrix(M),
+    base_indexes:makelist(i,i,1,n),
+    p0:2*n+1,
+    k:2*n+1,
+    min_row:lcp_min_index(q),
+    print([min_row,k]),
+    [table_matrix,base]:lcp_rotate(table_matrix,base,min_row,k),
+    baseIn:k,
+    baseOut:base_indexes[min_row],
+    base_indexes[min_row]:baseIn,
+    isFinished:false,
+    print(base,table_matrix),
+    /*print("Main loop"),*/
+    while not isFinished do block(
+      k: if (baseOut > n) then baseOut - n else baseOut + n,
+      min_row:lcp_rotate_row_index(table_matrix,base,k),
+      if (min_row # []) then block(
+        print([min_row,k]),
+        [table_matrix,base]:lcp_rotate(table_matrix,base,min_row,k),
+        print(base,table_matrix),
+        baseIn:k,
+        baseOut:base_indexes[min_row],
+        base_indexes[min_row]:baseIn,
+        isFinished:is(baseOut=p0))
+      else isFinished:true),
+    /*print("Finished."),*/
+    block(
+      [i],
+      result:new(
+        lcp_output(
+          v:makelist(0,i,1,n),
+          p:makelist(0,i,1,n))),
+      for i:1 thru n do block(
+        if base_indexes[i] <= n then result@v[base_indexes[i]]:base[i,1]
+        else result@p[base_indexes[i] - n]:base[i,1]))),
   result@p:transpose(result@p),
   result@v:transpose(result@v),
   result)$
