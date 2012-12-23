@@ -1,0 +1,6 @@
+block(
+  [package_name],
+  package_name:"Package Name",
+  print("Loading [", package_name, "] package..."),
+  load_mac("XXX/XXXX.mac"),
+  print("Loading [", package_name, "] done."))$
