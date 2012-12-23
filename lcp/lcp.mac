@@ -93,7 +93,7 @@ lcp_solve(input):=block(
       base_indexes[min_row]:baseIn,
       isFinished:is(baseOut=p0))
     else isFinished:true),
-  print("Finished."),
+  /*print("Finished."),*/
   block(
     [i],
     result:new(
