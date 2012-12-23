@@ -2,5 +2,6 @@ block(
   [package_name],
   package_name:"Quadratic Programming",
   print("Loading [", package_name, "] package..."),
+  load_mac("lcp/packages.mac"),
   load_mac("qp/qp.mac"),
   print("Loading [", package_name, "] done."))$

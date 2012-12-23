@@ -1,0 +1,78 @@
+/*
+qp objective: min transpose(c) . X + 1/2 * transpose(X) . H . X
+const. A . X <= b;
+           X >= 0
+~~~~~~~~~~~~~~~~~~~~~~~
+A . X +                      S     = b
+-H.X  - transpose(A) . miu + omiga = c
+transpose(X) . omiga = 0,
+transpose(S) . miu =0,
+X,S,miu,omiga >= 0
+~~~~~~~~~~~~~~~~~
+q = [b]
+    [c]
+
+M = [0               -A]
+    [transpose(A)     H]
+
+v= [S] relaxing factor
+   [omiga] multipler for X>=0,
+
+p=[miu] multipler for A . X <= b
+  [ X ]
+*/
+
+defstruct(
+  qp_lcp_input(
+    A,
+    H,
+    b,
+    c))$
+
+defstruct(
+  qp_lcp_output(
+    S,
+    omiga,
+    miu,
+    X))$
+
+qp_lcp_make_matrix(H,A):=block(
+  [H,transposedA,i,j,m,n],
+  local(element),
+  [m,n]:matrix_size(A),
+  transposedA:transpose(A),
+  element[i,j]:=block(
+    if is(i<=m) then block(
+      if is(j<=m) then 0
+      else -A[i,j-m])
+    else block(
+      if is(j<=m) then transposedA[i - m,j]
+      else H[i-m,j-m])),
+  genmatrix(element,m+n,m+n))$
+
+qp_lcp(input):=block(
+    [qpM,qpQ,m,n,lcp_in,lcp_out],
+    local(fQ,fS,fomiga,fmiu,fX),
+    [m,n]:matrix_size(input@A),
+    qpM:qp_lcp_make_matrix(H,A),
+    fQ[i,j]:=block(
+      if i <= m then input@b[i,1]
+      else input@c[i-m,1])
+    qpQ:genmatrix(fQ,m+n,1),
+    lcp_in:new(
+      lcp_input(
+        M:qpM,
+        q:qpQ)),
+    lcp_out:lcp_solve(lcp_in),
+    if (lcp_out = []) then []
+    else block(
+      fS[i,j]:= lcp_out@v[i,1],
+      fomiga[i,j]:=lcp_out@v[i+m,1],
+      fmiu[i,j]:=lcp_out@p[i,1],
+      fX[i,j]:=lcp_out@p[i+m,1],
+      new(
+        qp_lcp_output(
+          S:genmatrix(fS,m,1),
+          omiga:genmatrix(fomiga,n,1),
+          miu:genmatrix(fmiu,m,1),
+          X:genmatrix(fX,n,1)))))$

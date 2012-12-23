@@ -1,0 +1,23 @@
+
+
+qp_lcp_make_matrix(H,A):=block(
+  [H,transposedA,i,j,m,n],
+  local(element),
+  [m,n]:matrix_size(A),
+  transposedA:transpose(A),
+  element[i,j]:=block(
+    if is(i<=m) then block(
+      if is(j<=m) then 0
+      else -A[i,j-m])
+    else block(
+      if is(j<=m) then transposedA[i - m,j]
+      else H[i-m,j-m])),
+  genmatrix(element,m+n,m+n))$
+
+qp_lcp(Lc,MH,MA,Lb):=block(
+    [Lq,M_M,Lr],
+    Lq:append(Lb,Lc),
+    display(length(Lq)),
+    M_M:qp_make_matrix(MH,MA),
+    Lr:lcp_solve(M_M,Lq),
+    if (length(Lr)=0) then return([]));
