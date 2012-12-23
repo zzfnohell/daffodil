@@ -1,5 +1,4 @@
 /*Load all package tests.*/
-/*
-load_mac("XXX/test.mac")$
-load_mac("XXX/test/test1.mac")$
-*/
+
+load_mac("qp/test.mac")$
+load_mac("qp/test/lcp.mac")$
