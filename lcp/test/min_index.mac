@@ -10,7 +10,7 @@ test_case_run(
   case,
   block(
     [list],
-    list:[2,1,3],
+    list:transpose([2,1,3]),
     test_case_log(case,"test list:"),
     test_case_log(case,list),
     test_case_assume_equal(case,

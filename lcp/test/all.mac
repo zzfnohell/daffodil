@@ -1,0 +1,11 @@
+load_mac("lcp/test.mac")$
+
+load_mac("lcp/test/min_index.mac")$
+load_mac("lcp/test/rotate.mac")$
+load_mac("lcp/test/rotate_row_index.mac")$
+load_mac("lcp/test/table_matrix.mac")$
+ 
+ 
+ 
+ 
+ 
